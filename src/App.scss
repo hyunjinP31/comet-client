@@ -5,6 +5,7 @@ $mainGray: #ccc;
 $padding: 16px;
 $fontSize16: 16px;
 $fontSize24: 24px;
+$transition: 0.5s;
 //변수선언 end
 
 //reset start
@@ -97,14 +98,19 @@ body {
             @include flexlayout();
 
             li {
-                padding: 0 $padding;
+                font-size: 13px;
+                &:not(:last-child){
+                    padding-right: $padding;
+                }
+                
+
             }
         }
     }
 
     .headerBottom {
         @include flexlayout();
-        padding: $padding 0;
+        height: 40px;
 
         .headerLeft {
             @include flexlayout();
@@ -127,8 +133,27 @@ body {
                 @include flexlayout();
                 font-size: $fontSize16;
                 li{
+                    transition: $transition;
+                    line-height: 40px;
                     &:not(:last-child){
                         padding-right: $padding;
+                    }
+                    &::after{
+                        content: "";
+                        display: block;
+                        width: 0%;
+                        height: 3px;
+                        background: $mainColor;
+                        transition: $transition;
+                    }
+                    &:hover{
+                        &::after{
+                            content: "";
+                            display: block;
+                            width: 100%;
+                            height: 3px;
+                            background: $mainColor;
+                        }
                     }
                 }
             }
@@ -136,14 +161,14 @@ body {
         .searchBox {
             @include border($color: $mainColor);
             width: 300px;
-            height: 40px;
+            height: 100%;
             @include flexlayout();
             border-radius: 40px;
             padding: 0 $padding;
             input{
                 @include boxReset($background: inherit);
                 width: 250px;
-                height: 40px;
+                height: 100%;
                 border-radius: 30px;
             }
             .searchBtn{
