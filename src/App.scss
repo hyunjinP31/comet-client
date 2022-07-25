@@ -1,0 +1,156 @@
+$mainColor: #838dd2;
+$mainWhite: #fff;
+$mainBlack: #222;
+$mainGray: #ccc;
+$padding: 16px;
+$fontSize16: 16px;
+$fontSize24: 24px;
+//변수선언 end
+
+//reset start
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    vertical-align: top;
+    border: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: none;
+}
+
+body {
+    line-height: 1.6;
+    font-family: '맑은 고딕', sans-serif;
+    font-size: 14px;
+}
+
+//reset end
+
+//mixin start
+@mixin flexlayout($dir: row, $wrap: nowrap, $just: space-between, $align: center) {
+    display: flex;
+    flex-direction: $dir;
+    flex-wrap: $wrap;
+    justify-content: $just;
+    align-items: $align;
+}
+
+@mixin border($weight: 1px, $line: solid, $color: #ccc) {
+    border: $weight $line $color;
+}
+@mixin boxReset($border: none, $outline: none, $paddingLeft: 10px, $background: none) {
+    border: $border;
+    outline: $outline;
+    padding-left: $paddingLeft;
+    background: $background;
+}
+
+//mixin end
+
+//global style start
+.inner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+//global style end
+
+
+
+//header start
+.header {
+    height: 80px;
+
+    .headerTop {
+        @include flexlayout();
+
+        .headerLogo {
+            color: $mainColor;
+        }
+
+        ul {
+            @include flexlayout();
+
+            li {
+                padding: 0 $padding;
+            }
+        }
+    }
+
+    .headerBottom {
+        @include flexlayout();
+        padding: $padding 0;
+
+        .headerLeft {
+            @include flexlayout();
+
+            .toggle {
+                margin-right: 24px;
+
+                span {
+                    display: block;
+                    width: 25px;
+                    height: 3px;
+                    background: $mainBlack;
+
+                    &:not(:last-child) {
+                        margin-bottom: 7px;
+                    }
+                }
+            }
+            ul {
+                @include flexlayout();
+                font-size: $fontSize16;
+                li{
+                    &:not(:last-child){
+                        padding-right: $padding;
+                    }
+                }
+            }
+        }
+        .searchBox {
+            @include border($color: $mainColor);
+            width: 300px;
+            height: 40px;
+            @include flexlayout();
+            border-radius: 40px;
+            padding: 0 $padding;
+            input{
+                @include boxReset($background: inherit);
+                width: 250px;
+                height: 40px;
+                border-radius: 30px;
+            }
+            .searchBtn{
+                font-size: $fontSize24;
+                color: $mainColor;
+            }
+        }
+    }
+}
+//header end
