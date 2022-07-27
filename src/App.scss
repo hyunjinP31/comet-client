@@ -194,7 +194,7 @@ body {
         .sliderList {
             @include flexlayout();
             height: inherit;
-            transition: 0.5s;
+            transition: 0.2s;
 
             .sliderItem {
                 height: inherit;
@@ -219,6 +219,29 @@ body {
         }
         .nextBtn{
             right: 50px;
+        }
+    }
+
+    .sliderIndis{
+        @include flexlayout();
+        position: absolute;
+        left: 50%;
+        bottom: 30px;
+        transform: translate(-50%);
+        .sliderIndi{
+            display: block;
+            width: 13px;
+            height: 13px;
+            border-radius: 13px;
+            transition: 0.2s;
+            background: darkgoldenrod;
+            &:not(:last-child){
+                margin-right: 10px;
+            }
+        }
+        .sliderIndi.currentIndi {
+            background: darkmagenta;
+            width: 40px;
         }
     }
 }
