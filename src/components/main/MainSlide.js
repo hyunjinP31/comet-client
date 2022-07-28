@@ -23,10 +23,6 @@ const MainSlide = () => {
     }
 
     //slide 이동 핸들러(버튼)
-    const handleSwipe = direction => {
-        if (slideReplace.current !== undefined) slideReplace.current.style.transition = '0.2s';
-        setCurrnetIndex(currentIndex + direction);
-    }
     //slide 무한 이동
     const Interval = (callback, delay) => {
         const savedCallback = useRef();
@@ -92,10 +88,6 @@ const MainSlide = () => {
                                 ></span>;
                             })
                         }
-                </div>
-                <div className='sliderNav'>
-                    <span className='prevBtn sliderBtn' onClick={() => handleSwipe(-1)}></span>
-                    <span className='nextBtn sliderBtn' onClick={() => handleSwipe(1)}></span>
                 </div>
             </div>
         </section>

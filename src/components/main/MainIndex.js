@@ -1,28 +1,22 @@
 import React from 'react';
+import CommingSoon from './CommingSoon';
+import Imminent from './Imminent';
 import MainSlide from './MainSlide';
+import NewProject from './NewProject';
+import PotentUp from './PotentUp';
+import Theme from './Theme';
+import TopRanking from './TopRanking';
 
 const MainIndex = () => {
     return (
         <>
             <MainSlide />
-            <section className='topRanking inner'>
-                
-            </section>
-            <section className='theme'>
-
-            </section>
-            <section className='imminent inner'>
-
-            </section>
-            <section className='potentUp'>
-
-            </section>
-            <section className='newProject'>
-
-            </section>
-            <section className='commingSoon'>
-
-            </section>
+            <TopRanking />
+            <Theme />
+            <Imminent />
+            <PotentUp />
+            <NewProject />
+            <CommingSoon />
         </>
     );
 };
