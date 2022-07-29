@@ -1,10 +1,14 @@
 import React from 'react';
-import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
+import { BsChevronRight, BsChevronLeft } from 'react-icons/bs';
+import { HiArrowNarrowRight } from 'react-icons/hi';
 
 const TopRanking = () => {
     return (
         <section className='topRanking inner'>
-            <h2>인기작품</h2>
+            <div className='topTop topTitle inner'>
+                <h2 className='sectionTitle'>인기</h2>
+                <span><span>전체보기</span><HiArrowNarrowRight /></span>
+            </div>
             <div className='topWrap contentWrap'>
                 <div className='topRankingWrap contentView'>
                     <ul className='topProjects contentSlide'>

@@ -51,7 +51,6 @@ body {
     font-size: 14px;
     border-collapse: collapse;
 }
-
 //reset end
 
 //mixin start
@@ -73,7 +72,6 @@ body {
     padding-left: $paddingLeft;
     background: $background;
 }
-
 //mixin end
 
 //global style start
@@ -82,7 +80,75 @@ body {
     max-width: 1200px;
     margin: 0 auto;
 }
+    //slide content(main-click-slide) start
+    .contentWrap {
+        position: relative;
+        .contentView {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        //Slide에 height 설정 해주면 됨
+        .contentSlide {
+            width: 100%;
+            @include flexlayout();
 
+            .contentItem {
+                background: dodgerblue;
+                flex-shrink: 0;
+                height: 100%;
+                position: relative;
+            }
+        }
+        .contextInnerText {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background: $mainWhite;
+            padding: $padding;
+        }
+    }
+
+    .NavBtn {
+        position: absolute;
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        background: $mainWhite;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px, rgba(0, 0, 0, 0.1) 0px 4px 5px;
+        border-radius: 50px;
+        top: 35%;
+        @include flexlayout($just: center);
+
+        .BtnArrow {
+            font-size: 16px;
+            color: $mainBlack;
+        }
+
+        .BtnArrow.arrowLeft {
+            margin-right: 4px;
+        }
+
+        .BtnArrow.arrowRight {
+            margin-left: 4px;
+        }
+    }
+    .NavBtn.PrevBtn {
+        left: -25px;
+    }
+    .NavBtn.NextBtn {
+        right: 0;
+    }
+    .sectionTitle {
+        font-size: $fontSize28;
+    }
+    //slide content(main-click-slide) end
+    .topTitle{
+        @include flexlayout($align:flex-start);
+        height: 120px;
+        padding-top: 50px;
+    }
 //global style end
 
 
@@ -107,8 +173,6 @@ body {
                 &:not(:last-child) {
                     padding-right: $padding;
                 }
-
-
             }
         }
     }
@@ -191,12 +255,9 @@ body {
         }
     }
 }
-
 //header end
 
-
 //mainSlide start
-
 .mainSlider {
     margin-top: 50px;
 }
@@ -205,7 +266,7 @@ body {
     position: relative;
 
     .sliderView {
-        width: 100vw;
+        width: 100%;
         height: 500px;
         overflow: hidden;
 
@@ -268,97 +329,19 @@ body {
         }
     }
 }
-
 //mainSlide end
 
-//slide content(main-click-slide) start
-.contentWrap {
-    position: relative;
-
-    .contentView {
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-    }
-    .contentSlide {
-        width: 100%;
-        @include flexlayout();
-
-        .contentItem {
-            flex-shrink: 0;
-            height: 100%;
-            position: relative;
-        }
-    }
-    .contextInnerText {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        background: $mainWhite;
-        padding: $padding;
-    }
-}
-
-.NavBtn {
-    position: absolute;
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    background: $mainWhite;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px, rgba(0, 0, 0, 0.1) 0px 4px 5px;
-    border-radius: 50px;
-    @include flexlayout($just: center);
-
-    .BtnArrow {
-        font-size: 16px;
-        color: $mainBlack;
-    }
-
-    .BtnArrow.arrowLeft {
-        margin-right: 4px;
-    }
-
-    .BtnArrow.arrowRight {
-        margin-left: 4px;
-    }
-}
-.NavBtn.PrevBtn {
-    left: -25px;
-}
-.NavBtn.NextBtn {
-    right: 0;
-}
-//slide content(main-click-slide) end
-
-
 //TopRanking(main) start
-
-.topRanking {
-    h2 {
-        font-size: $fontSize28;
-        padding: $padding 0;
-    }
-}
-
-.topWrap {
-    margin-top: 30px;
-
     .topRankingWrap {
         .topProjects {
-
             height: 350px;
-
             .topBox {
                 margin-right: 2%;
                 width: 23%;
                 border-radius: 10px;
                 overflow: hidden;
-                background: dodgerblue;
-
                 .topText {
                     height: 150px;
-
                     h3 {
                         font-size: 18px;
                     }
@@ -374,18 +357,12 @@ body {
             }
         }
     }
-    .topNavBtn {
-        top: 35%;
-    }
-    
-}
-
 //TopRanking(main) end
 
-//Theme(main) start
-.theme{
+//imminent(main) start
+.imminent{
     margin-top: 50px;
-    .themeSlide{
+    .immiProjects{
         width: 150vw;
         height: 250px;
         justify-content: flex-start;
@@ -396,6 +373,138 @@ body {
         }
     }
 }
-    
+//imminent(main) end
 
-//Theme(main) end
+//Theme (main) start
+.themeWrap{
+    .themeProjectView{
+        .themeSlide{
+            height: 350px;
+        }
+        .themeProject{
+            width: 18%;
+            margin-right: 2%;
+            overflow: hidden;
+        }
+        .themeText{
+            height: 130px;
+        }
+    }
+}
+//Theme (main) end 
+
+//NewProject (main) start
+.newWrap{
+    .newProjectView{
+        .newProjects{
+            height: 350px;
+        }
+        .newProject{
+            width: 18%;
+            margin-right: 2%;
+            overflow: hidden;
+        }
+        .newText{
+            height: 130px;
+        }
+    }
+}
+//NewProject (main) end
+
+//PotentUp (main) start
+.potenWrap{
+    .potenView{
+        .potenProjects{
+            height: 400px;
+        }
+        .potenProject{
+            width: 31.3333%;
+            margin-right: 2%;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .potenText{
+            height: 130px;
+        }
+    }
+}
+//PotentUp (main) end
+
+//CommingSoon (main) start
+.comBottom{
+    @include flexlayout($just:flex-start, $wrap:wrap);
+    width: 100%;
+    .comProject{
+        width: 23.5%;
+        &:not(:nth-child(4n+0)){
+            margin-right: 2%;
+        }
+        margin-bottom: 20px;
+        height: 300px;
+        background: indianred;
+    }
+}
+//CommingSoon (main) end
+
+//Footer start
+footer{
+    width: 100%;
+    border-top: 1px solid $mainBlack;
+    margin-top: 50px;
+}
+.footerWrap {
+    padding: 20px 0;
+    .footerInnerTop {
+        @include flexlayout($align: flex-start);
+        border-bottom: 1px solid $mainGray;
+        padding-bottom: 30px;
+    }
+    .footerTopLeft {
+        @include flexlayout($align: flex-start);
+        >li {
+            h3 {
+                font-size: 16px;
+                font-weight: bold;
+            }
+            &:not(:last-child) {
+                padding-right: 100px;
+            }
+            li {
+                padding-top: 10px;
+            }
+        }
+    }
+    .footerInnerBottom {
+        .footerBottomInfo {
+            h2 {
+                font-size: 16px;
+                padding: 10px 0;
+            }
+            ul {
+                @include flexlayout($dir:column, $just: flex-start, $align:flex-start)
+            }
+            li {
+                color: #777;
+                font-size: 12px;
+            }
+            strong{
+                color: $mainBlack;
+            }
+            .footerMarginSpan{
+                margin-right: 20px;
+            }
+        }
+    }
+}
+.footerBottom {
+    width: 100%;
+    height: 60px;
+    background: $mainBlack;
+    line-height: 60px;
+    p{
+        font-size: 12px;
+        color: $mainWhite;
+    }
+}
+
+//Footer end

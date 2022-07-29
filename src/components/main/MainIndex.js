@@ -12,10 +12,10 @@ const MainIndex = () => {
         <>
             <MainSlide />
             <TopRanking />
-            <Theme />
             <Imminent />
-            <PotentUp />
+            <Theme />
             <NewProject />
+            <PotentUp />
             <CommingSoon />
         </>
     );

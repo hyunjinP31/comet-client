@@ -1,23 +1,22 @@
 import React from 'react';
+import Marquee from 'react-fast-marquee';
+import { HiArrowNarrowRight } from 'react-icons/hi'
 
 const Imminent = () => {
     return (
-        <section className='imminent inner'>
-            <div className='immiWrap'>
-                <h2>마감임박</h2>
-                <div className='immiProjectView'>
-                    <div className='immiProjects'>
-                        <div className='immiProject'>
-                            <div className='immiImg'></div>
-                            <div className='immiText'></div>
-                        </div>
-                    </div>
-                </div>
+        <section className='imminent contentWrap'>
+            <div className='immiTop topTitle inner'>
+                <h2 className='sectionTitle'>공개예정</h2>
+                <span><span>전체보기</span><HiArrowNarrowRight /></span>
             </div>
-            <div className='immiNav'>
-                <span className='immiPrev immiNavBtn'></span>
-                <span className='immiNext immiNavBtn'></span>
-            </div>
+            <Marquee pauseOnHover={true} speed={54} gradient={false}>
+                <ul className='immiProjects contentSlide'>
+                    <li className='immiProject contentItem'>
+                        <div className='immiImg'></div>
+                        <div className='immiText contextInnerText'></div>
+                    </li>
+                </ul>
+            </Marquee>
         </section>
     );
 };
