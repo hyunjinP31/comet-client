@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const MainSlide = () => {
 
-    const backColors = ['#0f4c81', '#1b315e', '#864e79']
+    const backColors = ['images/mainSlide/main_slide3.png', 'images/mainSlide/main_slide3.png', 'images/mainSlide/main_slide3.png']
     const [currentIndex, setCurrnetIndex] = useState(1)
     const slideReplace = useRef();
 
@@ -22,7 +22,6 @@ const MainSlide = () => {
         }, 200)
     }
 
-    //slide 이동 핸들러(버튼)
     //slide 무한 이동
     const Interval = (callback, delay) => {
         const savedCallback = useRef();
@@ -69,7 +68,7 @@ const MainSlide = () => {
                                 return (
                                     <div key={slideIndex}
                                         className='sliderItem'
-                                        style={{ background: slide, width: 100 / slides.length + '%' }}>
+                                        style={{ background: `url(${slide})center center/cover no-repeat`, width: 100 / slides.length + '%' }}>
                                     </div>
                                 )
                             })

@@ -1,5 +1,6 @@
 import React from 'react';
 import {FiSearch} from 'react-icons/fi'
+import {Link} from 'react-router-dom';
 
 const Header = () => {
     return (
@@ -9,7 +10,7 @@ const Header = () => {
                     <h1 className='headerLogo'>TEMPUS</h1>
                     <ul>
                         <li>로그인</li>
-                        <li>회원가입</li>
+                        <li><Link to='/signup'>회원가입</Link></li>
                     </ul>
                 </div>
                 <div className='headerBottom'>
