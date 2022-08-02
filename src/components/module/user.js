@@ -28,6 +28,7 @@ const initialState = {
 }
 
 //액션 생성 함수
+//input값 가져오기
 export const setUserInput = (e) => {
     const { name, value } = e.target;
     return {
@@ -36,9 +37,11 @@ export const setUserInput = (e) => {
         value
     }
 }
-export const getUser = async dispatch => {
+//회원정보 받아오기
+export const getUser = () => async (dispatch, getState) => {
+    const addUser = getState().user.addUser;
     try {
-        const response = await axios.get(`${API_URL}/user`);
+        const response = await axios.get(`${API_URL}/user/${addUser.userId}`);
         const data = response.data;
         dispatch({ type: GET_USER_SUCCESS, data})
     }
@@ -46,26 +49,30 @@ export const getUser = async dispatch => {
         dispatch({type:GET_USER_ERROR, error})
     }
 }
-export const createUser = async (dispatch, getState) => {
+//회원가입
+export const createUser = () => async (dispatch, getState) => {
     const userData = getState().user.addUser;
     try {
         const response = await axios.post(`${API_URL}/createuser`, userData);
-        console.log('userdata successfully created');
-        dispatch({ type: RESET_USER_INPUT })
     }
     catch(e){
         console.log(e);
     }
 }
-export const deleteUser = async (id) => {
+//회원탈퇴
+export const deleteUser = () => async (id) => {
     try {
         await axios.delete(`${API_URL}/deleteUser/${id}`);
-        console.log('userdata successfully deleted');
     }
     catch (e) {
         console.log(e);
     }
-
+}
+//input정보 reset
+export const addUserReset = () => {
+    return {
+        type: RESET_USER_INPUT,
+    }
 }
 
 // 리듀서
