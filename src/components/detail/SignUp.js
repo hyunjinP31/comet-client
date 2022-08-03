@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef } from 'react';
 import PopupPostCode from './AddressSearch/PopupPostCode';
 import PopupDom from './AddressSearch/PopupDom';
 
-const Login = ({
+const Login = forwardRef(({
     onChange,
     addUser,
     onSubmit,
@@ -13,8 +13,9 @@ const Login = ({
     onIdChange,
     onPwChange,
     onPwChChange,
-    onEmailChange
-}) => {
+    onEmailChange,
+    isValid
+},SignUpInputs) => {
     //우편번호 관리
     const onAddData = (data) => {
         const postAdd = data.address;
@@ -37,37 +38,33 @@ const Login = ({
     }
     //우편번호 관리 끝
 
-    //휴대폰 번호 자동 하이픈 생성
-    const [phoneNum, setphoneNum] = useState('');
+    //자동 하이픈 생성
+    const [phone, setPhone] = useState('');
+    const [birth, setBirth] = useState('');
     const onPhoneChange = (e) => {
-        setphoneNum(e.target.value);
+        setPhone(e.target.value);
+        onChange(e);
+    }
+    const onBirthChange = (e) => {
+        setBirth(e.target.value);
         onChange(e);
     }
     useEffect(() => {
-        if (phoneNum.length === 10) {
-            setphoneNum(phoneNum.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3'));
-        }
-        if (phoneNum.length === 13) {
-            setphoneNum(phoneNum.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
-        }
-        if (phoneNum.length === 14) {
-            let cutNum = phoneNum.slice(0, 12);
-            setphoneNum(cutNum);
-        }
-    }, [phoneNum]);
+        let rePhone = phone.replace(/[^0-9]/g, '')
+            .replace(/^(\d{0,3})(\d{0,3})(\d{0,4})$/g, "$1-$2-$3")
+            .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
+            .replace(/(\-{1,2})$/g, "");
+        let reBirth = birth.replace(/[^0-9]/g, '')
+            .replace(/^(\d{0,4})(\d{0,2})(\d{0,2})$/g, "$1-$2-$3")
+            .replace(/(\-{1,2})$/g, "");
 
-    //생년월일 자동 하이픈 생성
-    const [birth, setBirth] = useState('');
-    useEffect(()=>{
-        setBirth(addUser.userBirth);
-        console.log(birth)
-        if(birth.length === 8){
-            setBirth(birth.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'));
-        }
-        if(birth.length > 9){
-            setBirth(birth);
-        }
-    },[addUser.userBirth])
+        setBirth(reBirth);
+        setPhone(rePhone);
+    }, [phone, birth]);
+    
+
+
+
 
     return (
         <div className='signUp inner'>
@@ -77,23 +74,23 @@ const Login = ({
                     <ul>
                         <li>
                             <p>아이디</p>
-                            <input type='text' name='userId' placeholder='아이디를 입력하세요' onChange={onIdChange} value={addUser.userId} onBlur={idCheck} />
+                            <input pattern={isValid.idValid} ref={el => SignUpInputs.current[0] = el} type='text' name='userId' placeholder='아이디를 입력하세요' onChange={onIdChange} value={addUser.userId} onBlur={idCheck} />
                             <span className='userIdAlert formAlert'></span>
                         </li>
                         <li>
                             <p>비밀번호</p>
-                            <input type='password' name='userPw' placeholder='비밀번호를 입력하세요' onChange={onPwChange} onBlur={pwCheck} value={addUser.userPw} />
+                            <input ref={el => SignUpInputs.current[1] = el} type='password' name='userPw' placeholder='비밀번호를 입력하세요' onChange={onPwChange} onBlur={pwCheck} value={addUser.userPw} />
                             <span className='userPwAlert formAlert'></span>
-                            <input type='password' name='userPwCh' placeholder='비밀번호를 한 번 더 입력하세요' onBlur={pwChCheck} onChange={onPwChChange} />
+                            <input ref={el => SignUpInputs.current[2] = el} type='password' name='userPwCh' placeholder='비밀번호를 한 번 더 입력하세요' onBlur={pwChCheck} onChange={onPwChChange} />
                             <span className='userPwChAlert formAlert'></span>
                         </li>
                         <li>
                             <p>이름</p>
-                            <input type='text' name='userName' placeholder='이름을 입력하세요' onChange={onChange} value={addUser.userName} />
+                            <input ref={el => SignUpInputs.current[3] = el} type='text' name='userName' placeholder='이름을 입력하세요' onChange={onChange} value={addUser.userName} />
                         </li>
                         <li>
                             <p>생년월일</p>
-                            <input type='text' name='userBirth' placeholder='YYYYMMDD' onChange={onChange} value={birth} />
+                            <input ref={el => SignUpInputs.current[4] = el} type='text' name='userBirth' maxLength={10} placeholder='YYYYMMDD' onChange={onBirthChange} value={birth} />
                         </li>
                         <li>
                             <p>성별</p>
@@ -105,17 +102,17 @@ const Login = ({
                         </li>
                         <li>
                             <p>휴대폰</p>
-                            <input type='text' name='userPhone' placeholder='전화번호를 입력하세요' onChange={onPhoneChange} value={phoneNum} />
+                            <input ref={el => SignUpInputs.current[5] = el} type='text' name='userPhone' maxLength={13} placeholder='전화번호를 입력하세요' onChange={onPhoneChange} value={phone} />
                         </li>
                         <li>
                             <p>이메일</p>
-                            <input type='email' name='userEmail' placeholder='이메일을 입력하세요' onChange={onEmailChange} onBlur={emailCheck} />
+                            <input ref={el => SignUpInputs.current[6] = el} type='email' name='userEmail' placeholder='이메일을 입력하세요' onChange={onEmailChange} onBlur={emailCheck} />
                             <span className='emailAlert formAlert'></span>
                         </li>
                         <li>
                             <p>주소<button className="addrSearchBtn" onClick={openPostCode}>주소 찾기</button></p>
-                            <input type='text' name='userAddr1' onChange={onChange} value={addUser.userAddr1} />
-                            <input type='text' name='userAddr2' onChange={onChange} placeholder='상세주소를 입력하세요' value={addUser.userAddr2} />
+                            <input ref={el => SignUpInputs.current[7] = el} type='text' name='userAddr1' onChange={onChange} value={addUser.userAddr1} />
+                            <input ref={el => SignUpInputs.current[8] = el} type='text' name='userAddr2' onChange={onChange} placeholder='상세주소를 입력하세요' value={addUser.userAddr2} />
                             <div id="popupDom">
                                 {isPopupOpen && (
                                     <PopupDom>
@@ -125,13 +122,13 @@ const Login = ({
                             </div>
                         </li>
                         <li>
-                            <button className='signUpBtn' type='submit' onSubmit={onSubmit}>가입하기</button>
+                            <button className='signUpBtn' type='submit'>가입하기</button>
                         </li>
                     </ul>
                 </form>
             </div>
         </div>
     );
-};
+});
 
 export default Login;

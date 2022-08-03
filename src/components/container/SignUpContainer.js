@@ -1,23 +1,24 @@
-import React from 'react';
+import React, { useState,useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import SignUp from '../detail/SignUp';
-import { setUserInput, createUser, addUserReset, getUser } from '../module/user';
+import { setUserInput, createUser, addUserReset, getUser, checkValid } from '../module/user';
 import { useNavigate } from 'react-router-dom';
 
 const SignUpContainer = () => {
     const navigate = useNavigate();
     const user = useSelector(state => state.user.user);
     const addUser = useSelector(state => state.user.addUser);
+    const isValid = useSelector(state => state.user.isValid);
     const dispatch = useDispatch();
-
+    const SignUpInputs = useRef([]);
 
     const onChange = (e) => {
         dispatch(setUserInput(e));
-        dispatch(getUser());
     }
     //id input 변경될 때
     const onIdChange = (e)=>{
         onChange(e);
+        dispatch(getUser());
         document.querySelector('.userIdAlert').innerHTML = '';
     }
     //비밀번호
@@ -55,7 +56,8 @@ const SignUpContainer = () => {
             if (idForm.test(e.target.value) === false) {
                 document.querySelector('.userIdAlert').innerHTML = '사용불가';
             } else {
-                document.querySelector('.userIdAlert').innerHTML = '사용가능한 id 입니다'
+                document.querySelector('.userIdAlert').innerHTML = '사용가능한 id 입니다';
+                dispatch(checkValid('idValid'));
             }
         }
 
@@ -87,9 +89,15 @@ const SignUpContainer = () => {
             document.querySelector('.emailAlert').innerHTML = '사용가능'
         }
     }
-
+    //submit
+    
     const onSubmit = (e) => {
         e.preventDefault();
+        //유효하지 않은 input을 가진 채 submit 했을 때 해당 input focus 주기
+        let inputs = SignUpInputs.current;
+        for (let i = 0; i < SignUpInputs.current.length; i++) {
+            if (!inputs[i].value) return inputs[i].focus();
+        }
         dispatch(createUser());
         navigate('/');
         dispatch(addUserReset());
@@ -107,7 +115,9 @@ const SignUpContainer = () => {
             onIdChange={onIdChange}
             onPwChange={onPwChange}
             onPwChChange={onPwChChange}
-            onEmailChange={onEmailChange} />
+            onEmailChange={onEmailChange}
+            ref={SignUpInputs}
+            isValid={isValid} />
     );
 };
 
