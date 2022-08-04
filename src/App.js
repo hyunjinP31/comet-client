@@ -4,6 +4,7 @@ import Header from './components/include/Header';
 import MainIndex from './components/main/MainIndex';
 import { Routes, Route } from 'react-router-dom';
 import SignUpContainer from './components/container/SignUpContainer';
+import LoginContainer from './components/container/LoginContainer';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Routes>
       <Route path='/' element={<MainIndex />}/>
       <Route path='/signup' element={<SignUpContainer />} />
+      <Route path='/login' element={<LoginContainer />} />
       </Routes>
       <Footer />
     </div>

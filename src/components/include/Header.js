@@ -7,9 +7,9 @@ const Header = () => {
         <>
             <div className='header inner'>
                 <div className='headerTop'>
-                    <h1 className='headerLogo'>TEMPUS</h1>
+                    <Link to='/'><h1 className='headerLogo'>TEMPUS</h1></Link>
                     <ul>
-                        <li>로그인</li>
+                        <li><Link to='/login'>로그인</Link></li>
                         <li><Link to='/signup'>회원가입</Link></li>
                     </ul>
                 </div>
