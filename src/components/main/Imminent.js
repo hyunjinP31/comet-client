@@ -1,8 +1,10 @@
 import React from 'react';
 import Marquee from 'react-fast-marquee';
 import { HiArrowNarrowRight } from 'react-icons/hi'
+import { Link } from 'react-router-dom';
 
-const Imminent = () => {
+const Imminent = ({ immiData }) => {
+    if (!immiData) return <div>loading</div>;
     return (
         <section className='imminent contentWrap'>
             <div className='immiTop topTitle inner'>
@@ -11,10 +13,16 @@ const Imminent = () => {
             </div>
             <Marquee pauseOnHover={true} speed={54} gradient={false}>
                 <ul className='immiProjects contentSlide'>
-                    <li className='immiProject contentItem'>
-                        <div className='immiImg'></div>
-                        <div className='immiText contextInnerText'></div>
-                    </li>
+                    {immiData.map(data =>
+                        <li className='immiProject contentItem' key={data.id}>
+                            <Link to={`projectDetail/${data.id}`}>
+                                <div className='immiImg'>
+                                    <img src='' alt='' />
+                                </div>
+                                <div className='immiText contextInnerText'></div>
+                            </Link>
+                        </li>
+                    )}
                 </ul>
             </Marquee>
         </section>

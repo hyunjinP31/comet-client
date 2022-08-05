@@ -1,8 +1,10 @@
 import React from 'react';
 import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
 import { HiArrowNarrowRight } from 'react-icons/hi'
+import { Link } from 'react-router-dom';
 
-const NewProject = () => {
+const NewProject = ({ newData }) => {
+    if (!newData) return <div>loading</div>;
     return (
         <section className='newProject inner'>
             <div className='newTop topTitle inner'>
@@ -12,10 +14,14 @@ const NewProject = () => {
             <div className='newWrap contentWrap'>
                 <div className='newProjectView contentView'>
                     <ul className='newProjects contentSlide'>
-                        <li className='newProject contentItem'>
-                            <div className='newImg'></div>
-                            <div className='newText contextInnerText'></div>
-                        </li>
+                        {newData.map(data =>
+                            <li className='newProject contentItem' key={data.id}>
+                                <Link to={`projectDetail/${data.id}`}>
+                                    <div className='newImg'></div>
+                                    <div className='newText contextInnerText'></div>
+                                </Link>
+                            </li>
+                        )}
                     </ul>
                 </div>
                 <div className='newNav'>

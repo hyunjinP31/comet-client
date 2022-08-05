@@ -363,7 +363,6 @@ body {
                     h3 {
                         font-size: 18px;
                     }
-
                     p {
                         padding: 10px 0;
                         &:nth-of-type(2) {
@@ -539,10 +538,14 @@ body {
         height: 300px;
         li {
             @include flexlayout($dir:column);
-            
         }
         li.loginAlert{
             height: 50px;
+            justify-content: center;
+            span {
+                font-size: 12px;
+                color: crimson;
+            }
         }
     }
     input+input {
@@ -550,6 +553,49 @@ body {
     }
 }
 //Login (detail) end
+
+//ProjectDetail (detail) start
+.pDetailTitle {
+    text-align: center;
+    font-size: 40px;
+    padding: 30px 0;
+}
+.projectDetailWrap{
+    @include flexlayout();
+    width: 100%;
+    min-height: 600px;
+    height: 600px;
+    margin: 50px 0;
+    .pDetailImg{
+        width: 50%;
+        img{
+            height: 100%;
+            width: 100%;
+        }
+    }
+    .pDetailInfo{
+        width: 50%;
+        height: 100%;
+        padding-left: 30px;
+        ul{
+            @include flexlayout($dir: column, $align: flex-start);
+            height: 100%;
+        }
+        li {
+            padding: 30px 0;
+            p{
+                font-size: 32px;
+            }
+            span{
+                font-size: 14px;
+            }
+        }
+        li.pDetailFlexLi{
+            display: flex;
+        }
+    }
+}
+//ProjectDetail (detail) end
 
 //Footer start
 footer{

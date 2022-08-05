@@ -1,8 +1,10 @@
 import React from 'react';
 import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
 import { HiArrowNarrowRight } from 'react-icons/hi'
+import { Link } from 'react-router-dom';
 
-const PotentUp = () => {
+const PotentUp = ({ potenData }) => {
+    if (!potenData) return <div>loading</div>;
     return (
         <section className='potentUp inner'>
             <div className='potenTop topTitle inner'>
@@ -12,10 +14,14 @@ const PotentUp = () => {
             <div className='potenWrap contentWrap'>
                 <div className='potenView contentView'>
                     <ul className='potenProjects contentSlide'>
-                        <li className='potenProject contentItem'>
-                            <div className='potenImg'></div>
-                            <div className='potenText contextInnerText'></div>
-                        </li>
+                        {potenData.map(data =>
+                            <li className='potenProject contentItem' key={data.id}>
+                                <Link to={`projectDetail/${data.id}`}>
+                                    <div className='potenImg'></div>
+                                    <div className='potenText contextInnerText'></div>
+                                </Link>
+                            </li>
+                        )}
                     </ul>
                 </div>
                 <div className='potenNav'>

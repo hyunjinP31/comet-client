@@ -12,7 +12,6 @@ const INPUT_VALID_FALSE = "user/INPUT_VALID_FALSE";
 const RESET_INPUT_VALID = "user/RESET_INPUT_VALID";
 const SET_LOGIN_INPUT = "user/SET_LOGIN_INPUT";
 const RESET_LOGIN_INPUT = "user/RESET_LOGIN_INPUT";
-
 const initialState = {
     user: {
         loading: false,
@@ -41,7 +40,6 @@ const initialState = {
     loginUser: {
         userId: "",
         userPw: "",
-        isLoged: false
     }
 }
 
@@ -59,7 +57,6 @@ export const setUserInput = (e) => {
 export const getUser = () => async (dispatch, getState) => {
     try {
         const addUser = getState().user.addUser;
-        const isValid = getState().user.isValid;
         const response = await axios.get(`${API_URL}/user/${addUser.userId}`);
         const data = response.data;
         //data 받아와서 id 유효성 체크
@@ -105,10 +102,12 @@ export const deleteUser = () => async (id) => {
 export const getLogin = () => async (dispatch, getState) => {
     const loginData = getState().user.loginUser;
     try {
-        await axios.post(`${API_URL}/loginuser`, loginData);
+        const response = await axios.post(`${API_URL}/loginuser`, loginData);
+        const data = response.data;
+        return data;
     }
     catch(e){
-        console.log(e)
+        console.log(e);
     }
 }
 
@@ -147,6 +146,7 @@ export const setLoginInput = (e) => {
         value
     }
 }
+//loginInput 초기화
 export const resetLoginInput = () => {
     return {
         type: RESET_LOGIN_INPUT

@@ -1,8 +1,10 @@
 import React from 'react';
 import { BsChevronRight, BsChevronLeft } from 'react-icons/bs';
 import { HiArrowNarrowRight } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 
-const TopRanking = () => {
+const TopRanking = ({ topData }) => {
+    if (!topData) return <div>loading</div>;
     return (
         <section className='topRanking inner'>
             <div className='topTop topTitle inner'>
@@ -12,14 +14,18 @@ const TopRanking = () => {
             <div className='topWrap contentWrap'>
                 <div className='topRankingWrap contentView'>
                     <ul className='topProjects contentSlide'>
-                        <li className='topBox contentItem'>
-                            <div className='topImg'></div>
-                            <div className='topText contextInnerText'>
-                                <h3>제목</h3>
-                                <p>간단한 설명</p>
-                                <p>fromWho</p>
-                            </div>
-                        </li>
+                        {topData.map(data =>
+                            <li className='topBox contentItem' key={data.id}>
+                                <Link to={`projectDetail/${data.id}`}>
+                                    <div className='topImg'></div>
+                                    <div className='topText contextInnerText'>
+                                        <h3>{data.projectName}</h3>
+                                        <p>{data.projectPrice}</p>
+                                        <p>{data.sellerName}</p>
+                                    </div>
+                                </Link>
+                            </li>
+                        )}
                     </ul>
                 </div>
                 <div className='topProjectNav'>

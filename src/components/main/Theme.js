@@ -1,8 +1,10 @@
 import React from 'react';
 import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
 import { HiArrowNarrowRight } from 'react-icons/hi'
+import { Link } from 'react-router-dom';
 
-const Theme = () => {
+const Theme = ({ themeData }) => {
+    if (!themeData) return <div>loading</div>;
     //li width 조정
     return (
         <section className='theme inner'>
@@ -13,10 +15,14 @@ const Theme = () => {
             <div className='themeWrap contentWrap'>
                 <div className='themeProjectView contentView'>
                     <ul className='themeSlide contentSlide'>
-                        <li className='themeProject contentItem'>
-                            <div className='themeImg'></div>
-                            <div className='themeText contextInnerText'></div>
-                        </li>
+                        {themeData.map(data =>
+                            <li className='themeProject contentItem' key={data.id}>
+                                <Link to={`projectDetail/${data.id}`}>
+                                    <div className='themeImg'></div>
+                                    <div className='themeText contextInnerText'></div>
+                                </Link>
+                            </li>
+                        )}
                     </ul>
                 </div>
                 <div className='themeNav'>

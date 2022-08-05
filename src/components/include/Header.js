@@ -1,15 +1,21 @@
 import React from 'react';
 import {FiSearch} from 'react-icons/fi'
+import { useDispatch } from 'react-redux';
 import {Link} from 'react-router-dom';
+import { getCookie, removeCookie } from '../../util/cookie';
 
 const Header = () => {
+    const logout = ()=>{
+        removeCookie('userId');
+        removeCookie('userName');
+    }
     return (
         <>
             <div className='header inner'>
                 <div className='headerTop'>
                     <Link to='/'><h1 className='headerLogo'>TEMPUS</h1></Link>
                     <ul>
-                        <li><Link to='/login'>로그인</Link></li>
+                        {getCookie('userId') ? <li onClick={logout}>로그아웃</li> : <li><Link to='/login'>로그인</Link></li>}
                         <li><Link to='/signup'>회원가입</Link></li>
                     </ul>
                 </div>

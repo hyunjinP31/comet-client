@@ -1,7 +1,9 @@
 import React from 'react';
 import { HiArrowNarrowRight } from 'react-icons/hi'
+import { Link } from 'react-router-dom';
 
-const CommingSoon = () => {
+const CommingSoon = ({ comData }) => {
+    if (!comData) return <div>loading</div>;
     return (
         <section className='commingSoon inner'>
             <div className='comTop topTitle'>
@@ -9,10 +11,20 @@ const CommingSoon = () => {
                 <span><span>전체보기</span><HiArrowNarrowRight /></span>
             </div>
             <ul className='comBottom'>
-                <li className='comProject'>
-                    <div className='comImg'></div>
-                    <div className='comText'></div>
-                </li>
+                {comData.map(data =>
+                    <li className='comProject' key={data.id}>
+                        <Link to={`projectDetail/${data.id}`}>
+                            <div className='comImg'>
+                                <img src='' alt='' />
+                            </div>
+                            <div className='comText'>
+                                <h3>{data.projectName}</h3>
+                                <p>{data.projectPrice}</p>
+                                <p>{data.sellerName}</p>
+                            </div>
+                        </Link>
+                    </li>
+                )}
             </ul>
         </section>
     );

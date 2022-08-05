@@ -12,7 +12,14 @@ const SET_PROJECT_COUNT = "project/SET_PROJECT_ADD";
 const initialState = {
     project: {
         loading: false,
-        data: null,
+        data: {
+            topData: null,
+            immiData: null,
+            themeData: null,
+            newData: null,
+            potenData: null,
+            comData: null,
+        },
         error: null,
     },
     addProject: {
@@ -46,12 +53,30 @@ export const setProjectCount = (number) => {
     }
 }
 
-export const printMain = () => async (dispatch, kind) => {
+export const printMain = () => async (dispatch) => {
     dispatch({type:GET_PROJECT});
     try{
-        const response = await axios.get(`${API_URL}/${kind}`);
-        const res =  response.data
-        dispatch({type:GET_PROJECT_SUCCESS, res});
+        const topResponse = await axios.get(`${API_URL}/topranking`);
+        const topRes =  topResponse.data;
+        const immiResponse = await axios.get(`${API_URL}/imminent`);
+        const immiRes =  immiResponse.data;
+        const themeResponse = await axios.get(`${API_URL}/theme`);
+        const themeRes =  themeResponse.data;
+        const newResponse = await axios.get(`${API_URL}/newproject`);
+        const newtopRes =  newResponse.data;
+        const potenResponse = await axios.get(`${API_URL}/potenup`);
+        const potenRes =  potenResponse.data;
+        const comResponse = await axios.get(`${API_URL}/commingsoon`);
+        const comRes =  comResponse.data;
+        const project = {
+            topData: topRes,
+            immiData: immiRes,
+            themeData: themeRes,
+            newData: newtopRes,
+            potenData: potenRes,
+            comData: comRes,
+        }
+        dispatch({type:GET_PROJECT_SUCCESS, project});
     }
     catch(e){
         dispatch({type:GET_PROJECT_ERROR, error: e});
@@ -76,9 +101,8 @@ export default function project(state = initialState, action) {
             return {
                 ...state,
                 project: {
+                    ...state.project,
                     loading: true,
-                    data: null,
-                    error: null,
                 }
             }
         case GET_PROJECT_SUCCESS:
@@ -86,7 +110,7 @@ export default function project(state = initialState, action) {
                 ...state,
                 project: {
                     loading: false,
-                    data: action.data,
+                    data: action.project,
                     error: null
                 }
             }

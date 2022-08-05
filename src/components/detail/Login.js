@@ -4,7 +4,7 @@ const Login = ({loginUser, onChange, onSubmit}) => {
     return (
         <div className='login inner'>
             <div className='loginWrap'>
-                <form className='login'>
+                <form className='login' onSubmit={onSubmit}>
                     <ul>
                         <li className='loginTitle'><h1>로그인</h1></li>
                         <li>
