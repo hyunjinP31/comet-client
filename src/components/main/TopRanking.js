@@ -2,9 +2,11 @@ import React from 'react';
 import { BsChevronRight, BsChevronLeft } from 'react-icons/bs';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const TopRanking = ({ topData }) => {
+const TopRanking = ({ topData, onClick }) => {
     if (!topData) return <div>loading</div>;
+    
     return (
         <section className='topRanking inner'>
             <div className='topTop topTitle inner'>
@@ -16,7 +18,7 @@ const TopRanking = ({ topData }) => {
                     <ul className='topProjects contentSlide'>
                         {topData.map(data =>
                             <li className='topBox contentItem' key={data.id}>
-                                <Link to={`projectDetail/${data.id}`}>
+                                <Link to={`projectDetail/${data.id}`} onClick={()=>onClick(data.id)}>
                                     <div className='topImg'></div>
                                     <div className='topText contextInnerText'>
                                         <h3>{data.projectName}</h3>

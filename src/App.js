@@ -5,7 +5,8 @@ import MainIndex from './components/main/MainIndex';
 import { Routes, Route } from 'react-router-dom';
 import SignUpContainer from './components/container/SignUpContainer';
 import LoginContainer from './components/container/LoginContainer';
-import ProjectDetail from './components/detail/ProjectDetail';
+import ProjectDetailContainer from './components/container/ProjectDetailContainer';
+import CreateProjectContainer from './components/container/CreateProjectContainer';
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
         <Route path='/' element={<MainIndex />} />
         <Route path='/signup' element={<SignUpContainer />} />
         <Route path='/login' element={<LoginContainer />} />
-        <Route path='projectDetail/:id' element={<ProjectDetail />} />
+        <Route path='/projectdetail/:id' element={<ProjectDetailContainer />} />
+        <Route path='/createproject' element={<CreateProjectContainer />} />
       </Routes>
       <Footer />
     </div>

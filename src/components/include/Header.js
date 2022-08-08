@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {FiSearch} from 'react-icons/fi'
-import { useDispatch } from 'react-redux';
 import {Link} from 'react-router-dom';
 import { getCookie, removeCookie } from '../../util/cookie';
 
@@ -15,6 +14,7 @@ const Header = () => {
                 <div className='headerTop'>
                     <Link to='/'><h1 className='headerLogo'>TEMPUS</h1></Link>
                     <ul>
+                    {getCookie('userId') ? <li><Link to='/createproject'>프로젝트 등록</Link></li> : <li></li>}
                         {getCookie('userId') ? <li onClick={logout}>로그아웃</li> : <li><Link to='/login'>로그인</Link></li>}
                         <li><Link to='/signup'>회원가입</Link></li>
                     </ul>

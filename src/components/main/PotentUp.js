@@ -3,7 +3,7 @@ import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { Link } from 'react-router-dom';
 
-const PotentUp = ({ potenData }) => {
+const PotentUp = ({ potenData, onClick }) => {
     if (!potenData) return <div>loading</div>;
     return (
         <section className='potentUp inner'>
@@ -16,7 +16,7 @@ const PotentUp = ({ potenData }) => {
                     <ul className='potenProjects contentSlide'>
                         {potenData.map(data =>
                             <li className='potenProject contentItem' key={data.id}>
-                                <Link to={`projectDetail/${data.id}`}>
+                                <Link to={`projectDetail/${data.id}`} onClick={()=>onClick(data.id)}>
                                     <div className='potenImg'></div>
                                     <div className='potenText contextInnerText'></div>
                                 </Link>

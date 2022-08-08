@@ -3,7 +3,7 @@ import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { Link } from 'react-router-dom';
 
-const Theme = ({ themeData }) => {
+const Theme = ({ themeData, onClick }) => {
     if (!themeData) return <div>loading</div>;
     //li width 조정
     return (
@@ -17,7 +17,7 @@ const Theme = ({ themeData }) => {
                     <ul className='themeSlide contentSlide'>
                         {themeData.map(data =>
                             <li className='themeProject contentItem' key={data.id}>
-                                <Link to={`projectDetail/${data.id}`}>
+                                <Link to={`projectDetail/${data.id}`} onClick={()=>onClick(data.id)}>
                                     <div className='themeImg'></div>
                                     <div className='themeText contextInnerText'></div>
                                 </Link>

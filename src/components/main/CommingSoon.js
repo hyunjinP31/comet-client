@@ -2,7 +2,7 @@ import React from 'react';
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { Link } from 'react-router-dom';
 
-const CommingSoon = ({ comData }) => {
+const CommingSoon = ({ comData, onClick }) => {
     if (!comData) return <div>loading</div>;
     return (
         <section className='commingSoon inner'>
@@ -13,7 +13,7 @@ const CommingSoon = ({ comData }) => {
             <ul className='comBottom'>
                 {comData.map(data =>
                     <li className='comProject' key={data.id}>
-                        <Link to={`projectDetail/${data.id}`}>
+                        <Link to={`projectDetail/${data.id}`} onClick={()=>onClick(data.id)}>
                             <div className='comImg'>
                                 <img src='' alt='' />
                             </div>

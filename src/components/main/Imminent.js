@@ -3,7 +3,7 @@ import Marquee from 'react-fast-marquee';
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { Link } from 'react-router-dom';
 
-const Imminent = ({ immiData }) => {
+const Imminent = ({ immiData, onClick }) => {
     if (!immiData) return <div>loading</div>;
     return (
         <section className='imminent contentWrap'>
@@ -15,7 +15,7 @@ const Imminent = ({ immiData }) => {
                 <ul className='immiProjects contentSlide'>
                     {immiData.map(data =>
                         <li className='immiProject contentItem' key={data.id}>
-                            <Link to={`projectDetail/${data.id}`}>
+                            <Link to={`projectDetail/${data.id}`} onClick={()=>onClick(data.id)}>
                                 <div className='immiImg'>
                                     <img src='' alt='' />
                                 </div>

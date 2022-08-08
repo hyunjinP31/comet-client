@@ -3,7 +3,7 @@ import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { Link } from 'react-router-dom';
 
-const NewProject = ({ newData }) => {
+const NewProject = ({ newData, onClick }) => {
     if (!newData) return <div>loading</div>;
     return (
         <section className='newProject inner'>
@@ -16,7 +16,7 @@ const NewProject = ({ newData }) => {
                     <ul className='newProjects contentSlide'>
                         {newData.map(data =>
                             <li className='newProject contentItem' key={data.id}>
-                                <Link to={`projectDetail/${data.id}`}>
+                                <Link to={`projectDetail/${data.id}`} onClick={()=>onClick(data.id)}>
                                     <div className='newImg'></div>
                                     <div className='newText contextInnerText'></div>
                                 </Link>
