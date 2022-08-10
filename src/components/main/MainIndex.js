@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CommingSoon from './CommingSoon';
 import Imminent from './Imminent';
 import MainSlide from './MainSlide';
@@ -7,11 +7,12 @@ import PotentUp from './PotentUp';
 import Theme from './Theme';
 import TopRanking from './TopRanking';
 import { useSelector, useDispatch } from 'react-redux';
-import { printMain, viewRaise } from '../module/project';
+import { printMain, sideSwipe, viewRaise } from '../module/project';
 
 const MainIndex = () => {
     const dispatch = useDispatch();
     const project = useSelector(state => state.project.project);
+    const currentIndex = useSelector(state=>state.project.projectSideSwipe.current);
     const { loading, data, error } = project;
 
     useEffect(() => {
@@ -27,11 +28,13 @@ const MainIndex = () => {
     const onClick = (id) => {
        dispatch(viewRaise(id));
     }
-
+    const onMove = (e)=>{
+        dispatch(sideSwipe(e));
+    }
     return (
         <>
             <MainSlide />
-            <TopRanking topData={topData} onClick={onClick} />
+            <TopRanking topData={topData} onClick={onClick} onMove={onMove} currentIndex={currentIndex}/>
             <Imminent immiData={immiData} onClick={onClick} />
             <Theme themeData={themeData} onClick={onClick} />
             <NewProject newData={newData} onClick={onClick} />

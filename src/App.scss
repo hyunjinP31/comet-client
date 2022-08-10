@@ -91,22 +91,43 @@ body {
         //Slide에 height 설정 해주면 됨
         .contentSlide {
             width: 100%;
-            @include flexlayout();
+            transition: 0.3s;
+            @include flexlayout($just: flex-start);
 
             .contentItem {
-                background: dodgerblue;
                 flex-shrink: 0;
                 height: 100%;
                 position: relative;
             }
         }
-        .contextInnerText {
-            position: absolute;
-            left: 0;
-            bottom: 0;
+    }
+    .contentImg {
+        height: 70%;
+    
+        img {
             width: 100%;
-            background: $mainWhite;
-            padding: $padding;
+            height: 100%;
+        }
+    }
+    .contextInnerText {
+        height: 30%;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background: $mainWhite;
+        padding: $padding;
+        h3 {
+            font-size: 18px;
+        }
+        p {
+            &:first-of-type{
+                padding: 10px 0;
+            }
+            &:nth-of-type(2) {
+                font-size: 12px;
+                color: $mainGray;
+            }
         }
     }
 
@@ -143,6 +164,14 @@ body {
     .sectionTitle {
         font-size: $fontSize28;
     }
+    .coverUp{
+        display: block;
+        width: inherit;
+        height: inherit;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
     //slide content(main-click-slide) end
     .topTitle{
         @include flexlayout($align:flex-start);
@@ -166,6 +195,13 @@ body {
         color: $mainWhite;
         font-size: 18px;
         font-weight: bold;
+    }
+    .formAlert {
+        font-size: 12px;
+        color: crimson;
+    }
+    .formAlert.signValid {
+        color: green;
     }
 //global style end
 
@@ -358,19 +394,6 @@ body {
                 width: 23%;
                 border-radius: 10px;
                 overflow: hidden;
-                .topText {
-                    height: 150px;
-                    h3 {
-                        font-size: 18px;
-                    }
-                    p {
-                        padding: 10px 0;
-                        &:nth-of-type(2) {
-                            font-size: 12px;
-                            color: $mainGray;
-                        }
-                    }
-                }
             }
         }
     }
@@ -380,13 +403,22 @@ body {
 .imminent{
     margin-top: 50px;
     .immiProjects{
-        width: 150vw;
-        height: 250px;
+        width: calc(450px * 10);
+        height: 350px;
         justify-content: flex-start;
         li{
-            width: 300px;
+            width: 400px;
             margin-right: 50px;
-            background: hotpink;
+        }
+        .immiText{
+            @include flexlayout($dir: column, $align: flex-start);
+            span {
+                font-size: 18px;
+                padding-left: 10px;
+            }
+        }
+        h3{
+            font-size: 20px;
         }
     }
 }
@@ -399,12 +431,9 @@ body {
             height: 350px;
         }
         .themeProject{
-            width: 18%;
-            margin-right: 2%;
+            width: 20%;
+            padding-right: 2%;
             overflow: hidden;
-        }
-        .themeText{
-            height: 130px;
         }
     }
 }
@@ -420,9 +449,6 @@ body {
             width: 18%;
             margin-right: 2%;
             overflow: hidden;
-        }
-        .newText{
-            height: 130px;
         }
     }
 }
@@ -440,9 +466,6 @@ body {
             border-radius: 10px;
             overflow: hidden;
         }
-        .potenText{
-            height: 130px;
-        }
     }
 }
 //PotentUp (main) end
@@ -452,13 +475,13 @@ body {
     @include flexlayout($just:flex-start, $wrap:wrap);
     width: 100%;
     .comProject{
+        position: relative;
         width: 23.5%;
         &:not(:nth-child(4n+0)){
             margin-right: 2%;
         }
         margin-bottom: 20px;
         height: 300px;
-        background: indianred;
     }
 }
 //CommingSoon (main) end
@@ -509,13 +532,6 @@ body {
                 margin-top: 10px;
             }
         }
-    }
-    .formAlert {
-        font-size: 12px;
-        color: crimson;
-    }
-    .formAlert.signValid {
-        color: green;
     }
 }
 //SignUp (detail) end
@@ -620,9 +636,13 @@ body {
         input {
             width: 500px;
             height: 50px;
-            padding-left: 10px;
+            padding: 0 10px;
             outline: none;
             @include border();
+            margin: 5px 0;
+        }
+        input.inValid {
+            border: 2px solid crimson;
         }
         input[type="file"] {
             width: 200px;

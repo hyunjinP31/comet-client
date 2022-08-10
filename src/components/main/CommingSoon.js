@@ -1,6 +1,7 @@
 import React from 'react';
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../config/contansts';
 
 const CommingSoon = ({ comData, onClick }) => {
     if (!comData) return <div>loading</div>;
@@ -13,12 +14,12 @@ const CommingSoon = ({ comData, onClick }) => {
             <ul className='comBottom'>
                 {comData.map(data =>
                     <li className='comProject' key={data.id}>
-                        <Link to={`projectDetail/${data.id}`} onClick={()=>onClick(data.id)}>
-                            <div className='comImg'>
-                                <img src='' alt='' />
+                        <Link to={`projectDetail/${data.id}`} onClick={() => onClick(data.id)}>
+                            <div className='comImg contentImg'>
+                                <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
                             </div>
-                            <div className='comText'>
-                                <h3>{data.projectName}</h3>
+                            <div className='comText contextInnerText'>
+                                <h3>{data.projectTitle}</h3>
                                 <p>{data.projectPrice}</p>
                                 <p>{data.sellerName}</p>
                             </div>

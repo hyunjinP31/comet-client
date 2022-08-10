@@ -2,6 +2,7 @@ import React from 'react';
 import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../config/contansts';
 
 const PotentUp = ({ potenData, onClick }) => {
     if (!potenData) return <div>loading</div>;
@@ -16,9 +17,15 @@ const PotentUp = ({ potenData, onClick }) => {
                     <ul className='potenProjects contentSlide'>
                         {potenData.map(data =>
                             <li className='potenProject contentItem' key={data.id}>
-                                <Link to={`projectDetail/${data.id}`} onClick={()=>onClick(data.id)}>
-                                    <div className='potenImg'></div>
-                                    <div className='potenText contextInnerText'></div>
+                                <Link to={`projectDetail/${data.id}`} onClick={() => onClick(data.id)}>
+                                    <div className='potenImg contentImg'>
+                                        <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
+                                    </div>
+                                    <div className='potenText contextInnerText'>
+                                        <h3>{data.projectTitle}</h3>
+                                        <p>{data.projectPrice}</p>
+                                        <p>{data.sellerName}</p>
+                                    </div>
                                 </Link>
                             </li>
                         )}

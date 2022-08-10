@@ -2,6 +2,7 @@ import React from 'react';
 import Marquee from 'react-fast-marquee';
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../config/contansts';
 
 const Imminent = ({ immiData, onClick }) => {
     if (!immiData) return <div>loading</div>;
@@ -15,11 +16,14 @@ const Imminent = ({ immiData, onClick }) => {
                 <ul className='immiProjects contentSlide'>
                     {immiData.map(data =>
                         <li className='immiProject contentItem' key={data.id}>
-                            <Link to={`projectDetail/${data.id}`} onClick={()=>onClick(data.id)}>
-                                <div className='immiImg'>
-                                    <img src='' alt='' />
+                            <Link to={`projectDetail/${data.id}`} onClick={() => onClick(data.id)}>
+                                <div className='immiImg contentImg'>
+                                    <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
                                 </div>
-                                <div className='immiText contextInnerText'></div>
+                                <div className='immiText contextInnerText'>
+                                    <h3>{data.projectTitle}</h3>
+                                    <p>마감일 <span>{data.deadLine}</span></p>
+                                </div>
                             </Link>
                         </li>
                     )}

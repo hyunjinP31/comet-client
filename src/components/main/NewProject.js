@@ -2,6 +2,7 @@ import React from 'react';
 import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../config/contansts';
 
 const NewProject = ({ newData, onClick }) => {
     if (!newData) return <div>loading</div>;
@@ -16,9 +17,15 @@ const NewProject = ({ newData, onClick }) => {
                     <ul className='newProjects contentSlide'>
                         {newData.map(data =>
                             <li className='newProject contentItem' key={data.id}>
-                                <Link to={`projectDetail/${data.id}`} onClick={()=>onClick(data.id)}>
-                                    <div className='newImg'></div>
-                                    <div className='newText contextInnerText'></div>
+                                <Link to={`projectDetail/${data.id}`} onClick={() => onClick(data.id)}>
+                                    <div className='newImg contentImg'>
+                                        <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
+                                    </div>
+                                    <div className='newText contextInnerText'>
+                                        <h3>{data.projectTitle}</h3>
+                                        <p>{data.projectPrice}</p>
+                                        <p>{data.sellerName}</p>
+                                    </div>
                                 </Link>
                             </li>
                         )}

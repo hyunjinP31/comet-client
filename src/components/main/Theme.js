@@ -2,8 +2,9 @@ import React from 'react';
 import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../config/contansts';
 
-const Theme = ({ themeData, onClick }) => {
+const Theme = ({ themeData, onClick, onMovePrev, onMoveNext, currentIndex }) => {
     if (!themeData) return <div>loading</div>;
     //li width 조정
     return (
@@ -14,20 +15,30 @@ const Theme = ({ themeData, onClick }) => {
             </div>
             <div className='themeWrap contentWrap'>
                 <div className='themeProjectView contentView'>
-                    <ul className='themeSlide contentSlide'>
+                    <ul style={{transform: `translateX(${currentIndex*1200}px)`}} className='themeSlide contentSlide'>
                         {themeData.map(data =>
                             <li className='themeProject contentItem' key={data.id}>
-                                <Link to={`projectDetail/${data.id}`} onClick={()=>onClick(data.id)}>
-                                    <div className='themeImg'></div>
-                                    <div className='themeText contextInnerText'></div>
+                                <Link to={`projectDetail/${data.id}`} onClick={() => onClick(data.id)}>
+                                    <div className='themeImg contentImg'>
+                                        <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
+                                    </div>
+                                    <div className='themeText contextInnerText'>
+                                        <h3>{data.projectTitle}</h3>
+                                        <p>{data.projectPrice}</p>
+                                        <p>{data.sellerName}</p>
+                                    </div>
                                 </Link>
                             </li>
                         )}
                     </ul>
                 </div>
                 <div className='themeNav'>
-                    <span className='themePrev themeNavBtn NavBtn PrevBtn'><BsChevronLeft className='BtnArrow arrowLeft' /></span>
-                    <span className='themeNext themeNavBtn NavBtn NextBtn'><BsChevronRight className='BtnArrow arrowRight' /></span>
+                    <span data-name='leftBtn' onClick={onMovePrev} className='themePrev themeNavBtn NavBtn PrevBtn'>
+                        <span className='coverUp' ></span><BsChevronLeft className='BtnArrow arrowLeft' />
+                    </span>
+                    <span data-name='rightBtn' onClick={onMoveNext} className='themeNext themeNavBtn NavBtn NextBtn'>
+                        <span className='coverUp' ></span><BsChevronRight className='BtnArrow arrowRight' />
+                    </span>
                 </div>
             </div>
         </section>
