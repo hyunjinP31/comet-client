@@ -4,7 +4,7 @@ import { HiArrowNarrowRight } from 'react-icons/hi'
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../config/contansts';
 
-const Theme = ({ themeData, onClick, onMovePrev, onMoveNext, currentIndex }) => {
+const Theme = ({ themeData, onClick, onMove, currentIndex }) => {
     if (!themeData) return <div>loading</div>;
     //li width 조정
     return (
@@ -33,11 +33,11 @@ const Theme = ({ themeData, onClick, onMovePrev, onMoveNext, currentIndex }) => 
                     </ul>
                 </div>
                 <div className='themeNav'>
-                    <span data-name='leftBtn' onClick={onMovePrev} className='themePrev themeNavBtn NavBtn PrevBtn'>
-                        <span className='coverUp' ></span><BsChevronLeft className='BtnArrow arrowLeft' />
+                    <span data-name='leftBtn' data-value={1} onClick={onMove} className='themePrev themeNavBtn NavBtn PrevBtn'>
+                        <span className='coverUp' data-value={1} ></span><BsChevronLeft className='BtnArrow arrowLeft' />
                     </span>
-                    <span data-name='rightBtn' onClick={onMoveNext} className='themeNext themeNavBtn NavBtn NextBtn'>
-                        <span className='coverUp' ></span><BsChevronRight className='BtnArrow arrowRight' />
+                    <span data-name='rightBtn' data-value={-1} onClick={onMove} className='themeNext themeNavBtn NavBtn NextBtn'>
+                        <span className='coverUp' data-value={-1} ></span><BsChevronRight className='BtnArrow arrowRight' />
                     </span>
                 </div>
             </div>

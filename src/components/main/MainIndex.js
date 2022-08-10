@@ -35,11 +35,11 @@ const MainIndex = () => {
         <>
             <MainSlide />
             <TopRanking topData={topData} onClick={onClick} onMove={onMove} currentIndex={currentIndex}/>
-            <Imminent immiData={immiData} onClick={onClick} />
-            <Theme themeData={themeData} onClick={onClick} />
-            <NewProject newData={newData} onClick={onClick} />
-            <PotentUp potenData={potenData} onClick={onClick} />
-            <CommingSoon comData={comData} onClick={onClick} />
+            <Imminent immiData={immiData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} />
+            <Theme themeData={themeData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} />
+            <NewProject newData={newData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} />
+            <PotentUp potenData={potenData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} />
+            <CommingSoon comData={comData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} />
         </>
     );
 };

@@ -160,8 +160,7 @@ export const viewRaise = (id) => async ( dispatch, getState ) => {
 //좌우 스와이프
 export const sideSwipe = (e) => {
     const {value} = e.target.dataset;
-    const current = parseInt(value)
-    console.log(current)
+    const current = parseInt(value);
     return {
         type: CURRENT_MOVE,
         current
