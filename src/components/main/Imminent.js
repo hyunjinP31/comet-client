@@ -9,8 +9,8 @@ const Imminent = ({ immiData, onClick }) => {
     return (
         <section className='imminent contentWrap'>
             <div className='immiTop topTitle inner'>
-                <h2 className='sectionTitle'>공개예정</h2>
-                <span><span>전체보기</span><HiArrowNarrowRight /></span>
+                <h2 className='sectionTitle'>마감임박</h2>
+                <Link to='/projectlist/마감임박'></Link><span><span>전체보기</span><HiArrowNarrowRight /></span>
             </div>
             <Marquee pauseOnHover={true} speed={54} gradient={false}>
                 <ul className='immiProjects contentSlide'>

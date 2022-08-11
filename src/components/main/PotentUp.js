@@ -1,20 +1,18 @@
 import React from 'react';
-import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
-import { HiArrowNarrowRight } from 'react-icons/hi'
+import { BsChevronRight, BsChevronLeft } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../config/contansts';
 
-const PotentUp = ({ potenData, onClick }) => {
+const PotentUp = ({ potenData, onClick, onMove, currentIndex }) => {
     if (!potenData) return <div>loading</div>;
     return (
         <section className='potentUp inner'>
             <div className='potenTop topTitle inner'>
                 <h2 className='sectionTitle'>요즘 흥하는</h2>
-                <span><span>전체보기</span><HiArrowNarrowRight /></span>
             </div>
             <div className='potenWrap contentWrap'>
                 <div className='potenView contentView'>
-                    <ul className='potenProjects contentSlide'>
+                    <ul style={{ transform: `translateX(${currentIndex.currentPoten * 1200}px)` }} className='potenProjects contentSlide'>
                         {potenData.map(data =>
                             <li className='potenProject contentItem' key={data.id}>
                                 <Link to={`projectDetail/${data.id}`} onClick={() => onClick(data.id)}>
@@ -32,8 +30,12 @@ const PotentUp = ({ potenData, onClick }) => {
                     </ul>
                 </div>
                 <div className='potenNav'>
-                    <span className='potenPrev potenNavBtn NavBtn PrevBtn'><BsChevronLeft className='BtnArrow arrowLeft' /></span>
-                    <span className='potenNext potenNavBtn NavBtn NextBtn'><BsChevronRight className='BtnArrow arrowRight' /></span>
+                    <span style={{display: currentIndex.currentPoten >= 0 ? 'none' : ''}} className='potenPrev potenNavBtn NavBtn PrevBtn'>
+                        <span className='coverUp' onClick={onMove} data-name='currentPoten' data-value={1} ></span><BsChevronLeft className='BtnArrow arrowLeft' />
+                    </span>
+                    <span style={{display: currentIndex.currentPoten <= -2 ? 'none' : ''}} className='potenNext potenNavBtn NavBtn NextBtn'>
+                        <span className='coverUp' onClick={onMove} data-name='currentPoten' data-value={-1} ></span><BsChevronRight className='BtnArrow arrowRight' />
+                    </span>
                 </div>
             </div>
         </section>

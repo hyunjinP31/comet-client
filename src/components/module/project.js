@@ -8,9 +8,12 @@ const GET_PROJECT_ERROR = "project/GET_PROJECT_ERROR";
 const GET_PROJECT_SUCCESS = "project/GET_PROJECT_SUCCESS";
 const SET_PROJECT_INPUT = "project/SET_PROJECT_INPUT";
 const RESET_PROJECT_INPUT = "project/RESET_PROJECT_INPUT";
-const GET_PROJECT_DATA = "project/GET_PROJECT_DETAIL";
+const GET_PROJECT_DATA = "project/GET_PROJECT_DATA";
 const GET_PROJECT_DATA_SUCCESS = "project/GET_PROJECT_DATA_SUCCESS";
 const GET_PROJECT_DATA_ERROR = "project/GET_PROJECT_DATA_ERROR";
+const GET_PROJECT_LIST_DATA = "project/GET_PROJECT_LIST_DATA";
+const GET_PROJECT_LIST_DATA_SUCCESS = "project/GET_PROJECT_LIST_DATA_SUCCESS";
+const GET_PROJECT_LIST_DATA_ERROR = "project/GET_PROJECT_LIST_DATA_ERROR";
 const IMAGE_CHANGING = "project/IMAGE_CHANGING";
 const CURRENT_MOVE = "project/CURRENT_MOVE";
 
@@ -44,6 +47,11 @@ const initialState = {
         data: null,
         error: null
     },
+    projectListData: {
+        loading: false,
+        data: null,
+        error: null
+    },
     isValid: {
         sellerIdValid: true,
         sellerNameValid: true, 
@@ -54,7 +62,11 @@ const initialState = {
         typeValid: false
     },
     projectSideSwipe:{
-        current: 0
+        currentTop: 0,
+        currentTheme: 0,
+        currentNew: 0,
+        currentPoten: 0,
+        currentCom: 0,
     }
 }
 
@@ -133,7 +145,7 @@ export const createProject = () => async ( dispatch, getState ) => {
         console.log(e);
     }
 }
-//프로젝트 개별
+//프로젝트 개별 상세 페이지
 export const getProjectData = (id) => async ( dispatch ) => {
     dispatch({type: GET_PROJECT_DATA});
     try{
@@ -145,8 +157,20 @@ export const getProjectData = (id) => async ( dispatch ) => {
         dispatch({type: GET_PROJECT_DATA_ERROR, error: e});
     }
 }
+//프로젝트 키워드별 상세 페이지
+export const getProjectKeyData = (name) => async (dispatch) => {
+    dispatch({type: GET_PROJECT_LIST_DATA});
+    try{
+        const response = await axios.get(`${API_URL}/projectlist/${name}`);
+        const data = response.data;
+        dispatch({type: GET_PROJECT_LIST_DATA_SUCCESS, data})
+    }
+    catch(e){
+        dispatch({type: GET_PROJECT_LIST_DATA_ERROR, error: e});
+    }
+}
 //조회수 올리기
-export const viewRaise = (id) => async ( dispatch, getState ) => {
+export const viewRaise = (id) => async () => {
     try{
         const response = await axios.get(`${API_URL}/projectdetail/${id}`);
         const view = response.data.projectHits;
@@ -159,10 +183,11 @@ export const viewRaise = (id) => async ( dispatch, getState ) => {
 }
 //좌우 스와이프
 export const sideSwipe = (e) => {
-    const {value} = e.target.dataset;
+    const {name, value} = e.target.dataset;
     const current = parseInt(value);
     return {
         type: CURRENT_MOVE,
+        name,
         current
     }
 }
@@ -244,6 +269,33 @@ export default function project(state = initialState, action) {
                     error: action.error
                 }
             }
+            case GET_PROJECT_LIST_DATA:
+                return {
+                    ...state,
+                    projectListData: {
+                         loading: true,
+                         data: null,
+                         error: null
+                    }
+                }
+            case GET_PROJECT_LIST_DATA_SUCCESS:
+                return {
+                    ...state,
+                    projectListData: {
+                        loading: false,
+                        data: action.data,
+                        error: null
+                    }
+                }
+            case GET_PROJECT_LIST_DATA_ERROR:
+                return {
+                    ...state,
+                    projectListData: {
+                        loading: false,
+                        data: null,
+                        error: action.error
+                    }
+                }
         case IMAGE_CHANGING:
             return {
                 ...state,
@@ -256,7 +308,8 @@ export default function project(state = initialState, action) {
             return {
                 ...state,
                 projectSideSwipe:{
-                    current: state.projectSideSwipe.current + action.current
+                    ...state.projectSideSwipe,
+                    [action.name]: state.projectSideSwipe[action.name] + action.current
                 }
             }
         default:

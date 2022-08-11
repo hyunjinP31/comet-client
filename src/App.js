@@ -7,6 +7,7 @@ import SignUpContainer from './components/container/SignUpContainer';
 import LoginContainer from './components/container/LoginContainer';
 import ProjectDetailContainer from './components/container/ProjectDetailContainer';
 import CreateProjectContainer from './components/container/CreateProjectContainer';
+import ProjectListContainer from './components/container/ProjectListContainer';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/login' element={<LoginContainer />} />
         <Route path='/projectdetail/:id' element={<ProjectDetailContainer />} />
         <Route path='/createproject' element={<CreateProjectContainer />} />
+        <Route path='/projectlist/:name' element={<ProjectListContainer />} />
       </Routes>
       <Footer />
     </div>

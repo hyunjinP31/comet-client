@@ -10,8 +10,8 @@ const ProjectDetailContainer = () => {
     const dispatch = useDispatch();
     useEffect(()=>{
         dispatch(getProjectData(id));
-    },[dispatch])
-    const { loading, data, error} = projectData;
+    },[id])
+    const { loading, data, error } = projectData;
     if( loading ) return <div>loading</div>;
     if(error) return console.log(error);
     if(!data) return null;

@@ -203,14 +203,54 @@ body {
     .formAlert.signValid {
         color: green;
     }
+    //list
+    .listBottom{
+        @include flexlayout($just:flex-start, $wrap:wrap);
+        width: 100%;
+        .listItem {
+            position: relative;
+            width: 23%;
+            &:not(:nth-child(4n+0)){
+                margin-right: 2%;
+            }
+            margin-bottom: 20px;
+            height: 300px;
+        }
+    }
+    .bottomline{
+        width: 100%;
+        height: 3px;
+        background: $mainColor;
+    }
+    .blackCoverBg{
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 30;
+    }
 //global style end
 
 
 
 //header start
+.headerHeight{
+    height: 110px;
+}
+.headerWrap{
+    height: 110px;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    width: 100%;
+    background: $mainWhite;
+    border-bottom: 1px solid #eee;
+}
 .header {
-    height: 80px;
-
     .headerTop {
         @include flexlayout();
 
@@ -260,22 +300,23 @@ body {
                 li {
                     transition: $transition;
                     line-height: 40px;
-
                     &:not(:last-child) {
                         padding-right: $padding;
                     }
 
-                    &::after {
-                        content: "";
+                    .headerLineSpan {
                         display: block;
                         width: 0%;
                         height: 3px;
                         background: $mainColor;
                         transition: $transition;
                     }
+                    .headerLineSpan.bottomLine{
+                        width: 100%;
+                    }
 
                     &:hover {
-                        &::after {
+                        span {
                             content: "";
                             display: block;
                             width: 100%;
@@ -310,11 +351,22 @@ body {
     }
 }
 //header end
+//haederToggle start
+.toggleMenu {
+    transition: 0.5s;
+    ul {
+        @include flexlayout();
+        li{
+            width: 16.6666%;
+            line-height: 100px;
+            text-align: center;
+            font-size: 16px;
+        }
+    }
+}
+//headerToggle end
 
 //mainSlide start
-.mainSlider {
-    margin-top: 50px;
-}
 
 .sliderWrap {
     position: relative;
@@ -471,19 +523,7 @@ body {
 //PotentUp (main) end
 
 //CommingSoon (main) start
-.comBottom{
-    @include flexlayout($just:flex-start, $wrap:wrap);
-    width: 100%;
-    .comProject{
-        position: relative;
-        width: 23.5%;
-        &:not(:nth-child(4n+0)){
-            margin-right: 2%;
-        }
-        margin-bottom: 20px;
-        height: 300px;
-    }
-}
+// 글로벌스타일 list 참조
 //CommingSoon (main) end
 
 //SignUp (detail) start
@@ -692,6 +732,18 @@ body {
     }
 }
 //CreateProject (detail) end
+
+//ProjectList (detail) start
+.projectlistWrap{
+    margin-top: 80px;
+}
+.listTop{
+    .listTitle{
+        padding: 30px 0;
+    }
+}
+//ProjectList (detail) end
+
 
 //Footer start
 footer{

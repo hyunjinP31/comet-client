@@ -1,13 +1,15 @@
 import React from 'react';
 import { BsSuitHeartFill } from 'react-icons/bs';
+import { API_URL } from '../../config/contansts';
 
 const ProjectDetail = ({data}) => {
+    if(!data) return null;
     return (
         <div className='projectDetail inner'>
             <h2 className='pDetailTitle'>{data.projectTitle}</h2>
             <div className='projectDetailWrap'>
                 <div className='pDetailImg'>
-                    <img src={`${process.env.PUBLIC_URL}/images/projects/project1.png`} alt='project' />
+                    <img src={`${API_URL}/upload/${data.projectImg}`} alt='project' />
                 </div>
                 <div className='pDetailInfo'>
                     <ul>
@@ -33,7 +35,7 @@ const ProjectDetail = ({data}) => {
                         </li>
                         <li className='pDetailLikes pDetailflexLi'>
                             <div className='pDetailHit'>조회수: <span>{data.projectHits}</span></div>
-                            <div className='pDetailHeart'>{BsSuitHeartFill}</div>
+                            <div className='pDetailHeart'><BsSuitHeartFill /></div>
                         </li>
                     </ul>
                 </div>
