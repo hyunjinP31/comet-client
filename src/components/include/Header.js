@@ -1,32 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FiSearch } from 'react-icons/fi'
 import { Link } from 'react-router-dom';
 import { getCookie, removeCookie } from '../../util/cookie';
 import { useDispatch, useSelector } from 'react-redux';
-import { headerMenuChange } from '../module/utility';
+import { headerMenuChange, onToggleClick } from '../module/utility';
 import styled, {css} from 'styled-components';
-
-const Header = () => {
-    const headerMenu = useSelector(state => state.utility.headerMenu);
-    const dispatch = useDispatch();
-    const logout = () => {
-        removeCookie('userId');
-        removeCookie('userName');
-    }
-    const onClick = (e) => {
-        dispatch(headerMenuChange(e));
-    }
-    const [isOpen, setIsOpen] = useState(false);
-    const toggleOpen = () => {
-        setIsOpen(!isOpen)
-    }
-
-    const ToggleMenu = styled.div`
+import { loggedOut } from '../module/user';
+const ToggleMenu = styled.div`
         width: 100%;
         height: 100px;
         background: #fff;
         box-shadow: 0 1px 3px #ccc;
-        transition: all 0.2s;
+        transition: 0.3s;
         position: fixed;
         top: -110px;
         left: 0;
@@ -38,10 +23,74 @@ const Header = () => {
                 `
         }
     `;
+const ToggleSpan = styled.span`
+        display: block;
+        width: 25px;
+        height: 3px;
+        background: #222;
+        transition: 0.3s;
+
+        &:not(:last-child) {
+            margin-bottom: 7px;
+        }
+        ${props=>
+            props.isOpen &&
+            css`
+            border-radius: 3px;
+            position: absolute;
+            &:nth-child(1){
+                top: 0;
+            }
+            &:nth-child(2){
+                background: #838dd2;
+                top: 50%;
+                transform: translateY(-50%); 
+            }
+            &:nth-child(3){
+                bottom: 0;
+            }
+            &:not(:nth-child(2)){
+                right: 7px;
+                width: 12px;
+            }
+                
+            `
+        }
+`
+const ToggleDiv = styled.div`
+        transition: 0.3s;
+        position: relative;
+        width: 25px;
+        height: 23px;
+        ${props=>
+            props.isOpen &&
+            css`
+                transform: rotate(-90deg);
+            `
+        }
+`
+
+const Header = () => {
+    const headerMenu = useSelector(state => state.utility.headerMenu);
+    
+    const dispatch = useDispatch();
+    const logout = () => {
+        removeCookie('userId');
+        removeCookie('userName');
+        dispatch(loggedOut());
+    }
+    const onClick = (e) => {
+        dispatch(headerMenuChange(e));
+    }
+    const toggleOpen = () => {
+        dispatch(onToggleClick());
+    }
+
+    
     return (
         <>
             <div className='headerHeight'></div>
-            <ToggleMenu className='toggleMenu' isOpen={isOpen}>
+            <ToggleMenu className='toggleMenu' isOpen={headerMenu.isOpen}>
                     <ul className='inner'>
                         <li>
                             <span>의류</span>
@@ -69,17 +118,17 @@ const Header = () => {
                         <Link to='/'><h1 className='headerLogo'>TEMPUS</h1></Link>
                         <ul>
                             {getCookie('userId') ? <li><Link to='/createproject'>프로젝트 등록</Link></li> : <li></li>}
-                            {getCookie('userId') ? <li onClick={logout}>로그아웃</li> : <li><Link to='/login'>로그인</Link></li>}
+                            {getCookie('userId') ? <li onClick={logout}><Link to='/'>로그아웃</Link></li> : <li><Link to='/login'>로그인</Link></li>}
                             <li><Link to='/signup'>회원가입</Link></li>
                         </ul>
                     </div>
                     <div className='headerBottom'>
                         <div className='headerLeft'>
-                            <div className='toggle' onClick={toggleOpen}>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
+                            <ToggleDiv isOpen={headerMenu.isOpen} className='toggle' onClick={toggleOpen}>
+                                <ToggleSpan isOpen={headerMenu.isOpen}></ToggleSpan>
+                                <ToggleSpan isOpen={headerMenu.isOpen}></ToggleSpan>
+                                <ToggleSpan isOpen={headerMenu.isOpen}></ToggleSpan>
+                            </ToggleDiv>
                             <ul>
                                 <li>
                                     <Link to='/projectlist/인기' onClick={onClick} data-value="1">인기</Link>

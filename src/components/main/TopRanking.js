@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BsChevronRight, BsChevronLeft } from 'react-icons/bs';
+import { FaRegHeart, FaHeart } from 'react-icons/fa'
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../config/contansts';
 
-const TopRanking = ({ topData, onClick, onMove, currentIndex }) => {
+const TopRanking = ({ topData, onClick, onMove, currentIndex, heartfilling, heart, trickHeart }) => {
     if (!topData) return <div>loading</div>;
+    let like;
+    if(heart) like = heart.map(like=> like.projectTitle);
+    console.log(trickHeart)
+    
     return (
         <section className='topRanking inner'>
             <div className='topTop topTitle inner'>
@@ -21,12 +26,16 @@ const TopRanking = ({ topData, onClick, onMove, currentIndex }) => {
                                     <div className='topImg contentImg'>
                                         <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
                                     </div>
-                                    <div className='topText contextInnerText'>
+                                </Link>
+                                <div className='topText contentInnerText'>
+                                <span>{heart ? (trickHeart !== []? (trickHeart.includes(data.projectTitle) ? <FaHeart className='fullHeart'/>: '') : '') : ''}</span>
+                                <span onClick={()=>heartfilling(data, data.projectTitle)}>{heart ? (like.includes(data.projectTitle) ? <FaHeart className='fullHeart'/> : <FaRegHeart className='emptyHeart' />) : <FaRegHeart className='emptyHeart' />}</span>
+                                    <Link to={`projectDetail/${data.id}`} onClick={() => onClick(data.id)}>
                                         <h3>{data.projectTitle}</h3>
                                         <p>{data.projectPrice}</p>
                                         <p>{data.sellerName}</p>
-                                    </div>
-                                </Link>
+                                    </Link>
+                                </div>
                             </li>
                         )}
                     </ul>

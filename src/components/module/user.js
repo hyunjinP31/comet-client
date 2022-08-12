@@ -12,6 +12,8 @@ const INPUT_VALID_FALSE = "user/INPUT_VALID_FALSE";
 const RESET_INPUT_VALID = "user/RESET_INPUT_VALID";
 const SET_LOGIN_INPUT = "user/SET_LOGIN_INPUT";
 const RESET_LOGIN_INPUT = "user/RESET_LOGIN_INPUT";
+const USER_LOGGED_IN = "user/USER_LOGGED_IN";
+const USER_LOGGED_OUT = "user/USER_LOGGED_OUT";
 const initialState = {
     user: {
         loading: false,
@@ -40,6 +42,7 @@ const initialState = {
     loginUser: {
         userId: "",
         userPw: "",
+        isLogged: false,
     }
 }
 
@@ -152,6 +155,17 @@ export const resetLoginInput = () => {
         type: RESET_LOGIN_INPUT
     }
 }
+//login 확인
+export const loggedIn = () => {
+    return {
+        type: USER_LOGGED_IN
+    }
+}
+export const loggedOut = () => {
+    return {
+        type: USER_LOGGED_OUT
+    }
+}
 
 // 리듀서
 export default function user(state = initialState, action) {
@@ -249,6 +263,22 @@ export default function user(state = initialState, action) {
                     ...state.loginUser,
                     userId: "",
                     userPw: "",
+                }
+            }
+        case USER_LOGGED_IN:
+            return {
+                ...state,
+                loginUser: {
+                    ...state.loginUser,
+                    isLogged: true,
+                }
+            }
+        case USER_LOGGED_OUT:
+            return {
+                ...state,
+                loginUser: {
+                    ...state.loginUser,
+                    isLogged: false,
                 }
             }
         default:
