@@ -91,22 +91,58 @@ body {
         //Slide에 height 설정 해주면 됨
         .contentSlide {
             width: 100%;
-            @include flexlayout();
+            transition: 0.3s;
+            @include flexlayout($just: flex-start);
 
             .contentItem {
-                background: dodgerblue;
                 flex-shrink: 0;
                 height: 100%;
                 position: relative;
             }
         }
-        .contextInnerText {
-            position: absolute;
-            left: 0;
-            bottom: 0;
+    }
+    .contentImg {
+        height: 70%;
+    
+        img {
             width: 100%;
-            background: $mainWhite;
-            padding: $padding;
+            height: 100%;
+        }
+    }
+    .contentInnerText {
+        height: 30%;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background: $mainWhite;
+        padding: $padding;
+        h3 {
+            font-size: 18px;
+        }
+        span {
+            font-size: 20px;
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 50;
+            display: block;
+
+            .emptyHeart{
+                    color: $mainGray;
+            }
+            .fullHeart{
+                color: red;
+            }
+        }
+        p {
+            &:first-of-type{
+                padding: 10px 0;
+            }
+            &:nth-of-type(2) {
+                font-size: 12px;
+                color: $mainGray;
+            }
         }
     }
 
@@ -143,6 +179,14 @@ body {
     .sectionTitle {
         font-size: $fontSize28;
     }
+    .coverUp{
+        display: block;
+        width: inherit;
+        height: inherit;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
     //slide content(main-click-slide) end
     .topTitle{
         @include flexlayout($align:flex-start);
@@ -167,14 +211,61 @@ body {
         font-size: 18px;
         font-weight: bold;
     }
+    .formAlert {
+        font-size: 12px;
+        color: crimson;
+    }
+    .formAlert.signValid {
+        color: green;
+    }
+    //list
+    .listBottom{
+        @include flexlayout($just:flex-start, $wrap:wrap);
+        width: 100%;
+        .listItem {
+            position: relative;
+            width: 23%;
+            &:not(:nth-child(4n+0)){
+                margin-right: 2%;
+            }
+            margin-bottom: 20px;
+            height: 300px;
+        }
+    }
+    .bottomline{
+        width: 100%;
+        height: 3px;
+        background: $mainColor;
+    }
+    .blackCoverBg{
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 30;
+    }
 //global style end
 
 
 
 //header start
+.headerHeight{
+    height: 110px;
+}
+.headerWrap{
+    height: 110px;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    width: 100%;
+    background: $mainWhite;
+    border-bottom: 1px solid #eee;
+}
 .header {
-    height: 80px;
-
     .headerTop {
         @include flexlayout();
 
@@ -204,17 +295,6 @@ body {
 
             .toggle {
                 margin-right: 24px;
-
-                span {
-                    display: block;
-                    width: 25px;
-                    height: 3px;
-                    background: $mainBlack;
-
-                    &:not(:last-child) {
-                        margin-bottom: 7px;
-                    }
-                }
             }
 
             ul {
@@ -224,23 +304,23 @@ body {
                 li {
                     transition: $transition;
                     line-height: 40px;
-
                     &:not(:last-child) {
                         padding-right: $padding;
                     }
 
-                    &::after {
-                        content: "";
+                    .headerLineSpan {
                         display: block;
                         width: 0%;
                         height: 3px;
                         background: $mainColor;
                         transition: $transition;
                     }
+                    .headerLineSpan.bottomLine{
+                        width: 100%;
+                    }
 
                     &:hover {
-                        &::after {
-                            content: "";
+                        span {
                             display: block;
                             width: 100%;
                             height: 3px;
@@ -274,11 +354,21 @@ body {
     }
 }
 //header end
+//haederToggle start
+.toggleMenu {
+    ul {
+        @include flexlayout();
+        li{
+            width: 16.6666%;
+            line-height: 100px;
+            text-align: center;
+            font-size: 16px;
+        }
+    }
+}
+//headerToggle end
 
 //mainSlide start
-.mainSlider {
-    margin-top: 50px;
-}
 
 .sliderWrap {
     position: relative;
@@ -358,19 +448,6 @@ body {
                 width: 23%;
                 border-radius: 10px;
                 overflow: hidden;
-                .topText {
-                    height: 150px;
-                    h3 {
-                        font-size: 18px;
-                    }
-                    p {
-                        padding: 10px 0;
-                        &:nth-of-type(2) {
-                            font-size: 12px;
-                            color: $mainGray;
-                        }
-                    }
-                }
             }
         }
     }
@@ -380,13 +457,22 @@ body {
 .imminent{
     margin-top: 50px;
     .immiProjects{
-        width: 150vw;
-        height: 250px;
+        width: calc(450px * 10);
+        height: 350px;
         justify-content: flex-start;
         li{
-            width: 300px;
+            width: 400px;
             margin-right: 50px;
-            background: hotpink;
+        }
+        .immiText{
+            @include flexlayout($dir: column, $align: flex-start);
+            span {
+                font-size: 18px;
+                padding-left: 10px;
+            }
+        }
+        h3{
+            font-size: 20px;
         }
     }
 }
@@ -399,12 +485,9 @@ body {
             height: 350px;
         }
         .themeProject{
-            width: 18%;
-            margin-right: 2%;
+            width: 20%;
+            padding-right: 2%;
             overflow: hidden;
-        }
-        .themeText{
-            height: 130px;
         }
     }
 }
@@ -420,9 +503,6 @@ body {
             width: 18%;
             margin-right: 2%;
             overflow: hidden;
-        }
-        .newText{
-            height: 130px;
         }
     }
 }
@@ -440,27 +520,12 @@ body {
             border-radius: 10px;
             overflow: hidden;
         }
-        .potenText{
-            height: 130px;
-        }
     }
 }
 //PotentUp (main) end
 
 //CommingSoon (main) start
-.comBottom{
-    @include flexlayout($just:flex-start, $wrap:wrap);
-    width: 100%;
-    .comProject{
-        width: 23.5%;
-        &:not(:nth-child(4n+0)){
-            margin-right: 2%;
-        }
-        margin-bottom: 20px;
-        height: 300px;
-        background: indianred;
-    }
-}
+// 글로벌스타일 list 참조
 //CommingSoon (main) end
 
 //SignUp (detail) start
@@ -509,13 +574,6 @@ body {
                 margin-top: 10px;
             }
         }
-    }
-    .formAlert {
-        font-size: 12px;
-        color: crimson;
-    }
-    .formAlert.signValid {
-        color: green;
     }
 }
 //SignUp (detail) end
@@ -620,9 +678,13 @@ body {
         input {
             width: 500px;
             height: 50px;
-            padding-left: 10px;
+            padding: 0 10px;
             outline: none;
             @include border();
+            margin: 5px 0;
+        }
+        input.inValid {
+            border: 2px solid crimson;
         }
         input[type="file"] {
             width: 200px;
@@ -672,6 +734,18 @@ body {
     }
 }
 //CreateProject (detail) end
+
+//ProjectList (detail) start
+.projectlistWrap{
+    margin-top: 80px;
+}
+.listTop{
+    .listTitle{
+        padding: 30px 0;
+    }
+}
+//ProjectList (detail) end
+
 
 //Footer start
 footer{

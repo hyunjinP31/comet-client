@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import Login from '../detail/Login';
-import {getLogin, resetLoginInput, setLoginInput} from '../module/user'
+import {getLogin, loggedIn, resetLoginInput, setLoginInput} from '../module/user'
 import { useNavigate } from 'react-router';
 import { setCookie } from '../../util/cookie';
 
@@ -28,6 +28,7 @@ const LoginContainer = () => {
                 expires.setMinutes(expires.getMinutes()+60);
                 setCookie('userId', `${userId}`, {path: '/', expires} );
                 setCookie('userName', `${userName}`, {path: '/', expires} );
+                dispatch(loggedIn())
                 navigate('/');
             }
         })

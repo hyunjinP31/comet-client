@@ -125,7 +125,7 @@ const SignUpContainer = () => {
         let inputs = SignUpInputs.current;
         for (let i = 0; i < inputs.length; i++) {
             if (inputs[i].dataset.valid === 'false') {
-                inputs[i].className += ' signInvalid';
+                inputs[i].classList.add('signInvalid');
                 return inputs[i].focus();
             }else {
                 inputs[i].classList.remove('signInvalid');

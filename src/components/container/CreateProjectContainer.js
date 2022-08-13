@@ -1,31 +1,52 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import CreateProject from '../detail/CreateProject';
 import { useSelector, useDispatch } from 'react-redux/es/exports';
-import { createProject, setImageUrl, setProjectInput } from '../module/project';
-import axios from 'axios';
-import { API_URL } from '../../config/contansts';
+import { createProject,  setProjectInput, imageChange} from '../module/project';
 
 const CreateProjectContainer = () => {
     const addProject = useSelector(state=>state.project.addProject);
+    const projectInputs = useRef([]);
     const dispatch = useDispatch();
+
     const onChange = (e) => {
         dispatch(setProjectInput(e));
+        let inputs = projectInputs.current;
+        for (let i = 0; i < inputs.length ; i++){
+            inputs[i].classList.remove('inValid');
+            document.querySelector(`.${inputs[i].name}Alert`).innerHTML = "";
+        }
     }
     const onSubmit = (e) => {
         e.preventDefault();
-        // createProject();
-        console.log(addProject)
+        let inputs = projectInputs.current;
+        for (let i = 0; i < inputs.length ; i++){
+            if(inputs[i].value === ""){
+                inputs[i].classList.add('inValid');
+                document.querySelector(`.${inputs[i].name}Alert`).innerHTML = "필수입력사항 입니다.";
+                return inputs[i].focus();
+            }else{
+                document.querySelector(`.${inputs[i].name}Alert`).innerHTML = "";
+                inputs[i].classList.remove('inValid');
+            }
+        }
+        dispatch(createProject());
     }
-    const onImageChange = (e)=>{
-        const { name } = e.target;
-        const imageFormData = new FormData();
-        imageFormData.append(name, e.target.files[0]);
-        axios.post(`${API_URL}/upload`, imageFormData, {
-            Headers: { 'content-type': 'multipart/form-data' },
-        }).then(res=>{
-            dispatch(setImageUrl(e, res.data.projectImg))
-        }).catch(e=> console.log(e))
-        
+    const onImageChange = (e) => {
+        dispatch(imageChange(e));
+    }
+    const numberOnly = (e) =>{
+        let { name, value } = e.target;
+        if(name === 'projectPrice' && isNaN(value)){
+            value = "";
+            return document.querySelector('.projectPriceAlert').innerHTML = "숫자만 입력가능합니다.";
+        }
+        if(name === 'projectGoal' && isNaN(value)){
+            value = "";
+            return document.querySelector('.projectGoalAlert').innerHTML = "숫자만 입력가능합니다.";
+        }
+        if ( name === 'projectPrice') document.querySelector('.projectPriceAlert').innerHTML = "";
+        else document.querySelector('.projectGoalAlert').innerHTML = "";
+        dispatch(setProjectInput(e));
     }
     return (
         <div>
@@ -34,6 +55,8 @@ const CreateProjectContainer = () => {
             onChange={onChange}
             onSubmit={onSubmit}
             onImageChange={onImageChange}
+            numberOnly={numberOnly}
+            ref={projectInputs}
              />
         </div>
     );
