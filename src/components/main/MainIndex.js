@@ -9,20 +9,18 @@ import TopRanking from './TopRanking';
 import { useSelector, useDispatch } from 'react-redux';
 import { printMain, sideSwipe, viewRaise } from '../module/project';
 import { getCookie } from '../../util/cookie';
-import { addHeart, getHeart, giveHeart, heartTrick } from '../module/heart';
+import { addHeart, deleteHeart, emptyHeartTrick, emptyHeartTrickDelete, fullHeartTrick, fullHeartTrickDelete, getHeart, giveHeart } from '../module/heart';
 
 const MainIndex = () => {
     const dispatch = useDispatch();
     const project = useSelector(state => state.project.project);
     const currentIndex = useSelector(state=>state.project.projectSideSwipe);
     const heart = useSelector(state=> state.heart.heartData);
-    const givenHeart = useSelector(state=> state.heart.projectGivenHeart)
-    const trickHeart = useSelector(state=> state.heart.trickHeart)
-    const list = useSelector(state=> state.utility.list);
+    const trickFullHeart = useSelector(state=> state.heart.trickHeart.full);
+    const trickEmptyHeart = useSelector(state=>state.heart.trickHeart.empty);
     const { loading, data, error } = project;
     const { loading: hLoading, data: hData, error: hError } = heart;
     const userId = getCookie('userId');
-
     //메인 데이터 받아오기
     useEffect(() => {
         dispatch(printMain());
@@ -43,7 +41,8 @@ const MainIndex = () => {
         if(hError) return <div>error</div>;
         if(!hData) return null;
     }
-    
+    let like;
+    if(hData) like = hData.map(like => like.projectTitle);
     const { topData, immiData, themeData, newData, potenData, comData } = data;
 
     const onClick = (id) => {
@@ -55,20 +54,27 @@ const MainIndex = () => {
     const heartfilling = (data, title) => {
         if(!userId) return alert('로그인을 먼저 해주세요');
         else {
-            dispatch(heartTrick(title))
-            dispatch(giveHeart(data));
-            dispatch(addHeart());
+            if(trickFullHeart.includes(title)) {
+                dispatch(fullHeartTrickDelete(title));
+                dispatch(emptyHeartTrick(title));
+                dispatch(deleteHeart(title))
+            }else {
+                dispatch(emptyHeartTrickDelete(title));
+                dispatch(fullHeartTrick(title));
+                dispatch(giveHeart(data));
+                dispatch(addHeart());
+            }
         }
     }
     return (
         <>
             <MainSlide />
-            <TopRanking topData={topData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} heartfilling={heartfilling} list={list} heart={hData} trickHeart={trickHeart}/>
-            <Imminent immiData={immiData} heartfilling={heartfilling} list={list} />
-            <Theme themeData={themeData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} heartfilling={heartfilling} list={list} />
-            <NewProject newData={newData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} heartfilling={heartfilling} list={list} />
-            <PotentUp potenData={potenData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} heartfilling={heartfilling} list={list} />
-            <CommingSoon comData={comData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} heartfilling={heartfilling} list={list} />
+            <TopRanking topData={topData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} heartfilling={heartfilling} heart={hData} trickFullHeart={trickFullHeart} like={like} trickEmptyHeart={trickEmptyHeart}/>
+            <Imminent immiData={immiData} heartfilling={heartfilling} heart={hData} trickFullHeart={trickFullHeart} like={like} trickEmptyHeart={trickEmptyHeart} />
+            <Theme themeData={themeData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} heartfilling={heartfilling} heart={hData} trickFullHeart={trickFullHeart} like={like} trickEmptyHeart={trickEmptyHeart} />
+            <NewProject newData={newData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} heartfilling={heartfilling} heart={hData} trickFullHeart={trickFullHeart} like={like} trickEmptyHeart={trickEmptyHeart} />
+            <PotentUp potenData={potenData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} heartfilling={heartfilling} heart={hData} trickFullHeart={trickFullHeart} like={like} trickEmptyHeart={trickEmptyHeart} />
+            <CommingSoon comData={comData} onClick={onClick} heartfilling={heartfilling} heart={hData} trickFullHeart={trickFullHeart} like={like} trickEmptyHeart={trickEmptyHeart} />
         </>
     );
 };

@@ -1,10 +1,11 @@
 import React from 'react';
 import Marquee from 'react-fast-marquee';
 import { HiArrowNarrowRight } from 'react-icons/hi'
+import { FaRegHeart, FaHeart } from 'react-icons/fa'
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../config/contansts';
 
-const Imminent = ({ immiData, onClick }) => {
+const Imminent = ({ immiData, onClick, heartfilling, heart, trickFullHeart, like, trickEmptyHeart }) => {
     if (!immiData) return <div>loading</div>;
     return (
         <section className='imminent contentWrap'>
@@ -20,11 +21,16 @@ const Imminent = ({ immiData, onClick }) => {
                                 <div className='immiImg contentImg'>
                                     <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
                                 </div>
-                                <div className='immiText contextInnerText'>
+                            </Link>
+                            <div className='immiText contentInnerText'>
+                            <span className='heart'>{heart ? (trickEmptyHeart !== [] ? (trickEmptyHeart.includes(data.projectTitle) ? <FaRegHeart className='trickEmptyHeart' /> : '') : '') : ''}</span>
+                                <span className='heart'>{heart ? (trickFullHeart !== [] ? (trickFullHeart.includes(data.projectTitle) ? <FaHeart className='fullHeart' /> : '') : '') : ''}</span>
+                                <span className='heart' onClick={() => heartfilling(data, data.projectTitle)}>{heart ? (like.includes(data.projectTitle) ? <FaHeart className='fullHeart' /> : <FaRegHeart className='emptyHeart' />) : <FaRegHeart className='emptyHeart' />}</span>
+                                <Link to={`projectDetail/${data.id}`} onClick={() => onClick(data.id)}>
                                     <h3>{data.projectTitle}</h3>
                                     <p>마감일 <span>{data.deadLine}</span></p>
-                                </div>
-                            </Link>
+                                </Link>
+                            </div>
                         </li>
                     )}
                 </ul>

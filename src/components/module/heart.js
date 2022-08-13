@@ -7,7 +7,13 @@ const RESET_GIVE_HEART = "heart/RESET_GIVE_HEART";
 const GET_HEART_DATA = "heart/GET_HEART_DATA";
 const GET_HEART_DATA_SUCCESS = "heart/GET_HEART_DATA_SUCCESS";
 const GET_HEART_DATA_ERROR = "heart/GET_HEART_DATA_ERROR";
-const TRICK_HEART = "heart/TRICK_HEART";
+const TRICK_FULL_HEART = "heart/TRICK_FULL_HEART";
+const RESET_TRICK_FULL_HEART = "heart/RESET_TRICK_FULL_HEART";
+const DELETE_TRICK_FULL_HEART = "heart/DELETE_TRICK_FULL_HEART";
+const TRICK_EMPTY_HEART = "heart/TRICK_EMPTY_HEART";
+const RESET_TRICK_EMPTY_HEART = "heart/RESET_TRICK_EMPTY_HEART";
+const DELETE_TRICK_EMPTY_HEART = "heart/DELETE_TRICK_EMPTY_HEART";
+
 
 
 const initialState = {
@@ -23,7 +29,10 @@ const initialState = {
         data: null,
         error: null
     },
-    trickHeart: [],
+    trickHeart: {
+        empty: [],
+        full: [],
+    },
 }
 //좋아요 데이터 리셋
 export const resetHeartData = () => {
@@ -63,11 +72,47 @@ export const getHeart = () => async (dispatch) => {
         dispatch({type: GET_HEART_DATA_ERROR, e});
     }
 }
-export const heartTrick = (title) => {
-    console.log(title)
+export const deleteHeart = (title) => async () => {
+    try{
+        await axios.delete(`${API_URL}/deleteHeart/${title}`);
+        alert('찜 목록에서 삭제되었습니다.');
+    }
+    catch(e){
+        console.log(e);
+    }
+}
+export const fullHeartTrick = (title) => {
     return {
-        type: TRICK_HEART,
+        type: TRICK_FULL_HEART,
         title
+    }
+}
+export const fullHeartTrickDelete = (title) =>{
+    return {
+        type: DELETE_TRICK_FULL_HEART,
+        title
+    }
+}
+export const fullHeartTrickReset = () =>{
+    return {
+        type: RESET_TRICK_FULL_HEART
+    }
+}
+export const emptyHeartTrick = (title) => {
+    return {
+        type: TRICK_EMPTY_HEART,
+        title
+    }
+}
+export const emptyHeartTrickDelete = (title) =>{
+    return {
+        type: DELETE_TRICK_EMPTY_HEART,
+        title
+    }
+}
+export const emptyHeartTrickReset = () =>{
+    return {
+        type: RESET_TRICK_EMPTY_HEART
     }
 }
 
@@ -122,13 +167,59 @@ export default function heart (state=initialState, action) {
                     error: action.error,
                 }
             }
-        case TRICK_HEART:
+        case TRICK_FULL_HEART:
             return {
                 ...state,
-                trickHeart: [
+                trickHeart: {
                     ...state.trickHeart,
-                    action.title
-                ]
+                    full: [
+                        ...state.trickHeart.full,
+                        action.title
+                    ]
+                }
+            }
+        case RESET_TRICK_FULL_HEART:
+            return {
+                ...state,
+                trickHeart: {
+                    ...state.trickHeart,
+                    full: []
+                }
+            }
+        case DELETE_TRICK_FULL_HEART:
+            return {
+                ...state,
+                trickHeart: {
+                    ...state.trickHeart,
+                    full : state.trickHeart.full.filter(like => action.title !== like)
+                }
+            }
+            case TRICK_EMPTY_HEART:
+            return {
+                ...state,
+                trickHeart: {
+                    ...state.trickHeart,
+                    empty: [
+                        ...state.trickHeart.empty,
+                        action.title
+                    ]
+                }
+            }
+        case RESET_TRICK_EMPTY_HEART:
+            return {
+                ...state,
+                trickHeart: {
+                    ...state.trickHeart,
+                    empty: []
+                }
+            }
+        case DELETE_TRICK_EMPTY_HEART:
+            return {
+                ...state,
+                trickHeart: {
+                    ...state.trickHeart,
+                    empty : state.trickHeart.empty.filter(like => action.title !== like)
+                }
             }
         default:
             return state;

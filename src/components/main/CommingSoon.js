@@ -1,9 +1,10 @@
 import React from 'react';
 import { HiArrowNarrowRight } from 'react-icons/hi'
+import { FaRegHeart, FaHeart } from 'react-icons/fa'
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../config/contansts';
 
-const CommingSoon = ({ comData, onClick }) => {
+const CommingSoon = ({ comData, onClick, heartfilling, heart, trickFullHeart, like, trickEmptyHeart }) => {
     if (!comData) return <div>loading</div>;
     return (
         <section className='commingSoon inner listWrap'>
@@ -18,12 +19,18 @@ const CommingSoon = ({ comData, onClick }) => {
                             <div className='comImg contentImg'>
                                 <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
                             </div>
-                            <div className='comText contextInnerText'>
+                        </Link>
+                        <div className='comText contentInnerText'>
+                            <span className='heart'>{heart ? (trickEmptyHeart !== [] ? (trickEmptyHeart.includes(data.projectTitle) ? <FaRegHeart className='trickEmptyHeart' /> : '') : '') : ''}</span>
+                            <span className='heart'>{heart ? (trickFullHeart !== [] ? (trickFullHeart.includes(data.projectTitle) ? <FaHeart className='fullHeart' /> : '') : '') : ''}</span>
+                            <span className='heart' onClick={() => heartfilling(data, data.projectTitle)}>{heart ? (like.includes(data.projectTitle) ? <FaHeart className='fullHeart' /> : <FaRegHeart className='emptyHeart' />) : <FaRegHeart className='emptyHeart' />}</span>
+                            <Link to={`projectDetail/${data.id}`} onClick={() => onClick(data.id)}>
                                 <h3>{data.projectTitle}</h3>
                                 <p>{data.projectPrice}</p>
                                 <p>{data.sellerName}</p>
-                            </div>
-                        </Link>
+                            </Link>
+                        </div>
+
                     </li>
                 )}
             </ul>

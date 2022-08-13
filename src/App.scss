@@ -120,19 +120,30 @@ body {
         h3 {
             font-size: 18px;
         }
-        span {
+        .heart {
             font-size: 20px;
             position: absolute;
             top: 16px;
             right: 16px;
-            z-index: 50;
             display: block;
 
             .emptyHeart{
                     color: $mainGray;
             }
+            .trickEmptyHeart{
+                color: $mainGray;
+                background: $mainWhite;
+                position: absolute;
+                right: 0;
+                top: 4px;
+                z-index: 11;
+            }
             .fullHeart{
                 color: red;
+                position: absolute;
+                right: 0;
+                top: 4px;
+                z-index: 10;
             }
         }
         p {
@@ -466,9 +477,11 @@ body {
         }
         .immiText{
             @include flexlayout($dir: column, $align: flex-start);
-            span {
-                font-size: 18px;
-                padding-left: 10px;
+            a {
+                span {
+                    font-size: 18px;
+                    padding-left: 10px;
+                }
             }
         }
         h3{
