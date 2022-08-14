@@ -85,7 +85,7 @@ const Header = () => {
     const toggleOpen = () => {
         dispatch(onToggleClick());
     }
-
+    const userId = getCookie('userId');
     
     return (
         <>
@@ -117,9 +117,9 @@ const Header = () => {
                     <div className='headerTop'>
                         <Link to='/'><h1 className='headerLogo'>TEMPUS</h1></Link>
                         <ul>
-                            {getCookie('userId') ? <li><Link to='/createproject'>프로젝트 등록</Link></li> : <li></li>}
-                            {getCookie('userId') ? <li onClick={logout}><Link to='/'>로그아웃</Link></li> : <li><Link to='/login'>로그인</Link></li>}
-                            <li><Link to='/signup'>회원가입</Link></li>
+                            {userId ? <li><Link to='/createproject'>프로젝트 등록</Link></li> : <li></li>}
+                            {userId ? <li onClick={logout}><Link to='/'>로그아웃</Link></li> : <li><Link to='/login'>로그인</Link></li>}
+                            <li>{userId ? <Link to={`/mypage/${userId}/*`}>내정보</Link> : <Link to='/signup'>회원가입</Link>}</li>
                         </ul>
                     </div>
                     <div className='headerBottom'>

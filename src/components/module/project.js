@@ -16,6 +16,9 @@ const GET_PROJECT_LIST_DATA_SUCCESS = "project/GET_PROJECT_LIST_DATA_SUCCESS";
 const GET_PROJECT_LIST_DATA_ERROR = "project/GET_PROJECT_LIST_DATA_ERROR";
 const IMAGE_CHANGING = "project/IMAGE_CHANGING";
 const CURRENT_MOVE = "project/CURRENT_MOVE";
+const GET_MYPROJECT_LIST_DATA = "project/GET_MYPROJECT_LIST_DATA";
+const GET_MYPROJECT_LIST_DATA_SUCCESS = "project/GET_MYPROJECT_LIST_DATA_SUCCESS";
+const GET_MYPROJECT_LIST_DATA_ERROR = "project/GET_MYPROJECT_LIST_DATA_ERROR";
 
 //초깃값
 const initialState = {
@@ -52,16 +55,21 @@ const initialState = {
         data: null,
         error: null
     },
+    myProjectListData: {
+        loading: false,
+        data: null,
+        error: null
+    },
     isValid: {
         sellerIdValid: true,
-        sellerNameValid: true, 
+        sellerNameValid: true,
         titleValid: false,
         priceValid: false,
         goalValid: false,
         endDataValid: false,
         typeValid: false
     },
-    projectSideSwipe:{
+    projectSideSwipe: {
         currentTop: 0,
         currentTheme: 0,
         currentNew: 0,
@@ -90,20 +98,20 @@ export const setImageUrl = (e, imgUrl) => {
 }
 //메인 화면에 프로젝트 뿌리기
 export const printMain = () => async (dispatch) => {
-    dispatch({type:GET_PROJECT});
-    try{
+    dispatch({ type: GET_PROJECT });
+    try {
         const topResponse = await axios.get(`${API_URL}/topranking`);
-        const topRes =  topResponse.data;
+        const topRes = topResponse.data;
         const immiResponse = await axios.get(`${API_URL}/imminent`);
-        const immiRes =  immiResponse.data;
+        const immiRes = immiResponse.data;
         const themeResponse = await axios.get(`${API_URL}/theme`);
-        const themeRes =  themeResponse.data;
+        const themeRes = themeResponse.data;
         const newResponse = await axios.get(`${API_URL}/newproject`);
-        const newtopRes =  newResponse.data;
+        const newtopRes = newResponse.data;
         const potenResponse = await axios.get(`${API_URL}/potenup`);
-        const potenRes =  potenResponse.data;
+        const potenRes = potenResponse.data;
         const comResponse = await axios.get(`${API_URL}/commingsoon`);
-        const comRes =  comResponse.data;
+        const comRes = comResponse.data;
         const project = {
             topData: topRes,
             immiData: immiRes,
@@ -112,78 +120,90 @@ export const printMain = () => async (dispatch) => {
             potenData: potenRes,
             comData: comRes,
         }
-        dispatch({type:GET_PROJECT_SUCCESS, project});
+        dispatch({ type: GET_PROJECT_SUCCESS, project });
     }
-    catch(e){
-        dispatch({type:GET_PROJECT_ERROR, error: e});
+    catch (e) {
+        dispatch({ type: GET_PROJECT_ERROR, error: e });
     }
 }
 //이미지 업로드
-export const imageChange = (e) => async ( dispatch )=> {
-    try{
+export const imageChange = (e) => async (dispatch) => {
+    try {
         const { name } = e.target;
         const imageFormData = new FormData();
         imageFormData.append(name, e.target.files[0]);
         const response = await axios.post(`${API_URL}/upload`, imageFormData, {
-            Headers: { 'content-type': 'multipart/form-data'},
+            Headers: { 'content-type': 'multipart/form-data' },
         })
         const imgUrl = response.data.projectImg;
         dispatch(setImageUrl(e, imgUrl));
     }
-    catch(e){
+    catch (e) {
         console.log(e);
     }
 }
 //프로젝트 등록
-export const createProject = () => async ( dispatch, getState ) => {
+export const createProject = () => async (dispatch, getState) => {
     const projectData = getState().project.addProject;
-    try{
+    try {
         await axios.post(`${API_URL}/createproject`, projectData);
         dispatch({ type: RESET_PROJECT_INPUT });
     }
-    catch(e){
+    catch (e) {
         console.log(e);
     }
 }
 //프로젝트 개별 상세 페이지
-export const getProjectData = (id) => async ( dispatch ) => {
-    dispatch({type: GET_PROJECT_DATA});
-    try{
+export const getProjectData = (id) => async (dispatch) => {
+    dispatch({ type: GET_PROJECT_DATA });
+    try {
         const response = await axios.get(`${API_URL}/projectdetail/${id}`)
         const data = response.data;
-        dispatch({type: GET_PROJECT_DATA_SUCCESS, data})
+        dispatch({ type: GET_PROJECT_DATA_SUCCESS, data })
     }
-    catch(e){
-        dispatch({type: GET_PROJECT_DATA_ERROR, error: e});
+    catch (e) {
+        dispatch({ type: GET_PROJECT_DATA_ERROR, error: e });
     }
 }
 //프로젝트 키워드별 상세 페이지
 export const getProjectKeyData = (name) => async (dispatch) => {
-    dispatch({type: GET_PROJECT_LIST_DATA});
-    try{
+    dispatch({ type: GET_PROJECT_LIST_DATA });
+    try {
         const response = await axios.get(`${API_URL}/projectlist/${name}`);
         const data = response.data;
-        dispatch({type: GET_PROJECT_LIST_DATA_SUCCESS, data})
+        dispatch({ type: GET_PROJECT_LIST_DATA_SUCCESS, data })
+    }
+    catch (e) {
+        dispatch({ type: GET_PROJECT_LIST_DATA_ERROR, error: e });
+    }
+}
+//내가 올린 프로젝트 리스트 불러오기
+export const getMyProjectList = (userId) => async (dispatch) => {
+    dispatch({type: GET_MYPROJECT_LIST_DATA});
+    try{
+        const response = await axios.get(`${API_URL}/myproject/${userId}`);
+        const data= response.data;
+        dispatch({type: GET_MYPROJECT_LIST_DATA_SUCCESS, data});
     }
     catch(e){
-        dispatch({type: GET_PROJECT_LIST_DATA_ERROR, error: e});
+        dispatch({type: GET_MYPROJECT_LIST_DATA_ERROR, error: e})
     }
 }
 //조회수 올리기
 export const viewRaise = (id) => async () => {
-    try{
+    try {
         const response = await axios.get(`${API_URL}/projectdetail/${id}`);
         const view = response.data.projectHits;
         let newnum = { view: view + 1 };
         await axios.put(`${API_URL}/projectview/${id}`, newnum);
     }
-    catch(e){
+    catch (e) {
         console.log(e);
     }
 }
 //좌우 스와이프
 export const sideSwipe = (e) => {
-    const {name, value} = e.target.dataset;
+    const { name, value } = e.target.dataset;
     const current = parseInt(value);
     return {
         type: CURRENT_MOVE,
@@ -246,9 +266,9 @@ export default function project(state = initialState, action) {
             return {
                 ...state,
                 projectData: {
-                     loading: true,
-                     data: null,
-                     error: null
+                    loading: true,
+                    data: null,
+                    error: null
                 }
             }
         case GET_PROJECT_DATA_SUCCESS:
@@ -269,37 +289,64 @@ export default function project(state = initialState, action) {
                     error: action.error
                 }
             }
-            case GET_PROJECT_LIST_DATA:
-                return {
-                    ...state,
-                    projectListData: {
-                         loading: true,
-                         data: null,
-                         error: null
-                    }
+        case GET_PROJECT_LIST_DATA:
+            return {
+                ...state,
+                projectListData: {
+                    loading: true,
+                    data: null,
+                    error: null
                 }
-            case GET_PROJECT_LIST_DATA_SUCCESS:
-                return {
-                    ...state,
-                    projectListData: {
-                        loading: false,
-                        data: action.data,
-                        error: null
-                    }
+            }
+        case GET_PROJECT_LIST_DATA_SUCCESS:
+            return {
+                ...state,
+                projectListData: {
+                    loading: false,
+                    data: action.data,
+                    error: null
                 }
-            case GET_PROJECT_LIST_DATA_ERROR:
-                return {
-                    ...state,
-                    projectListData: {
-                        loading: false,
-                        data: null,
-                        error: action.error
-                    }
+            }
+        case GET_PROJECT_LIST_DATA_ERROR:
+            return {
+                ...state,
+                projectListData: {
+                    loading: false,
+                    data: null,
+                    error: action.error
                 }
+            }
+        case GET_MYPROJECT_LIST_DATA:
+            return {
+                ...state,
+                myProjectListData: {
+                    loading: true,
+                    data: null,
+                    error: null
+                }
+            }
+        case GET_MYPROJECT_LIST_DATA_SUCCESS:
+            return {
+                ...state,
+                myProjectListData: {
+                    loading: false,
+                    data: action.data,
+                    error: null
+                }
+            }
+        case GET_MYPROJECT_LIST_DATA_ERROR:
+            return {
+                ...state,
+                myProjectListData: {
+                    loading: false,
+                    data: null,
+                    error: action.error
+                }
+            }
         case IMAGE_CHANGING:
             return {
                 ...state,
-                addProject:{
+                addProject: {
                     ...state.addProject,
                     [action.name]: action.imgUrl
                 }
@@ -307,7 +354,7 @@ export default function project(state = initialState, action) {
         case CURRENT_MOVE:
             return {
                 ...state,
-                projectSideSwipe:{
+                projectSideSwipe: {
                     ...state.projectSideSwipe,
                     [action.name]: state.projectSideSwipe[action.name] + action.current
                 }

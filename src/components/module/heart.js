@@ -3,7 +3,7 @@ import axios from 'axios';
 import { API_URL } from "../../config/contansts";
 
 const GIVE_HEART = "heart/GIVEN_HEART";
-const RESET_GIVE_HEART = "heart/RESET_GIVE_HEART"; 
+const RESET_GIVE_HEART = "heart/RESET_GIVE_HEART";
 const GET_HEART_DATA = "heart/GET_HEART_DATA";
 const GET_HEART_DATA_SUCCESS = "heart/GET_HEART_DATA_SUCCESS";
 const GET_HEART_DATA_ERROR = "heart/GET_HEART_DATA_ERROR";
@@ -19,6 +19,9 @@ const DELETE_TRICK_EMPTY_HEART = "heart/DELETE_TRICK_EMPTY_HEART";
 const initialState = {
     projectGivenHeart: {
         userId: getCookie('userId'),
+        sellerId: "",
+        projectPrice: "",
+        projectAchieve: "",
         projectTitle: "",
         projectImg: "",
         releaseDate: "",
@@ -42,42 +45,45 @@ export const resetHeartData = () => {
 }
 //좋아요 데이터 담기
 export const giveHeart = (data) => {
-    const { projectTitle, projectImg, releaseDate, deadLine } = data;
+    const { projectTitle, projectImg, releaseDate, deadLine, projectPrice, projectAchieve, sellerId } = data;
     return {
         type: GIVE_HEART,
         projectTitle,
         projectImg,
         releaseDate,
-        deadLine
+        deadLine,
+        projectAchieve,
+        projectPrice,
+        sellerId
     }
 }
 export const addHeart = () => async (dispatch, getState) => {
     const heartData = getState().heart.projectGivenHeart;
-    try{
+    try {
         await axios.post(`${API_URL}/addheart`, heartData);
         dispatch(resetHeartData());
     }
-    catch(e){
+    catch (e) {
         console.log(e)
     }
 }
 export const getHeart = () => async (dispatch) => {
-    dispatch({type: GET_HEART_DATA});
-    try{
+    dispatch({ type: GET_HEART_DATA });
+    try {
         const response = await axios.get(`${API_URL}/getheart/${getCookie('userId')}`);
         const data = response.data;
-        dispatch({type: GET_HEART_DATA_SUCCESS, data})
+        dispatch({ type: GET_HEART_DATA_SUCCESS, data })
     }
-    catch(e){
-        dispatch({type: GET_HEART_DATA_ERROR, e});
+    catch (e) {
+        dispatch({ type: GET_HEART_DATA_ERROR, e });
     }
 }
 export const deleteHeart = (title) => async () => {
-    try{
+    try {
         await axios.delete(`${API_URL}/deleteHeart/${title}`);
         alert('찜 목록에서 삭제되었습니다.');
     }
-    catch(e){
+    catch (e) {
         console.log(e);
     }
 }
@@ -87,13 +93,13 @@ export const fullHeartTrick = (title) => {
         title
     }
 }
-export const fullHeartTrickDelete = (title) =>{
+export const fullHeartTrickDelete = (title) => {
     return {
         type: DELETE_TRICK_FULL_HEART,
         title
     }
 }
-export const fullHeartTrickReset = () =>{
+export const fullHeartTrickReset = () => {
     return {
         type: RESET_TRICK_FULL_HEART
     }
@@ -104,20 +110,20 @@ export const emptyHeartTrick = (title) => {
         title
     }
 }
-export const emptyHeartTrickDelete = (title) =>{
+export const emptyHeartTrickDelete = (title) => {
     return {
         type: DELETE_TRICK_EMPTY_HEART,
         title
     }
 }
-export const emptyHeartTrickReset = () =>{
+export const emptyHeartTrickReset = () => {
     return {
         type: RESET_TRICK_EMPTY_HEART
     }
 }
 
-export default function heart (state=initialState, action) {
-    switch(action.type){
+export default function heart(state = initialState, action) {
+    switch (action.type) {
         case GIVE_HEART:
             return {
                 ...state,
@@ -127,6 +133,9 @@ export default function heart (state=initialState, action) {
                     projectImg: action.projectImg,
                     releaseDate: action.releaseDate,
                     deadLine: action.releaseDate,
+                    projectAchieve: action.projectAchieve,
+                    projectPrice: action.projectPrice,
+                    sellerId: action.sellerId
                 }
             }
         case RESET_GIVE_HEART:
@@ -134,6 +143,9 @@ export default function heart (state=initialState, action) {
                 ...state,
                 projectGivenHeart: {
                     userId: getCookie('userId'),
+                    sellerId: "",
+                    projectPrice: "",
+                    projectAchieve: "",
                     projectTitle: "",
                     projectImg: "",
                     releaseDate: "",
@@ -191,10 +203,10 @@ export default function heart (state=initialState, action) {
                 ...state,
                 trickHeart: {
                     ...state.trickHeart,
-                    full : state.trickHeart.full.filter(like => action.title !== like)
+                    full: state.trickHeart.full.filter(like => action.title !== like)
                 }
             }
-            case TRICK_EMPTY_HEART:
+        case TRICK_EMPTY_HEART:
             return {
                 ...state,
                 trickHeart: {
@@ -218,7 +230,7 @@ export default function heart (state=initialState, action) {
                 ...state,
                 trickHeart: {
                     ...state.trickHeart,
-                    empty : state.trickHeart.empty.filter(like => action.title !== like)
+                    empty: state.trickHeart.empty.filter(like => action.title !== like)
                 }
             }
         default:

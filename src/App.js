@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getCookie } from './util/cookie';
 import { loggedIn } from './components/module/user';
+import MyPageContainer from './components/container/MyPageContainer';
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function App() {
         <Route path='/projectdetail/:id' element={<ProjectDetailContainer />} />
         <Route path='/createproject' element={<CreateProjectContainer />} />
         <Route path='/projectlist/:name' element={<ProjectListContainer />} />
+        <Route path='/mypage/:userId/*' element={<MyPageContainer />} />
       </Routes>
       <Footer />
     </div>

@@ -11,6 +11,7 @@ const ProjectListContainer = () => {
     const projectListData = useSelector(state=>state.project.projectListData);
     useEffect(()=>{
         dispatch(getProjectKeyData(params.name));
+        //eslint-disable-next-line
     },[params]);
     useEffect(()=>{
         if(params.name === '인기') dispatch(headerMenuChange("1"));
@@ -20,6 +21,7 @@ const ProjectListContainer = () => {
         return () => {
             dispatch(headerMenuDefault());
         }
+        //eslint-disable-next-line
     },[])
     const { loading, data, error } = projectListData;
     
