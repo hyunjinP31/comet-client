@@ -29,12 +29,12 @@ const ProjectListContainer = () => {
     if(error) return <div>error</div>;
     if(!data) return null;
 
-    const onClick = (id) => {
+    const viewRaiseClick = (id) => {
         dispatch(viewRaise(id));
      }
     return (
         <>
-            <ProjectList onClick={onClick} projects={data} />
+            <ProjectList viewRaiseClick={viewRaiseClick} projects={data} />
         </>
     );
 };

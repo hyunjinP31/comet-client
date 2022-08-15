@@ -7,6 +7,7 @@ const GET_PROJECT = "project/GET_PROJECT";
 const GET_PROJECT_ERROR = "project/GET_PROJECT_ERROR";
 const GET_PROJECT_SUCCESS = "project/GET_PROJECT_SUCCESS";
 const SET_PROJECT_INPUT = "project/SET_PROJECT_INPUT";
+const FIGURE_SELLER = "project/FIGURE_SELLER";
 const RESET_PROJECT_INPUT = "project/RESET_PROJECT_INPUT";
 const GET_PROJECT_DATA = "project/GET_PROJECT_DATA";
 const GET_PROJECT_DATA_SUCCESS = "project/GET_PROJECT_DATA_SUCCESS";
@@ -19,6 +20,10 @@ const CURRENT_MOVE = "project/CURRENT_MOVE";
 const GET_MYPROJECT_LIST_DATA = "project/GET_MYPROJECT_LIST_DATA";
 const GET_MYPROJECT_LIST_DATA_SUCCESS = "project/GET_MYPROJECT_LIST_DATA_SUCCESS";
 const GET_MYPROJECT_LIST_DATA_ERROR = "project/GET_MYPROJECT_LIST_DATA_ERROR";
+const GET_ALL_PROJECT_DATA = "project/GET_ALL_PROJECT_DATA";
+const GET_ALL_PROJECT_DATA_SUCCESS = "project/GET_ALL_PROJECT_DATA_SUCCESS";
+const GET_ALL_PROJECT_DATA_ERROR = "project/GET_ALL_PROJECT_DATA_ERROR";
+const SET_EDIT_DEFAULT_VALUE = "project/SET_EDIT_DEFAULT_VALUE";
 
 //초깃값
 const initialState = {
@@ -35,8 +40,8 @@ const initialState = {
         error: null,
     },
     addProject: {
-        sellerId: getCookie('userId'),
-        sellerName: getCookie('userName'),
+        sellerId: "",
+        sellerName: "",
         projectTitle: "",
         projectPrice: "",
         projectGoal: "",
@@ -59,6 +64,11 @@ const initialState = {
         loading: false,
         data: null,
         error: null
+    },
+    allProjectData: {
+        loading: false,
+        data: null,
+        error: null,
     },
     isValid: {
         sellerIdValid: true,
@@ -153,6 +163,48 @@ export const createProject = () => async (dispatch, getState) => {
         console.log(e);
     }
 }
+//프로젝트 input value reset
+export const resetProjectInput = () => {
+    return {
+        type: RESET_PROJECT_INPUT,
+    }
+}
+//개별 프로젝트 데이터 불러와서 값 넣어주기(수정)
+export const editDefaultValue = (id) => async (dispatch) => {
+    try {
+        const response = await axios.get(`${API_URL}/projectdetail/${id}`);
+        const { projectTitle, projectPrice, projectImg, projectGoal, deadLine, projectType } = response.data;
+        dispatch({
+            type: SET_EDIT_DEFAULT_VALUE,
+            projectTitle,
+            projectPrice,
+            projectImg,
+            projectGoal,
+            deadLine,
+            projectType
+        })
+    }
+    catch(e){
+        console.log(e);
+    }
+}
+
+//등록된 프로젝트 수정하기
+export const editProject = (id) => async (dispatch, getState) => {
+    const projectEditData = getState().project.addProject;
+    try {
+        await axios.put(`${API_URL}/editproject/${id}`, projectEditData);
+    }
+    catch(e){
+        console.log(e);
+    }
+}
+//프로젝트 등록 시 등록한 user, id name 담기
+export const figureSeller = () => {
+    return {
+        type: FIGURE_SELLER,
+    }
+}
 //프로젝트 개별 상세 페이지
 export const getProjectData = (id) => async (dispatch) => {
     dispatch({ type: GET_PROJECT_DATA });
@@ -179,14 +231,26 @@ export const getProjectKeyData = (name) => async (dispatch) => {
 }
 //내가 올린 프로젝트 리스트 불러오기
 export const getMyProjectList = (userId) => async (dispatch) => {
-    dispatch({type: GET_MYPROJECT_LIST_DATA});
-    try{
+    dispatch({ type: GET_MYPROJECT_LIST_DATA });
+    try {
         const response = await axios.get(`${API_URL}/myproject/${userId}`);
-        const data= response.data;
-        dispatch({type: GET_MYPROJECT_LIST_DATA_SUCCESS, data});
+        const data = response.data;
+        dispatch({ type: GET_MYPROJECT_LIST_DATA_SUCCESS, data });
+    }
+    catch (e) {
+        dispatch({ type: GET_MYPROJECT_LIST_DATA_ERROR, error: e })
+    }
+}
+//모든 프로젝트 보기
+export const getAllProject = () => async (dispatch)=> {
+    dispatch({type: GET_ALL_PROJECT_DATA});
+    try{
+        const response = await axios.get(`${API_URL}/getallproject`);
+        const data = response.data;
+        dispatch({type: GET_ALL_PROJECT_DATA_SUCCESS, data})
     }
     catch(e){
-        dispatch({type: GET_MYPROJECT_LIST_DATA_ERROR, error: e})
+        dispatch({type: GET_ALL_PROJECT_DATA_ERROR, error: e})
     }
 }
 //조회수 올리기
@@ -209,6 +273,15 @@ export const sideSwipe = (e) => {
         type: CURRENT_MOVE,
         name,
         current
+    }
+}
+//프로젝트 삭제
+export const deleteProject = (id) => async () => {
+    try {
+        await axios.delete(`${API_URL}/deleteproject/${id}`);
+    }
+    catch (e) {
+        console.log(e);
     }
 }
 //리듀서
@@ -246,6 +319,15 @@ export default function project(state = initialState, action) {
                 addProject: {
                     ...state.addProject,
                     [action.name]: action.value
+                }
+            }
+        case FIGURE_SELLER:
+            return {
+                ...state,
+                addProject: {
+                    ...state.addProject,
+                    sellerId: getCookie('userId'),
+                    sellerName: getCookie('userName'),
                 }
             }
         case RESET_PROJECT_INPUT:
@@ -343,6 +425,33 @@ export default function project(state = initialState, action) {
                     error: action.error
                 }
             }
+        case GET_ALL_PROJECT_DATA:
+            return {
+                ...state,
+                allProjectData: {
+                    loading: true,
+                    data: null,
+                    error: null
+                }
+            }
+        case GET_ALL_PROJECT_DATA_SUCCESS:
+            return {
+                ...state,
+                allProjectData: {
+                    loading: false,
+                    data: action.data,
+                    error: null
+                }
+            }
+        case GET_ALL_PROJECT_DATA_ERROR:
+            return {
+                ...state,
+                allProjectData: {
+                    loading: false,
+                    data: null,
+                    error: action.error
+                }
+            }
         case IMAGE_CHANGING:
             return {
                 ...state,
@@ -357,6 +466,19 @@ export default function project(state = initialState, action) {
                 projectSideSwipe: {
                     ...state.projectSideSwipe,
                     [action.name]: state.projectSideSwipe[action.name] + action.current
+                }
+            }
+        case SET_EDIT_DEFAULT_VALUE:
+            return {
+                ...state,
+                addProject: {
+                    ...state.addProject,
+                    projectTitle: action.projectTitle,
+                    projectPrice: action.projectPrice,
+                    projectGoal: action.projectGoal,
+                    projectImg: action.projectImg,
+                    projectEndDate: action.deadLine,
+                    projectType: action.projectType,
                 }
             }
         default:

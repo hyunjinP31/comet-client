@@ -9,8 +9,8 @@ const MyheartList = ({ heart }) => {
             <div className='myHeartWrap myListWrap'>
                 <ul className='myHeartItems myListItems'>
                     {heart.map(data =>
-                        <Link to={`/projectdetail/${data.projectId}`} key={data.id}>
-                            <li>
+                        <li key={data.id}>
+                            <Link to={`/projectdetail/${data.projectId}`}>
                                 <div className='myHeartImg myListImg'>
                                     <img src={`${API_URL}/upload/${data.projectImg}`} alt='내 프로젝트 사진' />
                                 </div>
@@ -23,12 +23,12 @@ const MyheartList = ({ heart }) => {
                                     <p>achievement 달성</p>
                                     <p>판매자 : <span className='myListSpan'>{data.sellerId}</span></p>
                                 </div>
-                            </li>
-                        </Link>
+                            </Link>
+                        </li>
                     )}
                 </ul>
             </div>
-        </div>
+        </div >
     );
 };
 

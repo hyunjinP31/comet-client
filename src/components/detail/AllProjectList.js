@@ -2,13 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../config/contansts';
 
-const ProjectList = ({ projects, viewRaiseClick }) => {
+const AllProjectList = ({projects, viewRaiseClick}) => {
     return (
-        <div className='listWrap projectlistWrap'>
-            <ul className='listBottom inner'>
+        <div className='listWrap projectlistWrap inner'>
+            <h1>전체 프로젝트</h1>
+            <ul className='listBottom'>
                 {projects.map(data => (
-                    <li className='listItem' key={data.id}>
-                        <Link to={`/projectDetail/${data.id}`} onClick={() => viewRaiseClick(data.id)}>
+                    <li className='listItem' key={data.id} onClick={()=>viewRaiseClick(data.id)} >
+                        <Link to={`/projectDetail/${data.id}`}>
                             <div className='contentImg'>
                                 <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
                             </div>
@@ -25,4 +26,4 @@ const ProjectList = ({ projects, viewRaiseClick }) => {
     );
 };
 
-export default ProjectList;
+export default AllProjectList;

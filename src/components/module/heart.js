@@ -26,6 +26,7 @@ const initialState = {
         projectImg: "",
         releaseDate: "",
         deadLine: "",
+        projectId: "",
     },
     heartData: {
         loading: false,
@@ -45,7 +46,7 @@ export const resetHeartData = () => {
 }
 //좋아요 데이터 담기
 export const giveHeart = (data) => {
-    const { projectTitle, projectImg, releaseDate, deadLine, projectPrice, projectAchieve, sellerId } = data;
+    const { projectTitle, projectImg, releaseDate, deadLine, projectPrice, projectAchieve, sellerId, id } = data;
     return {
         type: GIVE_HEART,
         projectTitle,
@@ -54,7 +55,8 @@ export const giveHeart = (data) => {
         deadLine,
         projectAchieve,
         projectPrice,
-        sellerId
+        sellerId,
+        id,
     }
 }
 export const addHeart = () => async (dispatch, getState) => {
@@ -135,7 +137,8 @@ export default function heart(state = initialState, action) {
                     deadLine: action.releaseDate,
                     projectAchieve: action.projectAchieve,
                     projectPrice: action.projectPrice,
-                    sellerId: action.sellerId
+                    sellerId: action.sellerId,
+                    projectId: action.id,
                 }
             }
         case RESET_GIVE_HEART:
@@ -150,6 +153,7 @@ export default function heart(state = initialState, action) {
                     projectImg: "",
                     releaseDate: "",
                     deadLine: "",
+                    projectId: "",
                 }
             }
         case GET_HEART_DATA:

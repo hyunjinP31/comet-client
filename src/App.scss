@@ -54,8 +54,8 @@ body {
 //reset end
 
 //mixin start
-@mixin flexlayout($dir: row, $wrap: nowrap, $just: space-between, $align: center) {
-    display: flex;
+@mixin flexlayout($flex: flex, $dir: row, $wrap: nowrap, $just: space-between, $align: center) {
+    display: $flex;
     flex-direction: $dir;
     flex-wrap: $wrap;
     justify-content: $just;
@@ -66,10 +66,9 @@ body {
     border: $weight $line $color;
 }
 
-@mixin boxReset($border: none, $outline: none, $paddingLeft: 10px, $background: none) {
+@mixin boxReset($border: none, $outline: none, $background: none) {
     border: $border;
     outline: $outline;
-    padding-left: $paddingLeft;
     background: $background;
 }
 //mixin end
@@ -91,13 +90,16 @@ body {
         //Slide에 height 설정 해주면 됨
         .contentSlide {
             width: 100%;
+            height: 400px;
             transition: 0.3s;
             @include flexlayout($just: flex-start);
 
             .contentItem {
+                border-radius: 10px;
                 flex-shrink: 0;
                 height: 100%;
                 position: relative;
+                overflow: hidden;
             }
         }
     }
@@ -245,7 +247,9 @@ body {
                 margin-right: 2%;
             }
             margin-bottom: 20px;
-            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 400px;
         }
     }
     .bottomline{
@@ -253,14 +257,61 @@ body {
         height: 3px;
         background: $mainColor;
     }
+    //다용도 확인/취소 체크 알림창
     .blackCoverBg{
         width: 100%;
         height: 100vh;
         position: fixed;
         top: 0;
         left: 0;
-        background: rgba(0, 0, 0, 0.4);
+        background: rgba(0, 0, 0, 0.2);
         z-index: 30;
+    }
+    .whiteBox {
+        width: 600px;
+        height: 400px;
+        position: fixed;
+        z-index: 35;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: $mainWhite;
+        @include flexlayout($dir: column, $just: flex-start)
+    }
+    .msgBoxAlert {
+        padding-top: 110px;
+        padding-bottom: 20px;
+        font-size: 26px;
+        span {
+            color: rgb(216, 0, 0);
+            font-weight: bold;
+        }
+    }
+    .msgBoxDelProject{
+        padding-bottom: 90px;
+        span {
+            padding: 0 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    }
+    .msgBtn {
+        width: 130px;
+        height: 60px;
+        border-radius: 10px;
+        transition: 0.3s;
+        @include boxReset();
+        @include border();
+        font-size: 20px;
+        &:first-child{
+            margin-right: 60px;
+        }
+        &:hover {
+            font-weight: bold;
+            background: $mainBlack;
+            @include border($color: $mainWhite);
+            color: $mainWhite;
+        }
     }
 //global style end
 
@@ -457,15 +508,12 @@ body {
 
 //TopRanking(main) start
     .topRankingWrap {
-        .topProjects {
-            height: 350px;
             .topBox {
                 margin-right: 2%;
                 width: 23%;
                 border-radius: 10px;
                 overflow: hidden;
             }
-        }
     }
 //TopRanking(main) end
 
@@ -474,7 +522,6 @@ body {
     margin-top: 50px;
     .immiProjects{
         width: calc(450px * 10);
-        height: 350px;
         justify-content: flex-start;
         li{
             width: 400px;
@@ -499,12 +546,9 @@ body {
 //Theme (main) start
 .themeWrap{
     .themeProjectView{
-        .themeSlide{
-            height: 350px;
-        }
         .themeProject{
-            width: 20%;
-            padding-right: 2%;
+            width: 18%;
+            margin-right: 2%;
             overflow: hidden;
         }
     }
@@ -514,9 +558,6 @@ body {
 //NewProject (main) start
 .newWrap{
     .newProjectView{
-        .newProjects{
-            height: 350px;
-        }
         .newProject{
             width: 18%;
             margin-right: 2%;
@@ -529,9 +570,6 @@ body {
 //PotentUp (main) start
 .potenWrap{
     .potenView{
-        .potenProjects{
-            height: 400px;
-        }
         .potenProject{
             width: 31.3333%;
             margin-right: 2%;
@@ -701,6 +739,17 @@ body {
             @include border();
             margin: 5px 0;
         }
+        .createRadioInput{
+            display: inline-flex;
+            @include flexlayout($flex: inline-flex, $just: flex-start);
+            input{
+                width: 14px;
+                height: 14px;
+                padding: 0;
+                margin: 0 10px;
+            }
+        }
+        
         input.inValid {
             border: 2px solid crimson;
         }
@@ -805,21 +854,28 @@ body {
 
 }
 //MyPageList (detail) start
-h2 {
-    font-size: 24px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid $mainBlack;
-    margin-bottom: 10px;
+.myPage {
+    h2 {
+        font-size: 24px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid $mainBlack;
+        margin-bottom: 10px;
+    }
 }
 .myListWrap{
     .myListItems{
         width: 100%;
         li {
-            @include flexlayout();
             text-align: center;
             height: 200px;
             padding: 10px 0;
             border-bottom: 1px solid $mainGray;
+            position: relative;
+            > a {
+                @include flexlayout();
+                height: 100%;
+                width: 100%;
+            }
         }
         .myListImg {
             width: 30%;
@@ -839,13 +895,30 @@ h2 {
             padding: 30px 0;
             width: 35%;
             height: 100%;
-            @include flexlayout($dir: column);
         }
         h3 {
             font-size: 22px;
         }
         .myListSpan {
             font-size: 18px;
+        }
+        .myListProjectBtn{
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            .projectBtn{
+                width: 70px;
+                height: 35px;
+                @include boxReset();
+                @include border();
+                border-radius: 10px;
+                transition: 0.3s;
+                &:hover {
+                    background: $mainBlack;
+                    @include border($color: $mainWhite);
+                    color: $mainWhite;
+                }
+            }
         }
     }
 }

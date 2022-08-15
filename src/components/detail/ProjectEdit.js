@@ -2,7 +2,8 @@ import React, { forwardRef } from 'react';
 import { AiOutlineCamera } from 'react-icons/ai'
 import { API_URL } from '../../config/contansts';
 
-const CreateProject = forwardRef(({ addProject, onChange, onSubmit, onImageChange, numberOnly }, projectInputs) => {
+const ProjectEdit = forwardRef(({onChange, onSubmit,addProject,onImageChange,numberOnly},editInput) => {
+    if(!addProject.projectTitle) return <div>loading</div>
     return (
         <>
             <div className='createWrap inner'>
@@ -13,7 +14,7 @@ const CreateProject = forwardRef(({ addProject, onChange, onSubmit, onImageChang
                             <div>
                                 <p>프로젝트 제목</p>
                                 <div>
-                                    <input ref={el => projectInputs.current[0] = el} type='text' name='projectTitle' onChange={onChange} value={addProject.projectTitle} />
+                                    <input ref={el => editInput.current[0] = el} type='text' name='projectTitle' onChange={onChange} value={addProject.projectTitle} />
                                     <p className='projectTitleAlert formAlert'></p>
                                 </div>
                             </div>
@@ -35,8 +36,8 @@ const CreateProject = forwardRef(({ addProject, onChange, onSubmit, onImageChang
                             <div>
                                 <p>프로젝트 가격</p>
                                 <div>
-                                    <input ref={el => projectInputs.current[1] = el} type='text' name='projectPrice' onChange={numberOnly} value={addProject.projectPrice} />
-                                    <p className='projectPriceAlert formAlert'></p>
+                                    <input ref={el => editInput.current[1] = el} type='text' name='projectPrice' onChange={numberOnly} value={addProject.projectPrice} />
+                                    <p className='editPriceAlert formAlert'></p>
                                 </div>
                             </div>
                         </li>
@@ -44,8 +45,8 @@ const CreateProject = forwardRef(({ addProject, onChange, onSubmit, onImageChang
                             <div>
                                 <p>프로젝트 목표금액</p>
                                 <div>
-                                    <input ref={el => projectInputs.current[2] = el} type='text' name='projectGoal' onChange={numberOnly} value={addProject.projectGoal} />
-                                    <p className='projectGoalAlert formAlert'></p>
+                                    <input ref={el => editInput.current[2] = el} type='text' name='projectGoal' onChange={numberOnly} value={addProject.projectGoal} />
+                                    <p className='editGoalAlert formAlert'></p>
                                 </div>
                             </div>
                         </li>
@@ -53,8 +54,8 @@ const CreateProject = forwardRef(({ addProject, onChange, onSubmit, onImageChang
                             <div>
                                 <p>프로젝트 마감일</p>
                                 <div>
-                                    <input ref={el => projectInputs.current[3] = el} type='date' name='projectEndDate' onChange={onChange} value={addProject.projectEndDate} />
-                                    <p className='projectEndDateAlert formAlert'></p>
+                                    <input ref={el => editInput.current[3] = el} type='date' name='projectEndDate' onChange={onChange} value={addProject.projectEndDate} />
+                                    <p className='EndDateAlert formAlert'></p>
                                 </div>
                             </div>
                         </li>
@@ -62,11 +63,11 @@ const CreateProject = forwardRef(({ addProject, onChange, onSubmit, onImageChang
                             <div>
                                 <p>프로젝트 분류</p>
                                 <div>
-                                    <span className='createRadioInput'><input ref={el => projectInputs.current[4] = el} type='radio' name='projectType' onChange={onChange} value='의류' />의류</span>
-                                    <span className='createRadioInput'><input ref={el => projectInputs.current[4] = el} type='radio' name='projectType' onChange={onChange} value='식음료' />식음료</span>
-                                    <span className='createRadioInput'><input ref={el => projectInputs.current[4] = el} type='radio' name='projectType' onChange={onChange} value='취미' />취미</span>
-                                    <span className='createRadioInput'><input ref={el => projectInputs.current[4] = el} type='radio' name='projectType' onChange={onChange} value='도서' />도서</span>
-                                    <span className='createRadioInput'><input ref={el => projectInputs.current[4] = el} type='radio' name='projectType' onChange={onChange} value='화장품' />화장품</span>
+                                    <span className='createRadioInput'><input ref={el => editInput.current[4] = el} type='radio' name='projectType' onChange={onChange} value='의류' defaultChecked={addProject.projectType === "의류" ? true : false} />의류</span>
+                                    <span className='createRadioInput'><input ref={el => editInput.current[4] = el} type='radio' name='projectType' onChange={onChange} value='식음료' defaultChecked={addProject.projectType === "식음료" ? true : false} />식음료</span>
+                                    <span className='createRadioInput'><input ref={el => editInput.current[4] = el} type='radio' name='projectType' onChange={onChange} value='취미' defaultChecked={addProject.projectType === "취미" ? true : false} />취미</span>
+                                    <span className='createRadioInput'><input ref={el => editInput.current[4] = el} type='radio' name='projectType' onChange={onChange} value='도서' defaultChecked={addProject.projectType === "도서" ? true : false} />도서</span>
+                                    <span className='createRadioInput'><input ref={el => editInput.current[4] = el} type='radio' name='projectType' onChange={onChange} value='화장품' defaultChecked={addProject.projectType === "화장품" ? true : false} />화장품</span>
                                     <p className='projectTypeAlert formAlert'></p>
                                 </div>
                             </div>
@@ -81,4 +82,4 @@ const CreateProject = forwardRef(({ addProject, onChange, onSubmit, onImageChang
     );
 });
 
-export default CreateProject;
+export default ProjectEdit;

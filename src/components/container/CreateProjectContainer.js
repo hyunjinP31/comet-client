@@ -1,12 +1,15 @@
 import React, {useRef} from 'react';
 import CreateProject from '../detail/CreateProject';
 import { useSelector, useDispatch } from 'react-redux/es/exports';
-import { createProject,  setProjectInput, imageChange} from '../module/project';
+import { createProject,  setProjectInput, imageChange, figureSeller} from '../module/project';
+import { goToHome } from '../module/utility';
+import { useNavigate } from 'react-router-dom';
 
 const CreateProjectContainer = () => {
     const addProject = useSelector(state=>state.project.addProject);
     const projectInputs = useRef([]);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const onChange = (e) => {
         dispatch(setProjectInput(e));
@@ -18,6 +21,7 @@ const CreateProjectContainer = () => {
     }
     const onSubmit = (e) => {
         e.preventDefault();
+        dispatch(figureSeller());
         let inputs = projectInputs.current;
         for (let i = 0; i < inputs.length ; i++){
             if(inputs[i].value === ""){
@@ -30,6 +34,7 @@ const CreateProjectContainer = () => {
             }
         }
         dispatch(createProject());
+        dispatch(goToHome(navigate));
     }
     const onImageChange = (e) => {
         dispatch(imageChange(e));

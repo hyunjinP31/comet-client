@@ -10,6 +10,7 @@ const ProjectDetailContainer = () => {
     const dispatch = useDispatch();
     useEffect(()=>{
         dispatch(getProjectData(id));
+        //eslint-disable-next-line
     },[id])
     const { loading, data, error } = projectData;
     if( loading ) return <div>loading</div>;

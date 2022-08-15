@@ -21,8 +21,8 @@ const LoginContainer = () => {
         dispatch(getLogin());
         dispatch(getLogin()).then(res=>{
             const {userId, userName} = res;
-            if(res === undefined) document.querySelector('.loginAlert span').innerHTML = '아이디를 찾을 수 없습니다.';
-            else if(res === 'password undefined') document.querySelector('.loginAlert span').innerHTML = '비밀번호가 일치하지 않습니다.';
+            if(res === undefined || !res) return document.querySelector('.loginAlert span').innerHTML = '아이디를 찾을 수 없습니다.';
+            else if(res === 'password undefined') return document.querySelector('.loginAlert span').innerHTML = '비밀번호가 일치하지 않습니다.';
             else {
                 let expires = new Date();
                 expires.setMinutes(expires.getMinutes()+60);
@@ -30,9 +30,9 @@ const LoginContainer = () => {
                 setCookie('userName', `${userName}`, {path: '/', expires} );
                 dispatch(loggedIn())
                 navigate('/');
+                dispatch(resetLoginInput());
             }
         })
-        dispatch(resetLoginInput());
     }
 
     return (

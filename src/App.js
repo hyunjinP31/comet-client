@@ -2,27 +2,34 @@ import './App.scss';
 import Footer from './components/include/Footer';
 import Header from './components/include/Header';
 import MainIndex from './components/main/MainIndex';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import SignUpContainer from './components/container/SignUpContainer';
 import LoginContainer from './components/container/LoginContainer';
 import ProjectDetailContainer from './components/container/ProjectDetailContainer';
 import CreateProjectContainer from './components/container/CreateProjectContainer';
 import ProjectListContainer from './components/container/ProjectListContainer';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { getCookie } from './util/cookie';
-import { loggedIn } from './components/module/user';
+import { loggedIn, loggedOut } from './components/module/user';
 import MyPageContainer from './components/container/MyPageContainer';
+import { goToHome } from './components/module/utility';
+import AllProjectsContainer from './components/container/AllProjectsContainer';
+import ProjectEditContainer from './components/container/ProjectEditContainer';
 
 function App() {
   const dispatch = useDispatch();
-  const isLogged = useSelector(state=> state.user.loginUser.isLogged);
+  const userId = getCookie('userId');
+  const navigate = useNavigate();
   useEffect(()=>{
-    if(getCookie('userId')){
+    if(userId){
       dispatch(loggedIn());
+    }else{
+      dispatch(loggedOut());
+      dispatch(goToHome(navigate));
     }
     //eslint-disable-next-line
-  },[isLogged])
+  },[userId])
   return (
     <div className="App">
       <Header />
@@ -34,6 +41,8 @@ function App() {
         <Route path='/createproject' element={<CreateProjectContainer />} />
         <Route path='/projectlist/:name' element={<ProjectListContainer />} />
         <Route path='/mypage/:userId/*' element={<MyPageContainer />} />
+        <Route path='/allprojectlist' element={<AllProjectsContainer />} />
+        <Route path='/projectedit/:id' element={<ProjectEditContainer />} />
       </Routes>
       <Footer />
     </div>

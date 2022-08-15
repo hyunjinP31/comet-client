@@ -14,6 +14,8 @@ const SET_LOGIN_INPUT = "user/SET_LOGIN_INPUT";
 const RESET_LOGIN_INPUT = "user/RESET_LOGIN_INPUT";
 const USER_LOGGED_IN = "user/USER_LOGGED_IN";
 const USER_LOGGED_OUT = "user/USER_LOGGED_OUT";
+
+
 const initialState = {
     user: {
         loading: false,

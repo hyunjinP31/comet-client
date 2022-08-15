@@ -1,10 +1,10 @@
 import React from 'react';
 import { FiSearch } from 'react-icons/fi'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getCookie, removeCookie } from '../../util/cookie';
 import { useDispatch, useSelector } from 'react-redux';
-import { headerMenuChange, onToggleClick } from '../module/utility';
-import styled, {css} from 'styled-components';
+import { goToHome, headerMenuChange, onToggleClick } from '../module/utility';
+import styled, { css } from 'styled-components';
 import { loggedOut } from '../module/user';
 const ToggleMenu = styled.div`
         width: 100%;
@@ -16,12 +16,12 @@ const ToggleMenu = styled.div`
         top: -110px;
         left: 0;
         z-index: 19;
-        ${props=>
-                props.isOpen &&
-                css`
+        ${props =>
+        props.isOpen &&
+        css`
                     top: 110px;
                 `
-        }
+    }
     `;
 const ToggleSpan = styled.span`
         display: block;
@@ -33,9 +33,9 @@ const ToggleSpan = styled.span`
         &:not(:last-child) {
             margin-bottom: 7px;
         }
-        ${props=>
-            props.isOpen &&
-            css`
+        ${props =>
+        props.isOpen &&
+        css`
             border-radius: 3px;
             position: absolute;
             &:nth-child(1){
@@ -55,29 +55,31 @@ const ToggleSpan = styled.span`
             }
                 
             `
-        }
+    }
 `
 const ToggleDiv = styled.div`
         transition: 0.3s;
         position: relative;
         width: 25px;
         height: 23px;
-        ${props=>
-            props.isOpen &&
-            css`
+        ${props =>
+        props.isOpen &&
+        css`
                 transform: rotate(-90deg);
             `
-        }
+    }
 `
 
 const Header = () => {
     const headerMenu = useSelector(state => state.utility.headerMenu);
-    
+    const isLogged = useSelector(state=>state.user.loginUser.isLogged);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const logout = () => {
         removeCookie('userId');
         removeCookie('userName');
         dispatch(loggedOut());
+        dispatch(goToHome(navigate))
     }
     const onClick = (e) => {
         dispatch(headerMenuChange(e));
@@ -86,40 +88,40 @@ const Header = () => {
         dispatch(onToggleClick());
     }
     const userId = getCookie('userId');
-    
+
     return (
         <>
             <div className='headerHeight'></div>
             <ToggleMenu className='toggleMenu' isOpen={headerMenu.isOpen}>
-                    <ul className='inner'>
-                        <li>
-                            <span>의류</span>
-                        </li>
-                        <li>
-                            <span>식음료</span>
-                        </li>
-                        <li>
-                            <span>게임</span>
-                        </li>
-                        <li>
-                            <span>취미</span>
-                        </li>
-                        <li>
-                            <span>도서</span>
-                        </li>
-                        <li>
-                            <span>화장품</span>
-                        </li>
-                    </ul>
+                <ul className='inner'>
+                    <li className='AllProjectList'>
+                        <Link to='/allprojectlist'><span>전체보기</span></Link>
+                    </li>
+                    <li>
+                        <span>의류</span>
+                    </li>
+                    <li>
+                        <span>식음료</span>
+                    </li>
+                    <li>
+                        <span>취미</span>
+                    </li>
+                    <li>
+                        <span>도서</span>
+                    </li>
+                    <li>
+                        <span>화장품</span>
+                    </li>
+                </ul>
             </ToggleMenu>
             <div className='headerWrap'>
                 <div className='header inner'>
                     <div className='headerTop'>
                         <Link to='/'><h1 className='headerLogo'>TEMPUS</h1></Link>
                         <ul>
-                            {userId ? <li><Link to='/createproject'>프로젝트 등록</Link></li> : <li></li>}
-                            {userId ? <li onClick={logout}><Link to='/'>로그아웃</Link></li> : <li><Link to='/login'>로그인</Link></li>}
-                            <li>{userId ? <Link to={`/mypage/${userId}/*`}>내정보</Link> : <Link to='/signup'>회원가입</Link>}</li>
+                            {isLogged ? <li><Link to='/createproject'>프로젝트 등록</Link></li> : <li></li>}
+                            {isLogged ? <li onClick={logout}>로그아웃</li> : <li><Link to='/login'>로그인</Link></li>}
+                            <li>{isLogged ? <Link to={`/mypage/${userId}/*`}>내정보</Link> : <Link to='/signup'>회원가입</Link>}</li>
                         </ul>
                     </div>
                     <div className='headerBottom'>
