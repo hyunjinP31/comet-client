@@ -1,13 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../config/contansts';
+import Pagination from './Pagination';
 
-const AllProjectList = ({projects, viewRaiseClick}) => {
+const AllProjectList = ({projects, viewRaiseClick, total, limit, page, setPage, offset}) => {
+    const totalPages = Math.ceil( total / limit );
     return (
         <div className='listWrap projectlistWrap inner'>
             <h1>전체 프로젝트</h1>
             <ul className='listBottom'>
-                {projects.map(data => (
+                {projects.slice(offset, offset + limit).map(data => (
                     <li className='listItem' key={data.id} onClick={()=>viewRaiseClick(data.id)} >
                         <Link to={`/projectDetail/${data.id}`}>
                             <div className='contentImg'>
@@ -22,6 +24,7 @@ const AllProjectList = ({projects, viewRaiseClick}) => {
                     </li>)
                 )}
             </ul>
+            <Pagination page={page} setPage={setPage} totalPages={totalPages}/>
         </div>
     );
 };

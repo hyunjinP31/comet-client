@@ -171,9 +171,12 @@ export const resetProjectInput = () => {
 }
 //개별 프로젝트 데이터 불러와서 값 넣어주기(수정)
 export const editDefaultValue = (id) => async (dispatch) => {
+    dispatch({type: GET_PROJECT_DATA});
     try {
         const response = await axios.get(`${API_URL}/projectdetail/${id}`);
-        const { projectTitle, projectPrice, projectImg, projectGoal, deadLine, projectType } = response.data;
+        const data = response.data;
+        dispatch({type: GET_PROJECT_DATA_SUCCESS, data});
+        const { projectTitle, projectPrice, projectImg, projectGoal, deadLine, projectType } = data;
         dispatch({
             type: SET_EDIT_DEFAULT_VALUE,
             projectTitle,
@@ -185,7 +188,7 @@ export const editDefaultValue = (id) => async (dispatch) => {
         })
     }
     catch(e){
-        console.log(e);
+        dispatch({type: GET_PROJECT_DATA_ERROR, error: e})
     }
 }
 

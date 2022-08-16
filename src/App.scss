@@ -264,7 +264,7 @@ body {
         position: fixed;
         top: 0;
         left: 0;
-        background: rgba(0, 0, 0, 0.2);
+        background: rgba(0, 0, 0, 0.07);
         z-index: 30;
     }
     .whiteBox {
@@ -311,6 +311,37 @@ body {
             background: $mainBlack;
             @include border($color: $mainWhite);
             color: $mainWhite;
+        }
+    }
+    //paging
+    .pagination{
+        @include flexlayout();
+        @include border($color: #eee);
+        height: 50px;
+        margin-top: 30px;
+        border-radius: 10px;
+        padding: 0 20px;
+        button {
+            cursor: pointer;
+        }
+        button.currentPage {
+            font-weight: bold;
+            color: $mainBlack;
+        }
+        button:disabled{
+            cursor: context-menu;
+        }
+        .pagingArrow{
+            @include boxReset();
+            font-size: 24px;
+            @include flexlayout($just: center);
+        }
+        .pagingBtn{
+            color: #777;
+            width: 30px;
+            height: 20px;
+            font-size: 18px;
+            @include boxReset();
         }
     }
 //global style end
@@ -913,6 +944,9 @@ body {
                 @include border();
                 border-radius: 10px;
                 transition: 0.3s;
+                &:first-child{
+                    margin-right: 10px;
+                }
                 &:hover {
                     background: $mainBlack;
                     @include border($color: $mainWhite);

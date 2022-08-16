@@ -1,14 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../config/contansts';
+import Pagination from './Pagination';
 
-const MyProjectList = ({ myData, projectDelete, isMsgBoxOpen, msgBox }) => {
+const MyProjectList = ({ myData, projectDelete, isMsgBoxOpen, msgBox, total, limit, page, setPage, offset }) => {
+    const totalPages = Math.ceil( total / limit );
     return (
         <div className='myProject myList'>
             <h2>내 프로젝트</h2>
             <div className='myProjectWrap myListWrap'>
                 <ul className='myProjectItems myListItems'>
-                    {myData.map(data =>
+                    {myData.slice(offset, offset + limit).map(data =>
                         <div key={data.id}>
                             <li>
                                 <Link to={`/projectdetail/${data.id}`}>
@@ -39,6 +41,7 @@ const MyProjectList = ({ myData, projectDelete, isMsgBoxOpen, msgBox }) => {
                         </div>
                     )}
                 </ul>
+                <Pagination page={page} setPage={setPage} totalPages={totalPages}/>
             </div>
         </div>
     );

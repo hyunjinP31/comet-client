@@ -4,6 +4,9 @@ const IS_TOGGLE_CLICKED = "utility/IS_TOGGLE_CLICKED";
 const IS_MSGBOX_OPEN = "utility/IS_MSGBOX_OPEN";
 const IS_MSGBOX_AIMING = "utility/IS_MSGBOX_AIMING";
 const RESET_MSGBOX_AIMING = "utility/RESET_MSGBOX_AIMING";
+const SET_CURRENT_PAGE = "utility/SET_CURRENT_PAGE";
+const SET_ITEM_VOLUME = "utility/SET_ITEM_VOLUME";
+const RESET_ITEM_VOLUME = "utility/SET_ITEM_VOLUME";
 
 const initialState = {
     headerMenu: {
@@ -14,9 +17,34 @@ const initialState = {
         isOpen: false,
         msgBoxId: 0,
         msgBoxTitle: "",
+    },
+    paging: {
+        currentPage: 1,
+        itemVolume: 20,
     }
 }
 
+
+//페이지 이동
+export const paginate = (number) => {
+    return {
+        type: SET_CURRENT_PAGE,
+        number
+    }
+}
+//한 페이지에 나타낼 아이템 수 조정
+export const setItemVolumn = (volume) => {
+    return {
+        type: SET_ITEM_VOLUME,
+        volume
+    }
+}
+// 아이템 수 리셋
+export const resetItemVolume = () => {
+    return {
+        type: RESET_ITEM_VOLUME
+    }
+}
 //메인 화면으로 이동
 export const goToHome = (navigate) => () => {
     navigate('/')
@@ -120,6 +148,30 @@ export default function utility(state = initialState, action) {
                     ...state.msgBoxOpen,
                     msgBoxId: 0,
                     msgBoxTitle: "",
+                }
+            }
+        case SET_CURRENT_PAGE:
+            return {
+                ...state,
+                paging: {
+                    ...state.paging,
+                    currentPage: action.number,
+                }
+            }
+        case SET_ITEM_VOLUME:
+            return {
+                ...state,
+                paging: {
+                    ...state.paging,
+                    itemVolume: action.volume
+                }
+            }
+        case RESET_ITEM_VOLUME:
+            return {
+                ...state,
+                paging: {
+                    ...state.paging,
+                    itemVolume: 20
                 }
             }
         default:

@@ -3,7 +3,6 @@ import { AiOutlineCamera } from 'react-icons/ai'
 import { API_URL } from '../../config/contansts';
 
 const ProjectEdit = forwardRef(({onChange, onSubmit,addProject,onImageChange,numberOnly},editInput) => {
-    if(!addProject.projectTitle) return <div>loading</div>
     return (
         <>
             <div className='createWrap inner'>
@@ -37,7 +36,7 @@ const ProjectEdit = forwardRef(({onChange, onSubmit,addProject,onImageChange,num
                                 <p>프로젝트 가격</p>
                                 <div>
                                     <input ref={el => editInput.current[1] = el} type='text' name='projectPrice' onChange={numberOnly} value={addProject.projectPrice} />
-                                    <p className='editPriceAlert formAlert'></p>
+                                    <p className='projectPriceAlert formAlert'></p>
                                 </div>
                             </div>
                         </li>
@@ -46,7 +45,7 @@ const ProjectEdit = forwardRef(({onChange, onSubmit,addProject,onImageChange,num
                                 <p>프로젝트 목표금액</p>
                                 <div>
                                     <input ref={el => editInput.current[2] = el} type='text' name='projectGoal' onChange={numberOnly} value={addProject.projectGoal} />
-                                    <p className='editGoalAlert formAlert'></p>
+                                    <p className='projectGoalAlert formAlert'></p>
                                 </div>
                             </div>
                         </li>
@@ -73,7 +72,7 @@ const ProjectEdit = forwardRef(({onChange, onSubmit,addProject,onImageChange,num
                             </div>
                         </li>
                         <li>
-                            <button type='submit'>등록하기</button>
+                            <button type='submit'>수정하기</button>
                         </li>
                     </ul>
                 </form>

@@ -26,7 +26,6 @@ function App() {
       dispatch(loggedIn());
     }else{
       dispatch(loggedOut());
-      dispatch(goToHome(navigate));
     }
     //eslint-disable-next-line
   },[userId])
