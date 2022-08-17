@@ -12,6 +12,9 @@ const RESET_PROJECT_INPUT = "project/RESET_PROJECT_INPUT";
 const GET_PROJECT_DATA = "project/GET_PROJECT_DATA";
 const GET_PROJECT_DATA_SUCCESS = "project/GET_PROJECT_DATA_SUCCESS";
 const GET_PROJECT_DATA_ERROR = "project/GET_PROJECT_DATA_ERROR";
+const GET_PROJECT_TYPE_DATA = "project/GET_PROJECT_TYPE_DATA";
+const GET_PROJECT_TYPE_DATA_SUCCESS = "project/GET_PROJECT_TYPE_DATA_SUCCESS";
+const GET_PROJECT_TYPE_DATA_ERROR = "project/GET_PROJECT_TYPE_DATA_ERROR";
 const GET_PROJECT_LIST_DATA = "project/GET_PROJECT_LIST_DATA";
 const GET_PROJECT_LIST_DATA_SUCCESS = "project/GET_PROJECT_LIST_DATA_SUCCESS";
 const GET_PROJECT_LIST_DATA_ERROR = "project/GET_PROJECT_LIST_DATA_ERROR";
@@ -66,6 +69,11 @@ const initialState = {
         error: null
     },
     allProjectData: {
+        loading: false,
+        data: null,
+        error: null,
+    },
+    typeProjectData: {
         loading: false,
         data: null,
         error: null,
@@ -152,11 +160,31 @@ export const imageChange = (e) => async (dispatch) => {
         console.log(e);
     }
 }
+//프로젝트 타이틀 중복 검사
+export const isTitleUnique = () => async (dispatch, getState) => {
+    try {
+        const addProject = getState().project.addProject;
+        if (!addProject.projectTitle) return;
+        const response = await axios.get(`${API_URL}/getprojecttitle/${addProject.projectTitle}`);
+        const data = response.data;
+        if (document.querySelector('.projectTitleAlert')) {
+            if (data.length > 0) {
+                document.querySelector('.projectTitleAlert').innerHTML = '중복된 제목입니다.';
+            }
+            else {
+                document.querySelector('.projectTitleAlert').innerHTML = '';
+            }
+        }
+    }
+    catch (e) {
+        console.log(e)
+    }
+}
 //프로젝트 등록
 export const createProject = () => async (dispatch, getState) => {
-    const projectData = getState().project.addProject;
+    const addProject = getState().project.addProject;
     try {
-        await axios.post(`${API_URL}/createproject`, projectData);
+        await axios.post(`${API_URL}/createproject`, addProject);
         dispatch({ type: RESET_PROJECT_INPUT });
     }
     catch (e) {
@@ -171,11 +199,11 @@ export const resetProjectInput = () => {
 }
 //개별 프로젝트 데이터 불러와서 값 넣어주기(수정)
 export const editDefaultValue = (id) => async (dispatch) => {
-    dispatch({type: GET_PROJECT_DATA});
+    dispatch({ type: GET_PROJECT_DATA });
     try {
         const response = await axios.get(`${API_URL}/projectdetail/${id}`);
         const data = response.data;
-        dispatch({type: GET_PROJECT_DATA_SUCCESS, data});
+        dispatch({ type: GET_PROJECT_DATA_SUCCESS, data });
         const { projectTitle, projectPrice, projectImg, projectGoal, deadLine, projectType } = data;
         dispatch({
             type: SET_EDIT_DEFAULT_VALUE,
@@ -187,8 +215,8 @@ export const editDefaultValue = (id) => async (dispatch) => {
             projectType
         })
     }
-    catch(e){
-        dispatch({type: GET_PROJECT_DATA_ERROR, error: e})
+    catch (e) {
+        dispatch({ type: GET_PROJECT_DATA_ERROR, error: e })
     }
 }
 
@@ -198,7 +226,7 @@ export const editProject = (id) => async (dispatch, getState) => {
     try {
         await axios.put(`${API_URL}/editproject/${id}`, projectEditData);
     }
-    catch(e){
+    catch (e) {
         console.log(e);
     }
 }
@@ -220,7 +248,7 @@ export const getProjectData = (id) => async (dispatch) => {
         dispatch({ type: GET_PROJECT_DATA_ERROR, error: e });
     }
 }
-//프로젝트 키워드별 상세 페이지
+//프로젝트 키워드별 리스트
 export const getProjectKeyData = (name) => async (dispatch) => {
     dispatch({ type: GET_PROJECT_LIST_DATA });
     try {
@@ -230,6 +258,18 @@ export const getProjectKeyData = (name) => async (dispatch) => {
     }
     catch (e) {
         dispatch({ type: GET_PROJECT_LIST_DATA_ERROR, error: e });
+    }
+}
+//프로젝트 타입별 리스트
+export const getProjectTypeList = (type) => async (dispatch) => {
+    dispatch({type: GET_PROJECT_TYPE_DATA});
+    try {
+        const response = await axios.get(`${API_URL}/projecttypelist/${type}`);
+        const data = response.data;
+        dispatch({type: GET_PROJECT_TYPE_DATA_SUCCESS, data});
+    }
+    catch(e){
+        dispatch({type: GET_PROJECT_TYPE_DATA_ERROR, error: e});
     }
 }
 //내가 올린 프로젝트 리스트 불러오기
@@ -245,15 +285,15 @@ export const getMyProjectList = (userId) => async (dispatch) => {
     }
 }
 //모든 프로젝트 보기
-export const getAllProject = () => async (dispatch)=> {
-    dispatch({type: GET_ALL_PROJECT_DATA});
-    try{
+export const getAllProject = () => async (dispatch) => {
+    dispatch({ type: GET_ALL_PROJECT_DATA });
+    try {
         const response = await axios.get(`${API_URL}/getallproject`);
         const data = response.data;
-        dispatch({type: GET_ALL_PROJECT_DATA_SUCCESS, data})
+        dispatch({ type: GET_ALL_PROJECT_DATA_SUCCESS, data })
     }
-    catch(e){
-        dispatch({type: GET_ALL_PROJECT_DATA_ERROR, error: e})
+    catch (e) {
+        dispatch({ type: GET_ALL_PROJECT_DATA_ERROR, error: e })
     }
 }
 //조회수 올리기
@@ -374,6 +414,33 @@ export default function project(state = initialState, action) {
                     error: action.error
                 }
             }
+            case GET_PROJECT_TYPE_DATA:
+                return {
+                    ...state,
+                    typeProjectData: {
+                        loading: true,
+                        data: null,
+                        error: null
+                    }
+                }
+            case GET_PROJECT_TYPE_DATA_SUCCESS:
+                return {
+                    ...state,
+                    typeProjectData: {
+                        loading: false,
+                        data: action.data,
+                        error: null
+                    }
+                }
+            case GET_PROJECT_TYPE_DATA_ERROR:
+                return {
+                    ...state,
+                    typeProjectData: {
+                        loading: false,
+                        data: null,
+                        error: action.error
+                    }
+                }
         case GET_PROJECT_LIST_DATA:
             return {
                 ...state,

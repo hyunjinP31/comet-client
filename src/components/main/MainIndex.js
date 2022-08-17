@@ -10,6 +10,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { printMain, sideSwipe, viewRaise } from '../module/project';
 import { getCookie } from '../../util/cookie';
 import { addHeart, deleteHeart, emptyHeartTrick, emptyHeartTrickDelete, fullHeartTrick, fullHeartTrickDelete, getHeart, giveHeart } from '../module/heart';
+import HashLoader from 'react-spinners/HashLoader';
+
+const override = {
+    display: "block",
+    margin: "0 auto",
+    width: "100%",
+    height: "700px",
+};
 
 const MainIndex = () => {
     const dispatch = useDispatch();
@@ -30,19 +38,24 @@ const MainIndex = () => {
         if(userId) dispatch(getHeart());
         //eslint-disable-next-line
     },[userId])
-    
-    //메인 프로젝트들 받아오기
-    if (loading) return <div>loading</div>;
-    if (error) return <div>error</div>;
-    if (!data) return <div>data null</div>;
-    //로그인 했을 때 하트 데이터 받아오기
-    if(userId) {
-        if(hLoading) return <div>loading</div>;
-        if(hError) return <div>error</div>;
-        if(!hData) return null;
-    }
     let like;
     if(hData) like = hData.map(like => like.projectTitle);
+    useEffect(()=>{
+        if(like) {
+            like.forEach(title=>dispatch(fullHeartTrick(title)));
+        }
+        //eslint-disable-next-line
+    },[hData])
+    //메인 프로젝트들 받아오기
+    if (loading) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
+    if (error) return console.log(error);
+    if (!data) return;
+    //로그인 했을 때 하트 데이터 받아오기
+    if(userId) {
+        if(hLoading) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
+        if(hError) return console.log(error);
+        if(!hData) return null;
+    }
     const { topData, immiData, themeData, newData, potenData, comData } = data;
 
     const onClick = (id) => {

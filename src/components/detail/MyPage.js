@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import MyPageListContainer from '../container/MyPageListContainer';
-import { FaHeart } from 'react-icons/fa'
-import { RiFileList3Line } from 'react-icons/ri';
+import { HiHeart } from 'react-icons/hi'
+import { RiFileList3Line, RiHandHeartLine } from 'react-icons/ri';
 import { IoPerson } from 'react-icons/io5'
 import { getCookie } from '../../util/cookie';
 
@@ -19,10 +19,13 @@ const MyPage = () => {
                     </div>
                     <ul className='myMenu'>
                         <li>
-                            <Link to='myheartlist'> <FaHeart className='listIcon' /><span>찜목록</span></Link>
+                            <Link to='myheartlist'> <HiHeart className='listIcon' /><span>찜목록</span></Link>
                         </li>
                         <li>
                             <Link to='myprojectlist'><RiFileList3Line className='listIcon' /><span>내 프로젝트</span></Link>
+                        </li>
+                        <li>
+                            <Link to='myfundinglist'><RiHandHeartLine className='listIcon' /><span>내 후원</span></Link>
                         </li>
                     </ul>
                  </div>

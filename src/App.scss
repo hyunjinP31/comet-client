@@ -79,6 +79,13 @@ body {
     max-width: 1200px;
     margin: 0 auto;
 }
+    //loader
+    .loader {
+        width: 100%;
+        height: 100vh;
+        display: fixed;
+        color: $mainColor;
+    }
     //slide content(main-click-slide) start
     .contentWrap {
         position: relative;
@@ -160,7 +167,7 @@ body {
     }
     .listIcon {
         margin: 0 6px;
-        font-size: 18px;
+        font-size: 26px;
         color: $mainBlack;
     }
 
@@ -701,9 +708,49 @@ body {
 
 //ProjectDetail (detail) start
 .pDetailTitle {
+    position: relative;
     text-align: center;
     font-size: 40px;
-    padding: 30px 0;
+    margin: 30px 0;
+    height: 80px;
+}
+.pDetailAct {
+    font-size: 24px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 50px;
+    height: 50px;
+    @include flexlayout();
+    .heart {
+        span {
+            position: absolute;
+            top: 14px;
+            right: 0;
+            display: block;
+            width: auto;
+            height: auto;
+        }
+    }
+    .pDetailfullHeart {
+        color: red;
+        z-index: 10;
+        position: absolute;
+    }
+    .pDetailEmptyHeart {
+        color: $mainGray;
+        position: absolute;
+    }
+    .pDetailHit {
+        margin-right: 90px;
+        font-size: 14px;
+    }
+    .trickEmptyHeart{
+        color: $mainGray;
+        background: $mainWhite;
+        z-index: 11;
+        position: absolute;
+    }
 }
 .projectDetailWrap{
     @include flexlayout();
@@ -727,7 +774,7 @@ body {
             height: 100%;
         }
         li {
-            padding: 30px 0;
+            width: 100%;
             p{
                 font-size: 32px;
             }
@@ -737,6 +784,16 @@ body {
         }
         li.pDetailFlexLi{
             display: flex;
+        }
+        .pDetailBtn {
+            width: 100%;
+            height: 70px;
+            @include boxReset();
+            background: $mainColor;
+            color: $mainWhite;
+            font-size: 26px;
+            font-weight: bold;
+            border-radius: 10px;
         }
     }
 }

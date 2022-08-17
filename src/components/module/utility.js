@@ -6,7 +6,7 @@ const IS_MSGBOX_AIMING = "utility/IS_MSGBOX_AIMING";
 const RESET_MSGBOX_AIMING = "utility/RESET_MSGBOX_AIMING";
 const SET_CURRENT_PAGE = "utility/SET_CURRENT_PAGE";
 const SET_ITEM_VOLUME = "utility/SET_ITEM_VOLUME";
-const RESET_ITEM_VOLUME = "utility/SET_ITEM_VOLUME";
+const RESET_ITEM_VOLUME = "utility/RESET_ITEM_VOLUME";
 
 const initialState = {
     headerMenu: {
@@ -163,7 +163,7 @@ export default function utility(state = initialState, action) {
                 ...state,
                 paging: {
                     ...state.paging,
-                    itemVolume: action.volume
+                    itemVolume: action.volume,
                 }
             }
         case RESET_ITEM_VOLUME:

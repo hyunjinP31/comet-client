@@ -1,7 +1,7 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import CreateProject from '../detail/CreateProject';
 import { useSelector, useDispatch } from 'react-redux/es/exports';
-import { createProject,  setProjectInput, imageChange, figureSeller} from '../module/project';
+import { createProject,  setProjectInput, imageChange, figureSeller, isTitleUnique, resetProjectInput} from '../module/project';
 import { goToHome } from '../module/utility';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,6 +11,12 @@ const CreateProjectContainer = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    useEffect(()=>{
+        return ()=>{
+            dispatch(resetProjectInput())
+        }
+        //eslint-disable-next-line
+    },[])
     const onChange = (e) => {
         dispatch(setProjectInput(e));
         let inputs = projectInputs.current;
@@ -23,6 +29,14 @@ const CreateProjectContainer = () => {
         e.preventDefault();
         dispatch(figureSeller());
         let inputs = projectInputs.current;
+        if(document.querySelector('.projectTitleAlert')){
+            if(document.querySelector('.projectTitleAlert').innerHTML === '중복된 제목입니다.'){
+                inputs[0].classList.add('inValid');
+                return inputs[0].focus();
+            }else {
+                inputs[0].classList.remove('inValid');
+            }
+        }
         for (let i = 0; i < inputs.length ; i++){
             if(inputs[i].value === ""){
                 inputs[i].classList.add('inValid');
@@ -35,6 +49,9 @@ const CreateProjectContainer = () => {
         }
         dispatch(createProject());
         dispatch(goToHome(navigate));
+    }
+    const onTitleBlur = () => {
+        dispatch(isTitleUnique());
     }
     const onImageChange = (e) => {
         dispatch(imageChange(e));
@@ -61,6 +78,7 @@ const CreateProjectContainer = () => {
             onSubmit={onSubmit}
             onImageChange={onImageChange}
             numberOnly={numberOnly}
+            onTitleBlur={onTitleBlur}
             ref={projectInputs}
              />
         </div>

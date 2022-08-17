@@ -4,7 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { editDefaultValue, editProject, imageChange, resetProjectInput, setProjectInput } from '../module/project';
 import { useNavigate, useParams } from 'react-router-dom';
 import { goToHome } from '../module/utility';
+import HashLoader from 'react-spinners/HashLoader';
 
+const override = {
+    display: "block",
+    margin: "0 auto",
+    width: "100%",
+    height: "700px",
+};
 const ProjectEditContainer = () => {
     const addProject = useSelector(state=>state.project.addProject);
     const projectData = useSelector(state=> state.project.projectData);
@@ -23,7 +30,6 @@ const ProjectEditContainer = () => {
     },[])
     const onChange = (e) => {
         dispatch(setProjectInput(e));
-        console.log(Boolean(addProject.projectTitle))
         for (let i = 0; i < inputs.length ; i++){
             if(document.querySelector(`.${inputs[i].name}Alert`)){
                 inputs[i].classList.remove('inValid');
@@ -67,7 +73,7 @@ const ProjectEditContainer = () => {
         }
         dispatch(setProjectInput(e));
     }
-    if(loading) return <div>loading</div>;
+    if(loading) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
     if(error) return console.log(error);
     if(!data) return;
     return (

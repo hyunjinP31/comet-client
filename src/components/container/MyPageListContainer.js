@@ -6,17 +6,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getHeart } from '../module/heart';
 import { deleteProject, getMyProjectList } from '../module/project';
 import { msgBoxAiming, msgBoxControl, paginate, resetItemVolume, resetMsgBoxAiming, setItemVolumn } from '../module/utility';
+import HashLoader from 'react-spinners/HashLoader';
+import MySupportList from '../detail/MySupportList';
+
+const override = {
+    display: "block",
+    margin: "0 auto",
+    width: "100%",
+    height: "500px",
+};
 
 const MyPageListContainer = () => {
     const {userId} = useParams();
     const dispatch = useDispatch();
     const heart = useSelector(state=>state.heart.heartData);
     const myProject = useSelector(state=>state.project.myProjectListData);
+    const supportData = useSelector(state => state.support.supportData);
     const paging = useSelector(state=>state.utility.paging);
     const offset = (paging.currentPage - 1) * paging.itemVolume;
     const msgBox = useSelector(state=>state.utility.msgBoxOpen);
     const { loading, data, error } = heart;
     const { loading: myLoading, data: myData, error: myError } = myProject;
+    const { loading: supLoading, data: supData, error: supError } = supportData;
 
     useEffect(()=>{
         dispatch(setItemVolumn(7));
@@ -44,14 +55,15 @@ const MyPageListContainer = () => {
         dispatch(msgBoxControl());
         if(msgBox.isOpen === true) dispatch(resetMsgBoxAiming());
     }
-    if(loading || myLoading) return <div>loading</div>
-    if(error || myError) return console.log(error);
-    if(!data || !myData) return <div>loading</div>;
+    if(loading || myLoading || supLoading) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
+    if(error || myError || supData) return console.log(error);
+    if(!data || !myData || !supError) return;
     return (
         <>
             <Routes>
                 <Route path='myheartlist' element={<MyheartList  heart={data}  total={data.length} limit={paging.itemVolume} page={paging.currentPage} setPage={setPage} offset={offset} />} />
-                <Route path='myprojectlist' element={<MyProjectList myData={myData} msgBox={msgBox} projectDelete={projectDelete} isMsgBoxOpen={isMsgBoxOpen}  total={myData.length} limit={paging.itemVolume} page={paging.currentPage} setPage={setPage} offset={offset} />} />
+                <Route path='myprojectlist' element={<MyProjectList myData={myData} msgBox={msgBox} projectDelete={projectDelete} isMsgBoxOpen={isMsgBoxOpen} total={myData.length} limit={paging.itemVolume} page={paging.currentPage} setPage={setPage} offset={offset} />} />
+                <Route path='myfundinglist' element={<MySupportList support={supData} total={myData.length} limit={paging.itemVolume} page={paging.currentPage} setPage={setPage} offset={offset} />} />
             </Routes>
         </>
     );

@@ -1,12 +1,22 @@
 import React from 'react';
-import { BsSuitHeartFill } from 'react-icons/bs';
+import { FaRegHeart, FaHeart } from 'react-icons/fa'
 import { API_URL } from '../../config/contansts';
 
-const ProjectDetail = ({data}) => {
-    if(!data) return null;
+const ProjectDetail = ({ data, heart, heartfilling, trickFullHeart, like, trickEmptyHeart, giveASupport }) => {
+    if (!data) return null;
     return (
         <div className='projectDetail inner'>
-            <h2 className='pDetailTitle'>{data.projectTitle}</h2>
+            <h2 className='pDetailTitle'>
+                {data.projectTitle}
+                <div className='pDetailAct'>
+                    <span className='pDetailHit'>조회수: <span>{data.projectHits}</span></span>
+                    <span className='heart' onClick={() => heartfilling(data, data.projectTitle)}>
+                        <span>{heart ? (trickEmptyHeart !== [] ? (trickEmptyHeart.includes(data.projectTitle) ? <FaRegHeart className='trickEmptyHeart' /> : '') : '') : ''}</span>
+                        <span>{heart ? (trickFullHeart !== [] ? (trickFullHeart.includes(data.projectTitle) ? <FaHeart className='pDetailfullHeart' /> : '') : '') : ''}</span>
+                        <span>{heart ? (like.includes(data.projectTitle) ? <FaHeart className='pDetailfullHeart' /> : <FaRegHeart className='pDetailEmptyHeart' />) : <FaRegHeart className='pDetailEmptyHeart' />}</span>
+                    </span>
+                </div>
+            </h2>
             <div className='projectDetailWrap'>
                 <div className='pDetailImg'>
                     <img src={`${API_URL}/upload/${data.projectImg}`} alt='project' />
@@ -33,9 +43,8 @@ const ProjectDetail = ({data}) => {
                                 <span>{data.projectKeyword}</span>
                             </div>
                         </li>
-                        <li className='pDetailLikes pDetailflexLi'>
-                            <div className='pDetailHit'>조회수: <span>{data.projectHits}</span></div>
-                            <div className='pDetailHeart'><BsSuitHeartFill /></div>
+                        <li className='pDetailFunding'>
+                            <button className='pDetailBtn' onClick={()=>giveASupport(data)}>후원하기</button>
                         </li>
                     </ul>
                 </div>

@@ -72,7 +72,7 @@ const ToggleDiv = styled.div`
 
 const Header = () => {
     const headerMenu = useSelector(state => state.utility.headerMenu);
-    const isLogged = useSelector(state=>state.user.loginUser.isLogged);
+    const isLogged = useSelector(state => state.user.loginUser.isLogged);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const logout = () => {
@@ -83,6 +83,7 @@ const Header = () => {
     }
     const onClick = (e) => {
         dispatch(headerMenuChange(e));
+        toggleOpen();
     }
     const toggleOpen = () => {
         dispatch(onToggleClick());
@@ -95,22 +96,22 @@ const Header = () => {
             <ToggleMenu className='toggleMenu' isOpen={headerMenu.isOpen}>
                 <ul className='inner'>
                     <li className='AllProjectList'>
-                        <Link to='/allprojectlist'><span>전체보기</span></Link>
+                        <Link to='/allprojectlist' onClick={toggleOpen}><span>전체보기</span></Link>
                     </li>
                     <li>
-                        <span>의류</span>
+                        <Link to='/projecttypelist/의류' onClick={toggleOpen}><span>의류</span></Link>
                     </li>
                     <li>
-                        <span>식음료</span>
+                        <Link to='/projecttypelist/식음료' onClick={toggleOpen}><span>식음료</span></Link>
                     </li>
                     <li>
-                        <span>취미</span>
+                        <Link to='/projecttypelist/취미' onClick={toggleOpen}><span>취미</span></Link>
                     </li>
                     <li>
-                        <span>도서</span>
+                        <Link to='/projecttypelist/도서' onClick={toggleOpen}><span>도서</span></Link>
                     </li>
                     <li>
-                        <span>화장품</span>
+                        <Link to='/projecttypelist/화장품' onClick={toggleOpen}><span>화장품</span></Link>
                     </li>
                 </ul>
             </ToggleMenu>

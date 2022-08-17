@@ -16,6 +16,7 @@ import MyPageContainer from './components/container/MyPageContainer';
 import { goToHome } from './components/module/utility';
 import AllProjectsContainer from './components/container/AllProjectsContainer';
 import ProjectEditContainer from './components/container/ProjectEditContainer';
+import ProjectTypeListContainer from './components/container/ProjectTypeListContainer';
 
 function App() {
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ function App() {
         <Route path='/mypage/:userId/*' element={<MyPageContainer />} />
         <Route path='/allprojectlist' element={<AllProjectsContainer />} />
         <Route path='/projectedit/:id' element={<ProjectEditContainer />} />
+        <Route path='/projecttypelist/:type' element={<ProjectTypeListContainer />} />
       </Routes>
       <Footer />
     </div>

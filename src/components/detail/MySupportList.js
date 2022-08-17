@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../config/contansts';
 import Pagination from './Pagination';
 import { RiFileList3Line } from 'react-icons/ri';
 
-const MyProjectList = ({ myData, projectDelete, isMsgBoxOpen, msgBox, total, limit, page, setPage, offset }) => {
+const MySupportList = ({support, total, limit, page, setPage, offset }) => {
     const totalPages = Math.ceil( total / limit );
+    useEffect(()=>{
+        console.log('sss')
+    },[])
     return (
         <div className='myProject myList'>
-            <h2><RiFileList3Line className='listIcon' />내 프로젝트</h2>
+            <h2><RiFileList3Line className='listIcon' />내 후원내역</h2>
             <div className='myProjectWrap myListWrap'>
                 <ul className='myProjectItems myListItems'>
-                    {myData.slice(offset, offset + limit).map(data =>
+                    {support.slice(offset, offset + limit).map(data =>
                         <div key={data.id}>
                             <li>
                                 <Link to={`/projectdetail/${data.id}`}>
@@ -28,17 +31,7 @@ const MyProjectList = ({ myData, projectDelete, isMsgBoxOpen, msgBox, total, lim
                                         <p>조회수 : <span className='myListSpan'>{data.projectHits}</span></p>
                                     </div>
                                 </Link>
-                                <p className='myListProjectBtn'><Link to={`/projectedit/${data.id}`}><button className='editProject projectBtn'>수정</button></Link><button onClick={() => isMsgBoxOpen(data.id, data.projectTitle)} className='deleteProject projectBtn'>삭제</button></p>
                             </li>
-                            {msgBox.isOpen &&
-                                <>
-                                    <div className='blackCoverBg' onClick={isMsgBoxOpen}></div>
-                                    <div className='whiteBox'>
-                                            <p className='msgBoxAlert'>정말로 <span>삭제</span>하시겠습니까?</p>
-                                            <p className='msgBoxDelProject'>삭제될 프로젝트:<span>{msgBox.msgBoxTitle}</span></p>
-                                            <p className='msgBoxBtns'><button className='msgBtn' onClick={() => projectDelete(msgBox.msgBoxId)}>확인</button><button className='msgBtn' onClick={isMsgBoxOpen}>취소</button></p>
-                                    </div>
-                                </>}
                         </div>
                     )}
                 </ul>
@@ -48,4 +41,4 @@ const MyProjectList = ({ myData, projectDelete, isMsgBoxOpen, msgBox, total, lim
     );
 };
 
-export default MyProjectList;
+export default MySupportList;

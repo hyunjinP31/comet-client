@@ -2,12 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../config/contansts';
 import Pagination from './Pagination';
+import { FaHeart } from 'react-icons/fa'
 
 const MyheartList = ({ heart, total, limit, page, setPage, offset }) => {
     const totalPages = Math.ceil( total / limit );
     return (
         <div className='myHeart myList'>
-            <h2>찜목록</h2>
+            <h2><FaHeart className='listIcon' />찜목록</h2>
             <div className='myHeartWrap myListWrap'>
                 <ul className='myHeartItems myListItems'>
                     {heart.slice(offset, offset + limit).map(data =>

@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import { AiOutlineCamera } from 'react-icons/ai'
 import { API_URL } from '../../config/contansts';
 
-const CreateProject = forwardRef(({ addProject, onChange, onSubmit, onImageChange, numberOnly }, projectInputs) => {
+const CreateProject = forwardRef(({ addProject, onChange, onSubmit, onImageChange, numberOnly, onTitleBlur }, projectInputs) => {
     return (
         <>
             <div className='createWrap inner'>
@@ -13,7 +13,7 @@ const CreateProject = forwardRef(({ addProject, onChange, onSubmit, onImageChang
                             <div>
                                 <p>프로젝트 제목</p>
                                 <div>
-                                    <input ref={el => projectInputs.current[0] = el} type='text' name='projectTitle' onChange={onChange} value={addProject.projectTitle} />
+                                    <input onBlur={onTitleBlur} ref={el => projectInputs.current[0] = el} type='text' name='projectTitle' onChange={onChange} value={addProject.projectTitle} />
                                     <p className='projectTitleAlert formAlert'></p>
                                 </div>
                             </div>

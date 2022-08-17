@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BsChevronRight, BsChevronLeft } from 'react-icons/bs';
 import { FaRegHeart, FaHeart } from 'react-icons/fa'
 import { HiArrowNarrowRight } from 'react-icons/hi';
