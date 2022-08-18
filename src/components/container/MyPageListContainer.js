@@ -8,6 +8,7 @@ import { deleteProject, getMyProjectList } from '../module/project';
 import { msgBoxAiming, msgBoxControl, paginate, resetItemVolume, resetMsgBoxAiming, setItemVolumn } from '../module/utility';
 import HashLoader from 'react-spinners/HashLoader';
 import MySupportList from '../detail/MySupportList';
+import { cancelSupport, getMySupportData } from '../module/support';
 
 const override = {
     display: "block",
@@ -34,6 +35,7 @@ const MyPageListContainer = () => {
         if(userId) {
             dispatch(getHeart());
             dispatch(getMyProjectList(userId));
+            dispatch(getMySupportData(userId));
         }
         return ()=>{
             dispatch(resetItemVolume());
@@ -55,15 +57,21 @@ const MyPageListContainer = () => {
         dispatch(msgBoxControl());
         if(msgBox.isOpen === true) dispatch(resetMsgBoxAiming());
     }
+    const supportCancel = (title) => {
+        dispatch(cancelSupport(title));
+        dispatch(msgBoxControl());
+        dispatch(getMySupportData(userId));
+        dispatch(resetMsgBoxAiming());
+    }
     if(loading || myLoading || supLoading) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
-    if(error || myError || supData) return console.log(error);
-    if(!data || !myData || !supError) return;
+    if(error || myError || supError) return console.log(error, myError, supError);
+    if(!data || !myData || !supData) return;
     return (
         <>
             <Routes>
                 <Route path='myheartlist' element={<MyheartList  heart={data}  total={data.length} limit={paging.itemVolume} page={paging.currentPage} setPage={setPage} offset={offset} />} />
                 <Route path='myprojectlist' element={<MyProjectList myData={myData} msgBox={msgBox} projectDelete={projectDelete} isMsgBoxOpen={isMsgBoxOpen} total={myData.length} limit={paging.itemVolume} page={paging.currentPage} setPage={setPage} offset={offset} />} />
-                <Route path='myfundinglist' element={<MySupportList support={supData} total={myData.length} limit={paging.itemVolume} page={paging.currentPage} setPage={setPage} offset={offset} />} />
+                <Route path='myfundinglist' element={<MySupportList support={supData} total={supData.length} limit={paging.itemVolume} page={paging.currentPage} setPage={setPage} offset={offset} isMsgBoxOpen={isMsgBoxOpen} msgBox={msgBox} supportCancel={supportCancel}/>} />
             </Routes>
         </>
     );

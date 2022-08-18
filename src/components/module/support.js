@@ -10,6 +10,7 @@ const GET_SUPPORT_DATA = "support/GET_SUPPORT_DATA";
 const GET_SUPPORT_DATA_SUCCESS = "support/GET_SUPPORT_DATA_SUCCESS";
 const GET_SUPPORT_DATA_ERROR = "support/GET_SUPPORT_DATA_ERROR";
 
+
 const initialState = {
     supported: {
         userId: "",
@@ -20,6 +21,8 @@ const initialState = {
         releaseDate: "",
         deadLine: "",
         projectAchieve: "",
+        projectGoal: "",
+        projectId: "",
     },
     supportData: {
         loading: false,
@@ -30,7 +33,8 @@ const initialState = {
 
 //후원할 프로젝트 값 담기
 export const setSupprot = (data) => {
-    const { sellerId, projectTitle, projectPrice, projectImg, releaseDate, deadLine, projectAchieve } = data;
+    console.log(data)
+    const { sellerId, projectTitle, projectPrice, projectImg, releaseDate, deadLine, projectAchieve, projectGoal, id } = data;
     return {
         type: SET_SUPPORT,
         sellerId,
@@ -39,7 +43,9 @@ export const setSupprot = (data) => {
         projectImg,
         releaseDate,
         deadLine,
-        projectAchieve
+        projectAchieve,
+        projectGoal,
+        projectId: id,
     }
 }
 //후원 프로젝트 값 리셋
@@ -59,29 +65,48 @@ export const setSupportUserId = () => {
 export const giveSupport = () => async (dispatch, getState) => {
     try {
         const supported = getState().support.supported;
-        console.log(supported)
         await axios.post(`${API_URL}/givesupport`, supported);
-        dispatch({type: RESET_SUPPORTED});
+        dispatch({ type: RESET_SUPPORTED });
     }
-    catch(e){
+    catch (e) {
         console.log(e);
     }
 }
 //내 후원내역 불러오기
 export const getMySupportData = (userId) => async (dispatch) => {
-    dispatch({type: GET_SUPPORT_DATA});
-    try{
+    dispatch({ type: GET_SUPPORT_DATA });
+    try {
         const response = await axios.get(`${API_URL}/mysupported/${userId}`);
         const data = response.data;
-        dispatch({type: GET_SUPPORT_DATA_SUCCESS, data});
+        dispatch({ type: GET_SUPPORT_DATA_SUCCESS, data });
+    }
+    catch (e) {
+        dispatch({ type: GET_SUPPORT_DATA_ERROR, error: e });
+    }
+}
+//각 프로젝트의 후원현황 불러오기
+export const getSupportCondition = (title) => async () => {
+    try{
+        const response = await axios.get(`${API_URL}/supportachievement/${title}`);
+        await axios.put(`${API_URL}/updatesupportcondition/${title}`,response.data)
+
     }
     catch(e){
-        dispatch({type: GET_SUPPORT_DATA_ERROR, error: e});
+        console.log(e);
+    }
+}
+//내 후원 취소하기
+export const cancelSupport = (title) => async () => {
+    try {
+        await axios.delete(`${API_URL}/supportcancel/${title}`);
+    }
+    catch(e){
+        console.log(e);
     }
 }
 
-export default function support (state=initialState, action) {
-    switch(action.type){
+export default function support(state = initialState, action) {
+    switch (action.type) {
         case SET_SUPPORT:
             return {
                 ...state,
@@ -94,10 +119,12 @@ export default function support (state=initialState, action) {
                     releaseDate: action.releaseDate,
                     deadLine: action.deadLine,
                     projectAchieve: action.projectAchieve,
+                    projectGoal: action.projectGoal,
+                    projectId: action.projectId,
                 }
             }
         case SET_SUPPORT_USERID:
-            return{
+            return {
                 ...state,
                 supported: {
                     ...state.supported,
@@ -116,6 +143,8 @@ export default function support (state=initialState, action) {
                     releaseDate: "",
                     deadLine: "",
                     projectAchieve: "",
+                    projectGoal: "",
+                    projectId: "",
                 }
             }
         case GET_SUPPORT_DATA:

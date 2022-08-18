@@ -1,14 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../config/contansts';
 import Pagination from './Pagination';
 import { RiFileList3Line } from 'react-icons/ri';
 
-const MySupportList = ({support, total, limit, page, setPage, offset }) => {
+const MySupportList = ({support, total, limit, page, setPage, offset, isMsgBoxOpen, msgBox, supportCancel }) => {
     const totalPages = Math.ceil( total / limit );
-    useEffect(()=>{
-        console.log('sss')
-    },[])
     return (
         <div className='myProject myList'>
             <h2><RiFileList3Line className='listIcon' />내 후원내역</h2>
@@ -17,7 +14,7 @@ const MySupportList = ({support, total, limit, page, setPage, offset }) => {
                     {support.slice(offset, offset + limit).map(data =>
                         <div key={data.id}>
                             <li>
-                                <Link to={`/projectdetail/${data.id}`}>
+                                <Link to={`/projectdetail/${data.projectId}`}>
                                     <div className='myProjectImg myListImg'>
                                         <img src={`${API_URL}/upload/${data.projectImg}`} alt='내 프로젝트 사진' />
                                     </div>
@@ -26,15 +23,27 @@ const MySupportList = ({support, total, limit, page, setPage, offset }) => {
                                         <span><span className='myListSpan'>{data.releaseDate}</span> - <span className='myListSpan'>{data.deadLine}</span></span>
                                     </div>
                                     <div className='myProjectPay myListPay'>
-                                        <h3>achievement 달성</h3>
-                                        <p>키워드: '' ''</p>
-                                        <p>조회수 : <span className='myListSpan'>{data.projectHits}</span></p>
+                                        <h3>{data.achieve}</h3>
+                                        <p>후원금액 : <span className='myListSpan'>{data.price}</span></p>
+                                        <p>판매자: {data.sellerId}</p>
                                     </div>
                                 </Link>
+                                <p className='myListProjectBtn'>
+                                    <button onClick={() => isMsgBoxOpen(data.id, data.projectTitle)} className='deleteProject projectBtn'>삭제</button>
+                                </p>
                             </li>
                         </div>
                     )}
                 </ul>
+                {msgBox.isOpen &&
+                    <>
+                        <div className='blackCoverBg' onClick={isMsgBoxOpen}></div>
+                        <div className='whiteBox'>
+                            <p className='msgBoxAlert'>정말로 <span>취소</span>하시겠습니까?</p>
+                            <p className='msgBoxDelProject'>취소할 프로젝트:<span>{msgBox.msgBoxTitle}</span></p>
+                            <p className='msgBoxBtns'><button className='msgBtn' onClick={() => supportCancel(msgBox.msgBoxTitle)}>확인</button><button className='msgBtn' onClick={isMsgBoxOpen}>취소</button></p>
+                        </div>
+                    </>}
                 <Pagination page={page} setPage={setPage} totalPages={totalPages}/>
             </div>
         </div>

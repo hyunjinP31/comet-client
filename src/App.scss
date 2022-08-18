@@ -782,6 +782,12 @@ body {
                 font-size: 14px;
             }
         }
+        .pDetailPeriod{
+            @include flexlayout($dir: column, $align: flex-start);
+            .projectGoal{
+                font-size: 22px;
+            }
+        }
         li.pDetailFlexLi{
             display: flex;
         }
@@ -794,6 +800,20 @@ body {
             font-size: 26px;
             font-weight: bold;
             border-radius: 10px;
+        }
+        .pDetailBtnDelete {
+            background: $mainBlack;
+        }
+        .pDetailMyProjectBtn {
+            font-size: 36px;
+            background: $mainGray;
+            @include flexlayout($just: center);
+            .smilyFace {
+                margin: 0 10px;
+            }
+            span {
+                font-size: 26px;
+            }
         }
     }
 }

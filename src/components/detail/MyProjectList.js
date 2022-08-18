@@ -28,7 +28,10 @@ const MyProjectList = ({ myData, projectDelete, isMsgBoxOpen, msgBox, total, lim
                                         <p>조회수 : <span className='myListSpan'>{data.projectHits}</span></p>
                                     </div>
                                 </Link>
-                                <p className='myListProjectBtn'><Link to={`/projectedit/${data.id}`}><button className='editProject projectBtn'>수정</button></Link><button onClick={() => isMsgBoxOpen(data.id, data.projectTitle)} className='deleteProject projectBtn'>삭제</button></p>
+                                <p className='myListProjectBtn'>
+                                    <Link to={`/projectedit/${data.id}`}><button className='editProject projectBtn'>수정</button></Link>
+                                    <button onClick={() => isMsgBoxOpen(data.id, data.projectTitle)} className='deleteProject projectBtn'>삭제</button>
+                                </p>
                             </li>
                             {msgBox.isOpen &&
                                 <>

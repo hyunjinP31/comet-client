@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ProjectDetail from '../detail/ProjectDetail';
 import { useSelector, useDispatch } from 'react-redux';
-import { getProjectData } from '../module/project';
+import { getMyProjectList, getProjectData } from '../module/project';
 import HashLoader from 'react-spinners/HashLoader';
 import { addHeart, deleteHeart, emptyHeartTrick, emptyHeartTrickDelete, fullHeartTrick, fullHeartTrickDelete, getHeart, giveHeart } from '../module/heart';
 import { getCookie } from '../../util/cookie';
-import { giveSupport, setSupportUserId, setSupprot } from '../module/support';
+import { cancelSupport, getMySupportData, getSupportCondition, giveSupport, setSupportUserId, setSupprot } from '../module/support';
+import { msgBoxAiming, msgBoxControl, resetMsgBoxAiming } from '../module/utility';
 
 const override = {
     display: "block",
@@ -24,12 +25,23 @@ const ProjectDetailContainer = () => {
     const dispatch = useDispatch();
     const trickFullHeart = useSelector(state=> state.heart.trickHeart.full);
     const trickEmptyHeart = useSelector(state=>state.heart.trickHeart.empty);
+    const mysupportData = useSelector(state=>state.support.supportData);
+    const myProjectData = useSelector(state=>state.project.myProjectListData);
+    const { loading: myLoading, data: myData, error: myError } = myProjectData;
+    const { loading: supLoading, data: supData, error: supError } = mysupportData;
+    const msgBox = useSelector(state=>state.utility.msgBoxOpen);
+
+
     useEffect(()=>{
         dispatch(getProjectData(id));
         //eslint-disable-next-line
     },[])
     useEffect(()=>{
-        if(userId) dispatch(getHeart());
+        if(userId) {
+            dispatch(getMySupportData(userId));
+            dispatch(getMyProjectList(userId));
+            dispatch(getHeart());
+        }
         //eslint-disable-next-line
     },[userId])
     let like;
@@ -44,10 +56,12 @@ const ProjectDetailContainer = () => {
     if(error) return console.log(error);
     if(!data) return;
     if(userId){
-        if(hLoading) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
-        if(hError) return console.log(error);
-        if(!hData) return;
+        if(hLoading || supLoading || myLoading) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
+        if(hError || supError || myError) return console.log(error);
+        if(!hData || !supData || !myData) return;
     }
+    const supTitle = supData.map(support=> support.projectTitle);
+    const myTitle = myData.map(myPro => myPro.projectTitle);
     const heartfilling = (data, title) => {
         if(!userId) return alert('로그인을 먼저 해주세요');
         else {
@@ -63,11 +77,24 @@ const ProjectDetailContainer = () => {
             }
         }
     }
+    const isMsgBoxOpen = (id, title) => {
+        dispatch(msgBoxAiming(id, title));
+        dispatch(msgBoxControl());
+        if(msgBox.isOpen === true) dispatch(resetMsgBoxAiming());
+    }
     const giveASupport = (data) => {
         if(!userId) return alert('로그인이 필요한 서비스입니다.');
         dispatch(setSupportUserId());
         dispatch(setSupprot(data));
         dispatch(giveSupport());
+        dispatch(getSupportCondition(data.projectTitle));
+        dispatch(getMySupportData(userId));
+    }
+    const supportCancel = (title) => {
+        dispatch(cancelSupport(title));
+        dispatch(msgBoxControl());
+        dispatch(getMySupportData(userId));
+        dispatch(resetMsgBoxAiming());
     }
     return (
         <>
@@ -78,7 +105,12 @@ const ProjectDetailContainer = () => {
             trickFullHeart={trickFullHeart}
             like={like}
             trickEmptyHeart={trickEmptyHeart}
-            giveASupport={giveASupport}/>
+            giveASupport={giveASupport}
+            supTitle={supTitle}
+            supportCancel={supportCancel}
+            myTitle={myTitle}
+            isMsgBoxOpen={isMsgBoxOpen}
+            msgBox={msgBox}/>
         </>
     );
 };
