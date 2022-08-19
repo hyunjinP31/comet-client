@@ -1,1 +1,1 @@
-export const API_URL = process.env.NODE_ENV === "https://comet-server.herokuapp.com/"
+export const API_URL = "https://comet-server.herokuapp.com"
