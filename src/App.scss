@@ -98,6 +98,7 @@ body {
         .contentSlide {
             width: 100%;
             height: 400px;
+            min-height: 230px;
             transition: 0.3s;
             @include flexlayout($just: flex-start);
 
@@ -469,6 +470,15 @@ body {
             text-align: center;
             font-size: 16px;
         }
+        .headerMenuList {
+            a{
+                @include flexlayout($just: center);
+            }
+            span {
+                padding: 0 10px;
+                font-size: 20px;
+            }
+        }
     }
 }
 //headerToggle end
@@ -709,10 +719,11 @@ body {
 //ProjectDetail (detail) start
 .pDetailTitle {
     position: relative;
-    text-align: center;
-    font-size: 40px;
-    margin: 30px 0;
-    height: 80px;
+    padding: 20px 0;
+    h2{
+        text-align: center;
+        font-size: 40px;
+    }
 }
 .pDetailAct {
     font-size: 24px;
@@ -973,6 +984,7 @@ body {
 .myListWrap{
     .myListItems{
         width: 100%;
+        min-height: 400px;
         li {
             text-align: center;
             height: 200px;
@@ -1098,3 +1110,282 @@ footer{
 }
 
 //Footer end
+
+//모바일 반응형
+@media screen and (max-width: 767px) {
+    .header {
+        .headerBottom {
+            .headerLeft {
+                ul {
+                    display: none;
+                }
+                .toggle{
+                    margin: 0 10px;
+                }
+            }
+            .searchBox{
+                width: auto;
+                input {
+                    width: 120px;
+                }
+            }
+        }
+    }
+    .App {
+        .toggleMenu{
+            height: 150px;
+            ul {
+                flex-wrap: wrap;
+                li {
+                    width: 50%;
+                    line-height: 50px;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+    .header{
+        .headerTop{
+            ul {
+                li {
+                    font-size: 12px;
+                }
+            }
+            .headerLogo {
+                font-size: 24px;
+            }
+        }
+    }
+    .sliderWrap {
+        .sliderView{
+            height: 350px;
+        }
+    }
+    .contentWrap {
+        .contentSlide {
+            height: 460px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            .contentItem{
+                width: 48%;
+                margin: 0;
+                height: 50%;
+                &:nth-child(odd){
+                    margin-right: 2%;
+                }
+            }
+        }
+    }
+    .contentInnerText {
+        height: 40%;
+        h3{
+            font-size: 14px;
+            width: 90px;
+            height: 46px;
+            overflow: hidden;
+        }
+        p {
+            display: none;
+        }
+    }
+    .imminent{
+        .immiProjects{
+            width: calc(200px*5);
+            height: 230px;
+            .immiProject{
+                width: 200px;
+                height: 100%;
+            }
+        }
+    }
+    .NavBtn {
+        display: none;
+    }
+    .listWrap{
+        .listBottom{
+            height: 690px;
+            overflow: hidden;
+            align-items: flex-start;
+            .listItem {
+                width: 49%;
+                height: 230px;
+                margin: 0 0.5%;
+            }
+        }
+    }
+    .listWrap.projectlistWrap {
+        ul{
+            overflow: auto;
+            height: auto;
+            min-height: 230px;
+        }
+    }
+    footer {
+        .footerWrap{
+            .footerInnerTop{
+                > h2 {
+                    display: none;
+                }
+            }
+            .footerTopLeft {
+                flex-wrap: wrap;
+                justify-content: center;
+                > li {
+                    width: 50%;
+                    padding-bottom: 20px;
+                    padding-left: 30px;
+                    >h3 {
+                        font-size: 14px;
+                    }
+                    li{
+                        font-size: 12px;
+                    }
+                    &:not(:last-child){
+                        padding-right: 0px;
+                    }
+                }
+            }
+            .footerInnerBottom .footerBottomInfo ul {
+                li{
+                    @include flexlayout($dir: column, $align: flex-start)
+                }
+                span, strong {
+                    font-size: 10px;
+                }
+            }
+        }
+        
+        .footerBottom {
+            height: 20px;
+            p {
+                display: none;
+            }
+        }
+    }
+    .signTextInput {
+        width: 250px;
+        font-size: 12px;
+    }
+    .myPageWrap  {
+        flex-direction: column;
+        .myPageLeft {
+            @include flexlayout($align: flex-start);
+            width: 100%;
+            >div {
+                width: 45%;
+                > ul {
+                    height: 150px;
+                    padding: 10px;
+                    li.userName {
+                        @include flexlayout($dir: column);
+                        .listIcon{
+                            margin: 0;
+                            font-size: 20px;
+                        }
+                    }
+                    .userInfo {
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+        .myPageRight{
+            width: 100%;
+            .myList {
+                .myListImg {
+                    width: 50%;
+                }
+                .myListInfo{
+                    width: 50%;
+                    justify-content: flex-start;
+                    h3{
+                        font-size: 14px;
+                    }
+                    > span {
+                        @include flexlayout($dir: column);
+                    }
+                    .myListSpan {
+                        margin-top: 8px;
+                        font-size: 14px;
+                    }
+                }
+                .myListPay {
+                    display: none;
+                }
+            }
+        }
+    }
+    .myListWrap .myListItems .myListProjectBtn {
+        right: 22px;
+        .projectBtn {
+            width: 50px;
+            font-size: 12px;
+        }
+    }
+    .whiteBox {
+        width: 90%;
+        height: 40%;
+        text-align: center;
+        justify-content: center;
+        p{
+            width: 100%;
+            padding: 0;
+        }
+        .msgBoxAlert {
+            font-size: 16px;
+        }
+        .msgBoxDelProject {
+            padding: 30px 0;
+        }
+        .msgBtn {
+            width: 80px;
+            height: 50px;
+            font-size: 14px;
+            &:first-child{
+                margin-right: 20px;
+            }
+        }
+    }
+    .pDetailTitle {
+        @include flexlayout($dir: column);
+        height: 170px;
+        .pDetailAct {
+            position: static;
+            width: 100%;
+            justify-content: flex-end;
+            .heart {
+                position: absolute;
+                top: 0;
+                right: 30px;
+            }
+        }
+    }
+    .projectDetailWrap {
+        flex-direction: column;
+        height: auto;
+        .pDetailImg {
+            width: 100%;
+        }
+        .pDetailInfo {
+            width: 100%;
+            padding: 0;
+            text-align: center;
+            li {
+                margin: 10px 0;
+                p {
+                    font-size: 22px;
+                }
+                span {
+                    font-size: 12px;
+                }
+            }
+            .pDetailPeriod {
+                align-items: center;
+            }
+            .pDetailBtn {
+                font-size: 20px;
+            }
+        }
+    }
+    
+}

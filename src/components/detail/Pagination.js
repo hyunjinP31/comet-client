@@ -2,7 +2,6 @@ import React from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 
 const Pagination = ({ page, setPage, totalPages }) => {
-  if(totalPages === []) return;
   return (
     <div className='pagination inner'>
       <button className='pagingArrow leftPagingArrow' onClick={() => setPage(page - 1)} disabled={page === 1}><IoIosArrowBack /></button>

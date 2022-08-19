@@ -29,7 +29,7 @@ const MySupportList = ({support, total, limit, page, setPage, offset, isMsgBoxOp
                                     </div>
                                 </Link>
                                 <p className='myListProjectBtn'>
-                                    <button onClick={() => isMsgBoxOpen(data.id, data.projectTitle)} className='deleteProject projectBtn'>삭제</button>
+                                    <button onClick={() => isMsgBoxOpen(data.id, data.projectTitle)} className='deleteProject projectBtn'>후원취소</button>
                                 </p>
                             </li>
                         </div>
@@ -39,7 +39,7 @@ const MySupportList = ({support, total, limit, page, setPage, offset, isMsgBoxOp
                     <>
                         <div className='blackCoverBg' onClick={isMsgBoxOpen}></div>
                         <div className='whiteBox'>
-                            <p className='msgBoxAlert'>정말로 <span>취소</span>하시겠습니까?</p>
+                            <p className='msgBoxAlert'>정말로 후원을 <span>취소</span>하시겠습니까?</p>
                             <p className='msgBoxDelProject'>취소할 프로젝트:<span>{msgBox.msgBoxTitle}</span></p>
                             <p className='msgBoxBtns'><button className='msgBtn' onClick={() => supportCancel(msgBox.msgBoxTitle)}>확인</button><button className='msgBtn' onClick={isMsgBoxOpen}>취소</button></p>
                         </div>

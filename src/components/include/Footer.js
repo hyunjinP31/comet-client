@@ -50,8 +50,10 @@ const Footer = () => {
                                     <strong>주소</strong>
                                     <span>: 템퍼스시 템퍼스구 템퍼스로 123-1 템퍼스퀘어</span>
                                 </span>
-                                <strong>대표</strong>
-                                <span>: 박현진</span>
+                                <span>
+                                    <strong>대표</strong>
+                                    <span>: 박현진</span>
+                                </span>
                             </li>
                             <li>
                                 <span className='footerMarginSpan'>
@@ -67,8 +69,10 @@ const Footer = () => {
                                     <span>: 98-765-4321</span>
                                     <span>운영시간 09:00 ~ 18:00</span>
                                 </span>
-                                <strong>통신판매업신고</strong>
-                                <span>: 2022-123456-78-9012</span>
+                                <span>
+                                    <strong>통신판매업신고</strong>
+                                    <span>: 2022-123456-78-9012</span>
+                                </span>
                             </li>
                         </ul>
                     </div>

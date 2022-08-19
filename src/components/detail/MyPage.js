@@ -14,7 +14,7 @@ const MyPage = () => {
                  <div className='myPageLeft'>
                     <div>
                         <ul className='myInfo'>
-                            <li className='userName'><IoPerson className='listIcon userInfo' /><span className='userInfo'>{userName}</span> 님</li>
+                            <li className='userName'><IoPerson className='listIcon userInfo' /><span><span className='userInfo'>{userName}</span> 님</span></li>
                         </ul>
                     </div>
                     <ul className='myMenu'>

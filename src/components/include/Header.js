@@ -3,7 +3,12 @@ import { FiSearch } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom';
 import { getCookie, removeCookie } from '../../util/cookie';
 import { useDispatch, useSelector } from 'react-redux';
-import { goToHome, headerMenuChange, onToggleClick } from '../module/utility';
+import { goToHome, headerMenuChange, onToggleClick, resetSearchInput, searchProject, sendSearchWord, toggleFalse } from '../module/utility';
+import {GrCoatCheck,GrGamepad} from 'react-icons/gr';
+import {BiDish} from 'react-icons/bi';
+import {RiBook2Line} from 'react-icons/ri';
+import {HiOutlineSparkles} from 'react-icons/hi';
+import {AiOutlineUnorderedList} from 'react-icons/ai';
 import styled, { css } from 'styled-components';
 import { loggedOut } from '../module/user';
 const ToggleMenu = styled.div`
@@ -73,6 +78,8 @@ const ToggleDiv = styled.div`
 const Header = () => {
     const headerMenu = useSelector(state => state.utility.headerMenu);
     const isLogged = useSelector(state => state.user.loginUser.isLogged);
+    const search = useSelector(state=> state.utility.search);
+    const userId = getCookie('userId');
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const logout = () => {
@@ -83,35 +90,40 @@ const Header = () => {
     }
     const onClick = (e) => {
         dispatch(headerMenuChange(e));
-        toggleOpen();
+        dispatch(toggleFalse());
     }
     const toggleOpen = () => {
         dispatch(onToggleClick());
     }
-    const userId = getCookie('userId');
-
+    const onSearchChange = (e) => {
+        dispatch(searchProject(e));
+    }
+    const onSearchSend = () => {
+        dispatch(sendSearchWord());
+        dispatch(resetSearchInput());
+    }
     return (
         <>
             <div className='headerHeight'></div>
             <ToggleMenu className='toggleMenu' isOpen={headerMenu.isOpen}>
                 <ul className='inner'>
-                    <li className='AllProjectList'>
-                        <Link to='/allprojectlist' onClick={toggleOpen}><span>전체보기</span></Link>
+                    <li className='AllProjectList headerMenuList'>
+                        <Link to='/allprojectlist' onClick={toggleOpen}><span><AiOutlineUnorderedList /></span>전체보기</Link>
                     </li>
-                    <li>
-                        <Link to='/projecttypelist/의류' onClick={toggleOpen}><span>의류</span></Link>
+                    <li className='headerMenuList'>
+                        <Link to='/projecttypelist/의류' onClick={toggleOpen}><span><GrCoatCheck /></span>의류</Link>
                     </li>
-                    <li>
-                        <Link to='/projecttypelist/식음료' onClick={toggleOpen}><span>식음료</span></Link>
+                    <li className='headerMenuList'>
+                        <Link to='/projecttypelist/식음료' onClick={toggleOpen}><span><BiDish /></span>식음료</Link>
                     </li>
-                    <li>
-                        <Link to='/projecttypelist/취미' onClick={toggleOpen}><span>취미</span></Link>
+                    <li className='headerMenuList'>
+                        <Link to='/projecttypelist/취미' onClick={toggleOpen}><span><GrGamepad /></span>취미</Link>
                     </li>
-                    <li>
-                        <Link to='/projecttypelist/도서' onClick={toggleOpen}><span>도서</span></Link>
+                    <li className='headerMenuList'>
+                        <Link to='/projecttypelist/도서' onClick={toggleOpen}><span><RiBook2Line /></span>도서</Link>
                     </li>
-                    <li>
-                        <Link to='/projecttypelist/화장품' onClick={toggleOpen}><span>화장품</span></Link>
+                    <li className='headerMenuList'>
+                        <Link to='/projecttypelist/화장품' onClick={toggleOpen}><span><HiOutlineSparkles /></span>화장품</Link>
                     </li>
                 </ul>
             </ToggleMenu>
@@ -152,8 +164,8 @@ const Header = () => {
                             </ul>
                         </div>
                         <div className='searchBox'>
-                            <input type='text' name='search' />
-                            <FiSearch className='searchBtn' />
+                            <input type='text' name='search' value={search.searchWord} onChange={onSearchChange} />
+                            <Link to='/searchresult' onClick={onSearchSend}><FiSearch className='searchBtn' /></Link>
                         </div>
                     </div>
                 </div>

@@ -1,3 +1,6 @@
+import axios from "axios";
+import { API_URL } from "../../config/contansts";
+
 const HEADER_MENU_CHANGE = "utility/HEADER_MENU_CHANGE";
 const HEADER_MENU_DEFAULT = "utility/HEADER_MENU_DEFAULT";
 const IS_TOGGLE_CLICKED = "utility/IS_TOGGLE_CLICKED";
@@ -7,6 +10,12 @@ const RESET_MSGBOX_AIMING = "utility/RESET_MSGBOX_AIMING";
 const SET_CURRENT_PAGE = "utility/SET_CURRENT_PAGE";
 const SET_ITEM_VOLUME = "utility/SET_ITEM_VOLUME";
 const RESET_ITEM_VOLUME = "utility/RESET_ITEM_VOLUME";
+const TOGGLE_FALSE = "utility/TOGGLE_FALSE";
+const SEARCHING_PROJECT = "utility/SEARCHING_PROJECT";
+const GET_SEARCHING_PROJECT = "utility/GET_SEARCHING_PROJECT";
+const GET_SEARCHING_PROJECT_SUCCESS = "utility/GET_SEARCHING_PROJECT_SUCCESS";
+const GET_SEARCHING_PROJECT_ERROR = "utility/GET_SEARCHING_PROJECT_ERROR";
+const RESET_SEARCH_PROJECT = "utility/RESET_SEARCH_PROJECT";
 
 const initialState = {
     headerMenu: {
@@ -21,7 +30,13 @@ const initialState = {
     paging: {
         currentPage: 1,
         itemVolume: 20,
-    }
+    },
+    search: {
+        searchWord: "",
+        loading: false,
+        data: null,
+        error: null,
+    },
 }
 
 
@@ -96,7 +111,35 @@ export const resetMsgBoxAiming = () => {
         type: RESET_MSGBOX_AIMING,
     }
 }
-
+export const toggleFalse = () => {
+    return {
+        type: TOGGLE_FALSE,
+    }
+}
+export const searchProject = (e) => {
+    const { value } = e.target
+    return {
+        type: SEARCHING_PROJECT,
+        word: value
+    }
+}
+export const sendSearchWord = () => async (dispatch, getState) => {
+    dispatch({type: GET_SEARCHING_PROJECT});
+    try {
+        const searchWord = getState().utility.search;
+        const response = await axios.post(`${API_URL}/searchingproject`, searchWord);
+        const data = response.data;
+        dispatch({type: GET_SEARCHING_PROJECT_SUCCESS, data});
+    }
+    catch (e) {
+        dispatch({type: GET_SEARCHING_PROJECT_ERROR, error: e})
+    }
+}
+export const resetSearchInput = () => {
+    return {
+        type: RESET_SEARCH_PROJECT,
+    }
+}
 
 export default function utility(state = initialState, action) {
     switch (action.type) {
@@ -172,6 +215,60 @@ export default function utility(state = initialState, action) {
                 paging: {
                     ...state.paging,
                     itemVolume: 20
+                }
+            }
+        case TOGGLE_FALSE:
+            return {
+                ...state,
+                headerMenu: {
+                    ...state.headerMenu,
+                    isOpen: false,
+                }
+            }
+        case SEARCHING_PROJECT:
+            return {
+                ...state,
+                search: {
+                    ...state.search,
+                    searchWord: action.word,
+                }
+            }
+        case GET_SEARCHING_PROJECT:
+            return {
+                ...state,
+                search: {
+                    ...state.search,
+                    loading: true,
+                    data: null,
+                    error: null
+                }
+            }
+        case GET_SEARCHING_PROJECT_SUCCESS:
+            return {
+                ...state,
+                search: {
+                    ...state.search,
+                    loading: false,
+                    data: action.data,
+                    error: null
+                }
+            }
+        case GET_SEARCHING_PROJECT_ERROR:
+            return {
+                ...state,
+                search: {
+                    ...state.search,
+                    loading: false,
+                    data: null,
+                    error: action.error
+                }
+            }
+        case RESET_SEARCH_PROJECT:
+            return {
+                ...state,
+                search: {
+                    ...state.search,
+                    searchWord: "",
                 }
             }
         default:

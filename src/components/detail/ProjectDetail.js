@@ -7,8 +7,8 @@ const ProjectDetail = ({ data, heart, heartfilling, trickFullHeart, like, trickE
     if (!data) return null;
     return (
         <div className='projectDetail inner'>
-            <h2 className='pDetailTitle'>
-                {data.projectTitle}
+            <div className='pDetailTitle'>
+                <h2>{data.projectTitle}</h2>
                 <div className='pDetailAct'>
                     <span className='pDetailHit'>조회수: <span>{data.projectHits}</span></span>
                     <span className='heart' onClick={() => heartfilling(data, data.projectTitle)}>
@@ -17,7 +17,7 @@ const ProjectDetail = ({ data, heart, heartfilling, trickFullHeart, like, trickE
                         <span>{heart ? (like.includes(data.projectTitle) ? <FaHeart className='pDetailfullHeart' /> : <FaRegHeart className='pDetailEmptyHeart' />) : <FaRegHeart className='pDetailEmptyHeart' />}</span>
                     </span>
                 </div>
-            </h2>
+            </div>
             <div className='projectDetailWrap'>
                 <div className='pDetailImg'>
                     <img src={`${API_URL}/upload/${data.projectImg}`} alt='project' />
