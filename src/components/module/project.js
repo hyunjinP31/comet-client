@@ -19,7 +19,6 @@ const GET_PROJECT_LIST_DATA = "project/GET_PROJECT_LIST_DATA";
 const GET_PROJECT_LIST_DATA_SUCCESS = "project/GET_PROJECT_LIST_DATA_SUCCESS";
 const GET_PROJECT_LIST_DATA_ERROR = "project/GET_PROJECT_LIST_DATA_ERROR";
 const IMAGE_CHANGING = "project/IMAGE_CHANGING";
-const CURRENT_MOVE = "project/CURRENT_MOVE";
 const GET_MYPROJECT_LIST_DATA = "project/GET_MYPROJECT_LIST_DATA";
 const GET_MYPROJECT_LIST_DATA_SUCCESS = "project/GET_MYPROJECT_LIST_DATA_SUCCESS";
 const GET_MYPROJECT_LIST_DATA_ERROR = "project/GET_MYPROJECT_LIST_DATA_ERROR";
@@ -86,13 +85,6 @@ const initialState = {
         goalValid: false,
         endDataValid: false,
         typeValid: false
-    },
-    projectSideSwipe: {
-        currentTop: 0,
-        currentTheme: 0,
-        currentNew: 0,
-        currentPoten: 0,
-        currentCom: 0,
     }
 }
 
@@ -308,16 +300,6 @@ export const viewRaise = (id) => async () => {
         console.log(e);
     }
 }
-//좌우 스와이프
-export const sideSwipe = (e) => {
-    const { name, value } = e.target.dataset;
-    const current = parseInt(value);
-    return {
-        type: CURRENT_MOVE,
-        name,
-        current
-    }
-}
 //프로젝트 삭제
 export const deleteProject = (id) => async () => {
     try {
@@ -528,14 +510,6 @@ export default function project(state = initialState, action) {
                 addProject: {
                     ...state.addProject,
                     [action.name]: action.imgUrl
-                }
-            }
-        case CURRENT_MOVE:
-            return {
-                ...state,
-                projectSideSwipe: {
-                    ...state.projectSideSwipe,
-                    [action.name]: state.projectSideSwipe[action.name] + action.current
                 }
             }
         case SET_EDIT_DEFAULT_VALUE:

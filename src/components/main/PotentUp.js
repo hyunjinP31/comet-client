@@ -1,10 +1,13 @@
 import React from 'react';
-import { BsChevronRight, BsChevronLeft } from 'react-icons/bs';
 import { FaRegHeart, FaHeart } from 'react-icons/fa'
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../config/contansts';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from "swiper";
+import 'swiper/css';
+import "swiper/css/navigation";
 
-const PotentUp = ({ potenData, onClick, onMove, currentIndex, heartfilling, heart, trickFullHeart, like, trickEmptyHeart }) => {
+const PotentUp = ({ potenData, onClick, heartfilling, heart, trickFullHeart, like, trickEmptyHeart }) => {
     if (!potenData) return <div>loading</div>;
     return (
         <section className='potentUp inner'>
@@ -13,9 +16,25 @@ const PotentUp = ({ potenData, onClick, onMove, currentIndex, heartfilling, hear
             </div>
             <div className='potenWrap contentWrap'>
                 <div className='potenView contentView'>
-                    <ul style={{ transform: `translateX(${currentIndex.currentPoten * 1200}px)` }} className='potenProjects contentSlide'>
+                <Swiper
+                        className='potenProjects contentSlide mySwiper'
+                        spacebetween={30}
+                        slidesPerView={3}
+                        slidesPerGroup={3}
+                        navigation={true}
+                        modules={[Navigation]}
+                        centeredSlides={false}
+                        pagination={{
+                          clickable: true,
+                        }}
+                        breakpoints={{
+                            768: {
+                                slidesPerView: 3,
+                                slidesPerGroup: 3,
+                            }
+                        }}>
                         {potenData.map(data =>
-                            <li className='potenProject contentItem' key={data.id}>
+                            <SwiperSlide  className='contentItem' key={data.id}>
                                 <Link to={`projectDetail/${data.id}`} onClick={() => onClick(data.id)}>
                                     <div className='potenImg contentImg'>
                                         <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
@@ -31,17 +50,9 @@ const PotentUp = ({ potenData, onClick, onMove, currentIndex, heartfilling, hear
                                         <p>{data.sellerName}</p>
                                     </Link>
                                 </div>
-                            </li>
+                            </SwiperSlide>
                         )}
-                    </ul>
-                </div>
-                <div className='potenNav'>
-                    <span style={{ display: currentIndex.currentPoten >= 0 ? 'none' : '' }} className='potenPrev potenNavBtn NavBtn PrevBtn'>
-                        <span className='coverUp' onClick={onMove} data-name='currentPoten' data-value={1} ></span><BsChevronLeft className='BtnArrow arrowLeft' />
-                    </span>
-                    <span style={{ display: currentIndex.currentPoten <= -2 ? 'none' : '' }} className='potenNext potenNavBtn NavBtn NextBtn'>
-                        <span className='coverUp' onClick={onMove} data-name='currentPoten' data-value={-1} ></span><BsChevronRight className='BtnArrow arrowRight' />
-                    </span>
+                    </Swiper>
                 </div>
             </div>
         </section>

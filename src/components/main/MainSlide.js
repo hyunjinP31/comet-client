@@ -1,92 +1,48 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination } from "swiper";
+import 'swiper/css';
+import "swiper/css/pagination";
 
 const MainSlide = () => {
 
     const backColors = ['images/mainSlide/main_slide3.png', 'images/mainSlide/main_slide3.png', 'images/mainSlide/main_slide3.png']
-    const [currentIndex, setCurrnetIndex] = useState(1)
-    const slideReplace = useRef();
 
     //슬라이드 앞/뒤 clone 배치
     const setSlides = () => {
-        const addedLast = backColors[0];
-        const addedFront = backColors[backColors.length - 1];
-        return [addedFront, ...backColors, addedLast];
+        return [...backColors];
     }
     let slides = setSlides();
-
-    //슬라이드 대체(눈속임)
-    const replaceSlide = index => {
-        setTimeout(function () {
-            slideReplace.current.style.transition = '0s';
-            setCurrnetIndex(index);
-        }, 200)
-    }
-
-    //slide 무한 이동
-    const Interval = (callback, delay) => {
-        const savedCallback = useRef();
-        useEffect(() => {
-            savedCallback.current = callback;
-            if (currentIndex === 0) {
-                // 0 + 5
-                replaceSlide(3);
-            }
-            else if (currentIndex === 4) {
-                replaceSlide(1);
-            }
-        }, [callback]);
-        useEffect(() => {
-            function tick() {
-                slideReplace.current.style.transition = '0.2s';
-                savedCallback.current();
-            }
-            if (delay !== null) {
-                let id = setInterval(tick, delay);
-                return () => clearInterval(id);
-            }
-        }, [delay])
-    }
-
-
-    //slide 이동 핸들러(자동)
-    Interval(() => {
-        setCurrnetIndex(currentIndex => currentIndex + 1);
-    }, 4000)
 
     return (
         <section className='mainSlider'>
             <div className='sliderWrap'>
                 <div className='sliderView'>
-                    <div className='sliderList'
-                        style={{
-                            transform: `translateX(${(-100 / slides.length) * currentIndex}%)`,
-                            width: `${slides.length * 100}vw`
-                        }}
-                        ref={slideReplace}>
+                    <Swiper 
+                    className='sliderList mySwiper'
+                    spacebetween={30}
+                    slidesPerView={1}
+                    modules={[Pagination, Autoplay]}
+                    centeredSlides={false}
+                    loop={true}
+                    autoplay={{
+                        delay: 2000,
+                        disableOnInteraction: false
+                    }}
+                    pagination={{
+                      clickable: true,
+                    }}>
                         {
                             slides.map((slide, slideIndex) => {
                                 return (
-                                    <div key={slideIndex}
+                                    <SwiperSlide key={slideIndex}
                                         className='sliderItem'
                                         style={{ background: `url(${slide})center center/cover no-repeat`, width: 100 / slides.length + '%' }}>
-                                    </div>
+                                    </SwiperSlide>
                                 )
                             })
                         }
-                    </div>
-                </div>
-                <div className='sliderIndis'>
-                        {
-                            backColors.map((item, index)=>{
-                                return <span key={index}
-                                onClick={(e)=> setCurrnetIndex(parseInt(e.target.dataset.value))}
-                                data-value={index+1}
-                                className={`sliderIndi ${index + 1 === currentIndex ? 'currentIndi' : '' ||
-                                index === 2 ? (currentIndex === 0 ? 'currentIndi': '') : '' ||
-                                index === 0 ? (currentIndex === slides.length - 1 ? 'currentIndi' : '') : ''}`}
-                                ></span>;
-                            })
-                        }
+                    </Swiper>
                 </div>
             </div>
         </section>

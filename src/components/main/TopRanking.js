@@ -1,11 +1,15 @@
 import React from 'react';
-import { BsChevronRight, BsChevronLeft } from 'react-icons/bs';
 import { FaRegHeart, FaHeart } from 'react-icons/fa'
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../config/contansts';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from "swiper";
+import 'swiper/css';
+import "swiper/css/navigation";
 
-const TopRanking = ({ topData, onClick, onMove, currentIndex, heartfilling, heart, trickFullHeart, like, trickEmptyHeart}) => {
+
+const TopRanking = ({ topData, onClick, heartfilling, heart, trickFullHeart, like, trickEmptyHeart }) => {
     if (!topData) return <div>loading</div>;
 
     return (
@@ -16,9 +20,25 @@ const TopRanking = ({ topData, onClick, onMove, currentIndex, heartfilling, hear
             </div>
             <div className='topWrap contentWrap'>
                 <div className='topRankingWrap contentView'>
-                    <ul style={{ transform: `translateX(${currentIndex.currentTop * 1200}px)` }} className='topProjects contentSlide'>
+                    <Swiper
+                        className='topProjects contentSlide mySwiper'
+                        spacebetween={30}
+                        slidesPerView={3}
+                        slidesPerGroup={3}
+                        navigation={true}
+                        modules={[Navigation]}
+                        centeredSlides={false}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        breakpoints={{
+                            768: {
+                                slidesPerView: 4,
+                                slidesPerGroup: 4,
+                            }
+                        }}>
                         {topData.map(data =>
-                            <li className='topBox contentItem' key={data.id}>
+                            <SwiperSlide className='contentItem' key={data.id}>
                                 <Link to={`projectDetail/${data.id}`} onClick={() => onClick(data.id)}>
                                     <div className='topImg contentImg'>
                                         <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
@@ -36,17 +56,9 @@ const TopRanking = ({ topData, onClick, onMove, currentIndex, heartfilling, hear
                                         <p>{data.sellerName}</p>
                                     </Link>
                                 </div>
-                            </li>
+                            </SwiperSlide>
                         )}
-                    </ul>
-                </div>
-                <div className='topProjectNav'>
-                    <span data-name='currentTop' style={{ display: currentIndex.currentTop >= 0 ? 'none' : '' }} data-value={1} onClick={onMove} className='topNavBtn topPrev NavBtn PrevBtn'>
-                        <span className='coverUp' data-name='currentTop' data-value={1} ></span><BsChevronLeft className='BtnArrow arrowLeft' />
-                    </span>
-                    <span data-name='currentTop' style={{ display: currentIndex.currentTop <= -2 ? 'none' : '' }} data-value={-1} onClick={onMove} className='topNavBtn topNext NavBtn NextBtn'>
-                        <span className='coverUp' data-name='currentTop' data-value={-1} ></span><BsChevronRight className='BtnArrow arrowRight' />
-                    </span>
+                    </Swiper>
                 </div>
             </div>
         </section>

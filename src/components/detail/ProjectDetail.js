@@ -3,7 +3,7 @@ import { FaRegHeart, FaHeart } from 'react-icons/fa'
 import { API_URL } from '../../config/contansts';
 import { AiOutlineSmile } from 'react-icons/ai';
 
-const ProjectDetail = ({ data, heart, heartfilling, trickFullHeart, like, trickEmptyHeart, giveASupport, supTitle, supportCancel, myTitle,isMsgBoxOpen, msgBox }) => {
+const ProjectDetail = ({ data, heart, heartfilling, trickFullHeart, like, trickEmptyHeart, giveASupport, supTitle, supportCancel, myTitle, isMsgBoxOpen, msgBox }) => {
     if (!data) return null;
     return (
         <div className='projectDetail inner'>
@@ -47,7 +47,7 @@ const ProjectDetail = ({ data, heart, heartfilling, trickFullHeart, like, trickE
                         </li>
                         <li className='pDetailFunding'>
                             {
-                                supTitle !== [] ? (myTitle.includes(data.projectTitle) ? <button className='pDetailBtn pDetailMyProjectBtn' disabled><span>내가 올린 프로젝트예요</span><AiOutlineSmile className='smilyFace'/></button> :
+                                supTitle !== [] && supTitle !== undefined && myTitle !== undefined ? (myTitle.includes(data.projectTitle) ? <button className='pDetailBtn pDetailMyProjectBtn' disabled><span>내가 올린 프로젝트예요</span><AiOutlineSmile className='smilyFace'/></button> :
                                 (supTitle.includes(data.projectTitle) ?
                                 <button className='pDetailBtn pDetailBtnDelete' onClick={()=>isMsgBoxOpen(data.id, data.projectTitle)}>후원 취소하기</button> :
                                 <button className='pDetailBtn' onClick={()=>giveASupport(data)}>후원하기</button>)) :

@@ -1,11 +1,14 @@
 import React from 'react';
-import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { FaRegHeart, FaHeart } from 'react-icons/fa'
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../config/contansts';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from "swiper";
+import 'swiper/css';
+import "swiper/css/navigation";
 
-const NewProject = ({ newData, onClick, onMove, currentIndex, heartfilling, heart, trickFullHeart, like, trickEmptyHeart }) => {
+const NewProject = ({ newData, onClick, heartfilling, heart, trickFullHeart, like, trickEmptyHeart }) => {
     if (!newData) return <div>loading</div>;
     return (
         <section className='newProject inner'>
@@ -15,9 +18,25 @@ const NewProject = ({ newData, onClick, onMove, currentIndex, heartfilling, hear
             </div>
             <div className='newWrap contentWrap'>
                 <div className='newProjectView contentView'>
-                    <ul style={{ transform: `translateX(${currentIndex.currentNew * 1200}px)` }} className='newProjects contentSlide'>
+                    <Swiper
+                        className='topProjects contentSlide mySwiper'
+                        spacebetween={50}
+                        slidesPerView={3}
+                        slidesPerGroup={3}
+                        navigation={true}
+                        modules={[Navigation]}
+                        centeredSlides={false}
+                        pagination={{
+                          clickable: true,
+                        }}
+                        breakpoints={{
+                            768: {
+                                slidesPerView: 5,
+                                slidesPerGroup: 5,
+                            }
+                        }}>
                         {newData.map(data =>
-                            <li className='newProject contentItem' key={data.id}>
+                            <SwiperSlide  className='contentItem' key={data.id}>
                                 <Link to={`projectDetail/${data.id}`} onClick={() => onClick(data.id)}>
                                     <div className='newImg contentImg'>
                                         <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
@@ -33,17 +52,9 @@ const NewProject = ({ newData, onClick, onMove, currentIndex, heartfilling, hear
                                         <p>{data.sellerName}</p>
                                     </Link>
                                 </div>
-                            </li>
+                            </SwiperSlide>
                         )}
-                    </ul>
-                </div>
-                <div className='newNav'>
-                    <span style={{ display: currentIndex.currentNew >= 0 ? 'none' : '' }} className='newPrev newNavBtn NavBtn PrevBtn'>
-                        <span onClick={onMove} className='coverUp' data-name='currentNew' data-value={1} ></span><BsChevronLeft className='BtnArrow arrowLeft' />
-                    </span>
-                    <span style={{ display: currentIndex.currentNew <= -1 ? 'none' : '' }} className='newNext newNavBtn NavBtn NextBtn'>
-                        <span onClick={onMove} className='coverUp' data-name='currentNew' data-value={-1} ></span><BsChevronRight className='BtnArrow arrowRight' />
-                    </span>
+                    </Swiper>
                 </div>
             </div>
         </section>

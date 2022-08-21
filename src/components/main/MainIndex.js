@@ -7,22 +7,21 @@ import PotentUp from './PotentUp';
 import Theme from './Theme';
 import TopRanking from './TopRanking';
 import { useSelector, useDispatch } from 'react-redux';
-import { printMain, sideSwipe, viewRaise } from '../module/project';
+import { printMain, viewRaise } from '../module/project';
 import { getCookie } from '../../util/cookie';
 import { addHeart, deleteHeart, emptyHeartTrick, emptyHeartTrickDelete, fullHeartTrick, fullHeartTrickDelete, getHeart, giveHeart } from '../module/heart';
 import HashLoader from 'react-spinners/HashLoader';
 
 const override = {
-    display: "block",
-    margin: "0 auto",
+    margin: "0",
+    padding: 0,
     width: "100%",
-    height: "700px",
+    height: "500px",
 };
 
 const MainIndex = () => {
     const dispatch = useDispatch();
     const project = useSelector(state => state.project.project);
-    const currentIndex = useSelector(state=>state.project.projectSideSwipe);
     const heart = useSelector(state=> state.heart.heartData);
     const trickFullHeart = useSelector(state=> state.heart.trickHeart.full);
     const trickEmptyHeart = useSelector(state=>state.heart.trickHeart.empty);
@@ -47,22 +46,19 @@ const MainIndex = () => {
         //eslint-disable-next-line
     },[hData])
     //메인 프로젝트들 받아오기
-    if (loading) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
+    if (loading) return <HashLoader cssOverride={override} color="#838dd2" size={40}/>;
     if (error) return console.log(error);
     if (!data) return;
     //로그인 했을 때 하트 데이터 받아오기
     if(userId) {
-        if(hLoading) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
+        if(hLoading) return <HashLoader cssOverride={override} color="#838dd2" size={40}/>;
         if(hError) return console.log(error);
-        if(!hData) return null;
+        if(!hData) return;
     }
     const { topData, immiData, themeData, newData, potenData, comData } = data;
 
     const onClick = (id) => {
        dispatch(viewRaise(id));
-    }
-    const onMove = (e)=>{
-        dispatch(sideSwipe(e));
     }
     const heartfilling = (data, title) => {
         if(!userId) return alert('로그인을 먼저 해주세요');
@@ -82,11 +78,11 @@ const MainIndex = () => {
     return (
         <>
             <MainSlide />
-            <TopRanking topData={topData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} heartfilling={heartfilling} heart={hData} trickFullHeart={trickFullHeart} like={like} trickEmptyHeart={trickEmptyHeart}/>
+            <TopRanking topData={topData} onClick={onClick} heartfilling={heartfilling} heart={hData} trickFullHeart={trickFullHeart} like={like} trickEmptyHeart={trickEmptyHeart}/>
             <Imminent immiData={immiData} heartfilling={heartfilling} heart={hData} trickFullHeart={trickFullHeart} like={like} trickEmptyHeart={trickEmptyHeart} />
-            <Theme themeData={themeData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} heartfilling={heartfilling} heart={hData} trickFullHeart={trickFullHeart} like={like} trickEmptyHeart={trickEmptyHeart} />
-            <NewProject newData={newData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} heartfilling={heartfilling} heart={hData} trickFullHeart={trickFullHeart} like={like} trickEmptyHeart={trickEmptyHeart} />
-            <PotentUp potenData={potenData} onClick={onClick} onMove={onMove} currentIndex={currentIndex} heartfilling={heartfilling} heart={hData} trickFullHeart={trickFullHeart} like={like} trickEmptyHeart={trickEmptyHeart} />
+            <Theme themeData={themeData} onClick={onClick} heartfilling={heartfilling} heart={hData} trickFullHeart={trickFullHeart} like={like} trickEmptyHeart={trickEmptyHeart} />
+            <NewProject newData={newData} onClick={onClick} heartfilling={heartfilling} heart={hData} trickFullHeart={trickFullHeart} like={like} trickEmptyHeart={trickEmptyHeart} />
+            <PotentUp potenData={potenData} onClick={onClick} heartfilling={heartfilling} heart={hData} trickFullHeart={trickFullHeart} like={like} trickEmptyHeart={trickEmptyHeart} />
             <CommingSoon comData={comData} onClick={onClick} heartfilling={heartfilling} heart={hData} trickFullHeart={trickFullHeart} like={like} trickEmptyHeart={trickEmptyHeart} />
         </>
     );

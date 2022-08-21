@@ -45,7 +45,11 @@ const ProjectDetailContainer = () => {
         //eslint-disable-next-line
     },[userId])
     let like;
+    let supTitle;
+    let myTitle;
     if(hData) like = hData.map(like => like.projectTitle);
+    if(supData) supTitle = supData.map(support=> support.projectTitle);
+    if(myData) myTitle = myData.map(myPro => myPro.projectTitle);
     useEffect(()=>{
         if(like) {
             like.forEach(title=>dispatch(fullHeartTrick(title)));
@@ -60,8 +64,6 @@ const ProjectDetailContainer = () => {
         if(hError || supError || myError) return console.log(error);
         if(!hData || !supData || !myData) return;
     }
-    const supTitle = supData.map(support=> support.projectTitle);
-    const myTitle = myData.map(myPro => myPro.projectTitle);
     const heartfilling = (data, title) => {
         if(!userId) return alert('로그인을 먼저 해주세요');
         else {
