@@ -10,7 +10,7 @@ import "swiper/css/navigation";
 
 
 const TopRanking = ({ topData, onClick, heartfilling, heart, trickFullHeart, like, trickEmptyHeart }) => {
-    if (!topData) return <div>loading</div>;
+    if (!topData) return;
 
     return (
         <section className='topRanking inner'>
@@ -22,7 +22,7 @@ const TopRanking = ({ topData, onClick, heartfilling, heart, trickFullHeart, lik
                 <div className='topRankingWrap contentView'>
                     <Swiper
                         className='topProjects contentSlide mySwiper'
-                        spacebetween={30}
+                        spaceBetween={30}
                         slidesPerView={3}
                         slidesPerGroup={3}
                         navigation={true}

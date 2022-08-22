@@ -8,7 +8,7 @@ import 'swiper/css';
 import "swiper/css/navigation";
 
 const PotentUp = ({ potenData, onClick, heartfilling, heart, trickFullHeart, like, trickEmptyHeart }) => {
-    if (!potenData) return <div>loading</div>;
+    if (!potenData) return;
     return (
         <section className='potentUp inner'>
             <div className='potenTop topTitle inner'>
@@ -18,7 +18,7 @@ const PotentUp = ({ potenData, onClick, heartfilling, heart, trickFullHeart, lik
                 <div className='potenView contentView'>
                 <Swiper
                         className='potenProjects contentSlide mySwiper'
-                        spacebetween={30}
+                        spaceBetween={30}
                         slidesPerView={3}
                         slidesPerGroup={3}
                         navigation={true}

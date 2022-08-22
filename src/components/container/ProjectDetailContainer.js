@@ -10,10 +10,9 @@ import { cancelSupport, getMySupportData, getSupportCondition, giveSupport, setS
 import { msgBoxAiming, msgBoxControl, resetMsgBoxAiming } from '../module/utility';
 
 const override = {
-    display: "block",
-    margin: "0 auto",
     width: "100%",
-    height: "700px",
+    height: "500px",
+    transform: "rotate(0deg)",
 };
 const ProjectDetailContainer = () => {
     const {id} = useParams();

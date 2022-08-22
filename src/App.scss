@@ -58,7 +58,6 @@ table {
     border-collapse: collapse;
     border-spacing: none;
 }
-
 body {
     line-height: 1.6;
     font-family: 'GothicA1-Light', sans-serif;
@@ -1121,6 +1120,7 @@ footer{
 //모바일 반응형
 @media screen and (max-width: 767px) {
     .header {
+        padding: 0 10px;
         .headerBottom {
             .headerLeft {
                 ul {
@@ -1177,14 +1177,20 @@ footer{
     }
     .contentInnerText {
         height: 40%;
+        padding: 10px;
         h3{
-            font-size: 14px;
+            font-size: 12px;
             width: 95px;
             height: 46px;
             overflow: hidden;
         }
         p {
             display: none;
+        }
+        .heart {
+            .fullHeart {
+                top: 2px;
+            }
         }
     }
     .imminent{
@@ -1274,6 +1280,7 @@ footer{
         .myPageLeft {
             @include flexlayout($align: flex-start);
             width: 100%;
+            padding: 0 10px;
             >div {
                 width: 45%;
                 > ul {

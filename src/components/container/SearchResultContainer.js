@@ -8,10 +8,9 @@ import { viewRaise } from '../module/project';
 import { paginate } from '../module/utility';
 
 const override = {
-    display: "block",
-    margin: "0 auto",
     width: "100%",
     height: "500px",
+    transform: "rotate(0deg)",
 };
 
 const SearchResultContainer = () => {

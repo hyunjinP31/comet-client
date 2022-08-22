@@ -9,10 +9,9 @@ import { addHeart, deleteHeart, emptyHeartTrick, emptyHeartTrickDelete, fullHear
 import HashLoader from 'react-spinners/HashLoader';
 
 const override = {
-    display: "block",
-    margin: "0 auto",
     width: "100%",
-    height: "700px",
+    height: "500px",
+    transform: "rotate(0deg)",
 };
 
 

@@ -9,7 +9,7 @@ import "swiper/css/navigation";
 
 
 const Theme = ({ themeData, onClick, heartfilling, heart, trickFullHeart, like, trickEmptyHeart }) => {
-    if (!themeData) return <div>loading</div>;
+    if (!themeData) return;
     return (
         <section className='theme inner'>
             <div className='thmemTop topTitle inner'>
@@ -19,7 +19,7 @@ const Theme = ({ themeData, onClick, heartfilling, heart, trickFullHeart, like, 
                 <div className='themeProjectView contentView'>
                     <Swiper
                         className='themeSlide contentSlide mySwiper'
-                        spacebetween={30}
+                        spaceBetween={30}
                         slidesPerView={3}
                         slidesPerGroup={3}
                         navigation={true}

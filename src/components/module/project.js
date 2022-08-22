@@ -145,7 +145,8 @@ export const imageChange = (e) => async (dispatch) => {
         const response = await axios.post(`${API_URL}/upload`, imageFormData, {
             Headers: { 'content-type': 'multipart/form-data' },
         })
-        const imgUrl = response.data.projectImg;
+        console.log(response.data)
+        const imgUrl = response.data.originalname;
         dispatch(setImageUrl(e, imgUrl));
     }
     catch (e) {

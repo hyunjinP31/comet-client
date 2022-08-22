@@ -11,10 +11,9 @@ import MySupportList from '../detail/MySupportList';
 import { cancelSupport, getMySupportData } from '../module/support';
 
 const override = {
-    display: "block",
-    margin: "0 auto",
     width: "100%",
     height: "500px",
+    transform: "rotate(0deg)",
 };
 
 const MyPageListContainer = () => {

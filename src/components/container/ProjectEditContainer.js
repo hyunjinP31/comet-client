@@ -7,10 +7,9 @@ import { goToHome } from '../module/utility';
 import HashLoader from 'react-spinners/HashLoader';
 
 const override = {
-    display: "block",
-    margin: "0 auto",
     width: "100%",
-    height: "700px",
+    height: "500px",
+    transform: "rotate(0deg)",
 };
 const ProjectEditContainer = () => {
     const addProject = useSelector(state=>state.project.addProject);

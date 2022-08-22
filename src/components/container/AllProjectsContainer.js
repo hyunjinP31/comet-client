@@ -8,10 +8,9 @@ import { addHeart, deleteHeart, emptyHeartTrick, emptyHeartTrickDelete, fullHear
 import HashLoader from 'react-spinners/HashLoader';
 
 const override = {
-    display: "block",
-    margin: "0 auto",
     width: "100%",
-    height: "700px",
+    height: "500px",
+    transform: "rotate(0deg)",
 };
 
 const AllProjectsContainer = () => {
@@ -47,12 +46,12 @@ const AllProjectsContainer = () => {
         //eslint-disable-next-line
     },[hData])
     if (loading) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
-    if (!data) return <div>loading</div>;
+    if (!data) return;
     if (error) return console.log(error);
     if(userId) {
         if(hLoading) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
-        if(hError) return <div>error</div>;
-        if(!hData) return null;
+        if(hError) return console.log(error);
+        if(!hData) return;
     }
     const heartfilling = (data, title) => {
         if(!userId) return alert('로그인을 먼저 해주세요');

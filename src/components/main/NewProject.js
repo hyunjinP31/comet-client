@@ -9,7 +9,7 @@ import 'swiper/css';
 import "swiper/css/navigation";
 
 const NewProject = ({ newData, onClick, heartfilling, heart, trickFullHeart, like, trickEmptyHeart }) => {
-    if (!newData) return <div>loading</div>;
+    if (!newData) return;
     return (
         <section className='newProject inner'>
             <div className='newTop topTitle inner'>
@@ -20,7 +20,7 @@ const NewProject = ({ newData, onClick, heartfilling, heart, trickFullHeart, lik
                 <div className='newProjectView contentView'>
                     <Swiper
                         className='topProjects contentSlide mySwiper'
-                        spacebetween={50}
+                        spaceBetween={30}
                         slidesPerView={3}
                         slidesPerGroup={3}
                         navigation={true}

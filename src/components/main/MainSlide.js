@@ -20,7 +20,7 @@ const MainSlide = () => {
                 <div className='sliderView'>
                     <Swiper 
                     className='sliderList mySwiper'
-                    spacebetween={30}
+                    spaceBetween={30}
                     slidesPerView={1}
                     modules={[Pagination, Autoplay]}
                     centeredSlides={false}

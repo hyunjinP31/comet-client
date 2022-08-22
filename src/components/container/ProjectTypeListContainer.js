@@ -1,7 +1,7 @@
 import ProjectTypeList from '../detail/ProjectTypeList';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
-import { getAllProject, getProjectTypeList, viewRaise } from '../module/project';
+import { getProjectTypeList, viewRaise } from '../module/project';
 import { paginate } from '../module/utility';
 import { getCookie } from '../../util/cookie';
 import { addHeart, deleteHeart, emptyHeartTrick, emptyHeartTrickDelete, fullHeartTrick, fullHeartTrickDelete, getHeart, giveHeart } from '../module/heart';
@@ -9,10 +9,9 @@ import HashLoader from 'react-spinners/HashLoader';
 import { useParams } from 'react-router-dom';
 
 const override = {
-    display: "block",
-    margin: "0 auto",
     width: "100%",
-    height: "700px",
+    height: "500px",
+    transform: "rotate(0deg)",
 };
 
 const ProjectTypeListContainer = () => {

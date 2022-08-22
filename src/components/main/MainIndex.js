@@ -13,10 +13,9 @@ import { addHeart, deleteHeart, emptyHeartTrick, emptyHeartTrickDelete, fullHear
 import HashLoader from 'react-spinners/HashLoader';
 
 const override = {
-    margin: "0",
-    padding: 0,
     width: "100%",
     height: "500px",
+    transform: "rotate(0deg)",
 };
 
 const MainIndex = () => {
