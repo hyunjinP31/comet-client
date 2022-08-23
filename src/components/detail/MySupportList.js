@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { API_URL } from '../../config/contansts';
+import { IMG_URL } from '../../config/contansts';
 import Pagination from './Pagination';
 import { RiFileList3Line } from 'react-icons/ri';
 
@@ -16,7 +16,7 @@ const MySupportList = ({support, total, limit, page, setPage, offset, isMsgBoxOp
                             <li>
                                 <Link to={`/projectdetail/${data.projectId}`}>
                                     <div className='myProjectImg myListImg'>
-                                        <img src={`${API_URL}/upload/${data.projectImg}`} alt='내 프로젝트 사진' />
+                                        <img src={`${IMG_URL}/${data.projectImg}`} alt='내 프로젝트 사진' />
                                     </div>
                                     <div className='myProjectInfo myListInfo'>
                                         <h3>{data.projectTitle}</h3>

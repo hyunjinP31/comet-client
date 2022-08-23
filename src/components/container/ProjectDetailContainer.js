@@ -55,16 +55,8 @@ const ProjectDetailContainer = () => {
         }
         //eslint-disable-next-line
     },[hData])
-    if( loading ) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
-    if(error) return console.log(error);
-    if(!data) return;
-    if(userId){
-        if(hLoading || supLoading || myLoading) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
-        if(hError || supError || myError) return console.log(error);
-        if(!hData || !supData || !myData) return;
-    }
     const heartfilling = (data, title) => {
-        if(!userId) return alert('로그인을 먼저 해주세요');
+        if(!userId) return alert('로그인이 필요한 서비스입니다.');
         else {
             if(trickFullHeart.includes(title)) {
                 dispatch(fullHeartTrickDelete(title));
@@ -94,9 +86,18 @@ const ProjectDetailContainer = () => {
     const supportCancel = (title) => {
         dispatch(cancelSupport(title));
         dispatch(msgBoxControl());
-        dispatch(getMySupportData(userId));
         dispatch(resetMsgBoxAiming());
+        dispatch(getMySupportData(userId));
     }
+    if( loading ) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
+    if(error) return console.log(error);
+    if(!data) return;
+    if(userId){
+        if(hLoading || supLoading || myLoading) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
+        if(hError || supError || myError) return console.log(error);
+        if(!hData || !supData || !myData) return;
+    }
+
     return (
         <>
             <ProjectDetail

@@ -13,6 +13,7 @@ const DELETE_TRICK_FULL_HEART = "heart/DELETE_TRICK_FULL_HEART";
 const TRICK_EMPTY_HEART = "heart/TRICK_EMPTY_HEART";
 const RESET_TRICK_EMPTY_HEART = "heart/RESET_TRICK_EMPTY_HEART";
 const DELETE_TRICK_EMPTY_HEART = "heart/DELETE_TRICK_EMPTY_HEART";
+const EMPTY_HEART_DATA = "heart/EMPTY_HEART_DATA";
 
 
 
@@ -59,6 +60,7 @@ export const giveHeart = (data) => {
         id,
     }
 }
+//하트 데이터 서버로 보내기
 export const addHeart = () => async (dispatch, getState) => {
     const heartData = getState().heart.projectGivenHeart;
     try {
@@ -69,6 +71,7 @@ export const addHeart = () => async (dispatch, getState) => {
         console.log(e)
     }
 }
+//유저의 찜 목록 불러오기
 export const getHeart = () => async (dispatch) => {
     dispatch({ type: GET_HEART_DATA });
     try {
@@ -80,47 +83,58 @@ export const getHeart = () => async (dispatch) => {
         dispatch({ type: GET_HEART_DATA_ERROR, e });
     }
 }
+//하트 삭제하기
 export const deleteHeart = (title) => async () => {
     try {
         await axios.delete(`${API_URL}/deleteHeart/${title}`);
-        alert('찜 목록에서 삭제되었습니다.');
     }
     catch (e) {
         console.log(e);
     }
 }
+//눈속임 풀하트 그려주기
 export const fullHeartTrick = (title) => {
     return {
         type: TRICK_FULL_HEART,
         title
     }
 }
+//눈속임 풀하트 지우기
 export const fullHeartTrickDelete = (title) => {
     return {
         type: DELETE_TRICK_FULL_HEART,
         title
     }
 }
+//눈속임 풀하트 배열 초기화
 export const fullHeartTrickReset = () => {
     return {
         type: RESET_TRICK_FULL_HEART
     }
 }
+//눈속임 빈 하트 그려주기
 export const emptyHeartTrick = (title) => {
     return {
         type: TRICK_EMPTY_HEART,
         title
     }
 }
+//눈속임 빈 하트 지워주기
 export const emptyHeartTrickDelete = (title) => {
     return {
         type: DELETE_TRICK_EMPTY_HEART,
         title
     }
 }
+//눈속임 빈 하트 배열 초기화
 export const emptyHeartTrickReset = () => {
     return {
         type: RESET_TRICK_EMPTY_HEART
+    }
+}
+export const emptyHeartData = () => {
+    return {
+        type: EMPTY_HEART_DATA
     }
 }
 
@@ -183,6 +197,16 @@ export default function heart(state = initialState, action) {
                     error: action.error,
                 }
             }
+        case EMPTY_HEART_DATA: {
+            return {
+                ...state,
+                heartData: {
+                    loading: false,
+                    data: null,
+                    error: null
+                }
+            }
+        }
         case TRICK_FULL_HEART:
             return {
                 ...state,

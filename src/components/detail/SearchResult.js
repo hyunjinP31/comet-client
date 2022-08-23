@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import { API_URL } from '../../config/contansts';
+import { IMG_URL } from '../../config/contansts';
 import { FaRegHeart, FaHeart } from 'react-icons/fa'
 import Pagination from './Pagination';
 
@@ -14,7 +14,7 @@ const SearchResult = ({search, viewRaiseClick, total, limit, page, setPage, offs
                     <li className='listItem' key={data.id} onClick={() => viewRaiseClick(data.id)} >
                         <Link to={`/projectDetail/${data.id}`}>
                             <div className='contentImg'>
-                                <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
+                                <img src={`${IMG_URL}/${data.projectImg}`} alt='프로젝트 사진' />
                             </div>
                         </Link>
                         <div className='contentInnerText'>

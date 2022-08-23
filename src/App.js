@@ -18,6 +18,7 @@ import AllProjectsContainer from './components/container/AllProjectsContainer';
 import ProjectEditContainer from './components/container/ProjectEditContainer';
 import ProjectTypeListContainer from './components/container/ProjectTypeListContainer';
 import SearchResultContainer from './components/container/SearchResultContainer';
+import { emptyHeartData } from './components/module/heart';
 
 function App() {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ function App() {
     }else{
       dispatch(loggedOut());
       dispatch(goToHome(navigate))
+      dispatch(emptyHeartData())
     }
     //eslint-disable-next-line
   },[userId])

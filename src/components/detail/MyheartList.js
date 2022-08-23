@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { API_URL } from '../../config/contansts';
+import { IMG_URL } from '../../config/contansts';
 import Pagination from './Pagination';
 import { FaHeart } from 'react-icons/fa'
 
@@ -15,7 +15,7 @@ const MyheartList = ({ heart, total, limit, page, setPage, offset, msgBox, isMsg
                         <li key={data.id}>
                             <Link to={`/projectdetail/${data.projectId}`}>
                                 <div className='myHeartImg myListImg'>
-                                    <img src={`${API_URL}/upload/${data.projectImg}`} alt='내 프로젝트 사진' />
+                                    <img src={`${IMG_URL}/${data.projectImg}`} alt='내 프로젝트 사진' />
                                 </div>
                                 <div className='myHeartInfo myListInfo'>
                                     <h3>{data.projectTitle}</h3>

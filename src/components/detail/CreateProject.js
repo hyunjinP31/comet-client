@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { AiOutlineCamera } from 'react-icons/ai'
-import { API_URL } from '../../config/contansts';
+import { IMG_URL } from '../../config/contansts';
 
 const CreateProject = forwardRef(({ addProject, onChange, onSubmit, onImageChange, numberOnly, onTitleBlur }, projectInputs) => {
     return (
@@ -24,7 +24,7 @@ const CreateProject = forwardRef(({ addProject, onChange, onSubmit, onImageChang
                                 <div className='cameraInit'>
                                     <input type='file' name='projectImg' onChange={onImageChange} />
                                     <div className='cameraIcon'>
-                                        {addProject.projectImg && <img src={`${API_URL}/upload/${addProject.projectImg}`} alt='사용자가 올린 사진' className='imgView' />}
+                                        {addProject.projectImg && <img src={`${IMG_URL}/${addProject.projectImg}`} alt='사용자가 올린 사진' className='imgView' />}
                                         <AiOutlineCamera />
                                         <span>이미지 업로드</span>
                                     </div>

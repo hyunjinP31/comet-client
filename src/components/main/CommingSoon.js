@@ -2,7 +2,7 @@ import React from 'react';
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { FaRegHeart, FaHeart } from 'react-icons/fa'
 import { Link } from 'react-router-dom';
-import { API_URL } from '../../config/contansts';
+import { IMG_URL } from '../../config/contansts';
 
 const CommingSoon = ({ comData, onClick, heartfilling, heart, trickFullHeart, like, trickEmptyHeart }) => {
     if (!comData) return <div>loading</div>;
@@ -17,7 +17,7 @@ const CommingSoon = ({ comData, onClick, heartfilling, heart, trickFullHeart, li
                     <li className='comProject listItem' key={data.id}>
                         <Link to={`projectDetail/${data.id}`} onClick={() => onClick(data.id)}>
                             <div className='comImg contentImg'>
-                                <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
+                                <img src={`${IMG_URL}/${data.projectImg}`} alt='프로젝트 사진' />
                             </div>
                         </Link>
                         <div className='comText contentInnerText'>

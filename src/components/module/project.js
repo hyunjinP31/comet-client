@@ -110,25 +110,15 @@ export const setImageUrl = (e, imgUrl) => {
 export const printMain = () => async (dispatch) => {
     dispatch({ type: GET_PROJECT });
     try {
-        const topResponse = await axios.get(`${API_URL}/topranking`);
-        const topRes = topResponse.data;
-        const immiResponse = await axios.get(`${API_URL}/imminent`);
-        const immiRes = immiResponse.data;
-        const themeResponse = await axios.get(`${API_URL}/theme`);
-        const themeRes = themeResponse.data;
-        const newResponse = await axios.get(`${API_URL}/newproject`);
-        const newtopRes = newResponse.data;
-        const potenResponse = await axios.get(`${API_URL}/potenup`);
-        const potenRes = potenResponse.data;
-        const comResponse = await axios.get(`${API_URL}/commingsoon`);
-        const comRes = comResponse.data;
+        const projectDatas = await axios.get(`${API_URL}/mainprintprojects`)
+        const data = projectDatas.data;
         const project = {
-            topData: topRes,
-            immiData: immiRes,
-            themeData: themeRes,
-            newData: newtopRes,
-            potenData: potenRes,
-            comData: comRes,
+            topData: data[0],
+            immiData: data[1],
+            themeData: data[2],
+            newData: data[3],
+            potenData: data[4],
+            comData: data[5],
         }
         dispatch({ type: GET_PROJECT_SUCCESS, project });
     }
@@ -145,8 +135,7 @@ export const imageChange = (e) => async (dispatch) => {
         const response = await axios.post(`${API_URL}/upload`, imageFormData, {
             Headers: { 'content-type': 'multipart/form-data' },
         })
-        console.log(response.data)
-        const imgUrl = response.data.originalname;
+        const imgUrl = response.data.key;
         dispatch(setImageUrl(e, imgUrl));
     }
     catch (e) {
@@ -317,8 +306,9 @@ export default function project(state = initialState, action) {
             return {
                 ...state,
                 project: {
-                    ...state.project,
                     loading: true,
+                    data: null,
+                    error: null
                 }
             }
         case GET_PROJECT_SUCCESS:

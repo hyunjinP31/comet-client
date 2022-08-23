@@ -33,7 +33,6 @@ const initialState = {
 
 //후원할 프로젝트 값 담기
 export const setSupprot = (data) => {
-    console.log(data)
     const { sellerId, projectTitle, projectPrice, projectImg, releaseDate, deadLine, projectAchieve, projectGoal, id } = data;
     return {
         type: SET_SUPPORT,
@@ -89,14 +88,13 @@ export const getSupportCondition = (title) => async () => {
     try{
         const response = await axios.get(`${API_URL}/supportachievement/${title}`);
         await axios.put(`${API_URL}/updatesupportcondition/${title}`,response.data)
-
     }
     catch(e){
         console.log(e);
     }
 }
 //내 후원 취소하기
-export const cancelSupport = (title) => async () => {
+export const cancelSupport = (title) => async (dispatch) => {
     try {
         await axios.delete(`${API_URL}/supportcancel/${title}`);
     }

@@ -14,6 +14,7 @@ const SignUpContainer = () => {
     useEffect(()=>{
         dispatch(addUserReset());
         dispatch(validReset());
+        //eslint-disable-next-line
     },[])
 
     const onChange = (e) => {

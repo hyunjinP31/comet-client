@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { API_URL } from '../../config/contansts';
+import { IMG_URL } from '../../config/contansts';
 import Pagination from './Pagination';
 import { FaRegHeart, FaHeart } from 'react-icons/fa'
 
@@ -14,7 +14,7 @@ const ProjectTypeList = ({ type, projects, viewRaiseClick, total, limit, page, s
                     <li className='listItem' key={data.id} onClick={() => viewRaiseClick(data.id)} >
                         <Link to={`/projectDetail/${data.id}`}>
                             <div className='contentImg'>
-                                <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
+                                <img src={`${IMG_URL}/${data.projectImg}`} alt='프로젝트 사진' />
                             </div>
                         </Link>
                         <div className='contentInnerText'>

@@ -3,7 +3,7 @@ import Marquee from 'react-fast-marquee';
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { FaRegHeart, FaHeart } from 'react-icons/fa'
 import { Link } from 'react-router-dom';
-import { API_URL } from '../../config/contansts';
+import { IMG_URL } from '../../config/contansts';
 
 const Imminent = ({ immiData, onClick, heartfilling, heart, trickFullHeart, like, trickEmptyHeart }) => {
     if (!immiData) return <div>loading</div>;
@@ -19,7 +19,7 @@ const Imminent = ({ immiData, onClick, heartfilling, heart, trickFullHeart, like
                         <li className='immiProject contentItem' key={data.id}>
                             <Link to={`projectDetail/${data.id}`} onClick={() => onClick(data.id)}>
                                 <div className='immiImg contentImg'>
-                                    <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
+                                    <img src={`${IMG_URL}/${data.projectImg}`} alt='프로젝트 사진' />
                                 </div>
                             </Link>
                             <div className='immiText contentInnerText'>

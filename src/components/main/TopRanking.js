@@ -2,7 +2,7 @@ import React from 'react';
 import { FaRegHeart, FaHeart } from 'react-icons/fa'
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
-import { API_URL } from '../../config/contansts';
+import { IMG_URL } from '../../config/contansts';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from "swiper";
 import 'swiper/css';
@@ -41,7 +41,7 @@ const TopRanking = ({ topData, onClick, heartfilling, heart, trickFullHeart, lik
                             <SwiperSlide className='contentItem' key={data.id}>
                                 <Link to={`projectDetail/${data.id}`} onClick={() => onClick(data.id)}>
                                     <div className='topImg contentImg'>
-                                        <img src={`${API_URL}/upload/${data.projectImg}`} alt='프로젝트 사진' />
+                                        <img src={`${IMG_URL}/${data.projectImg}`} alt='프로젝트 사진' />
                                     </div>
                                 </Link>
                                 <div className='topText contentInnerText'>

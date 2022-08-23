@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaRegHeart, FaHeart } from 'react-icons/fa'
-import { API_URL } from '../../config/contansts';
+import { IMG_URL } from '../../config/contansts';
 import { AiOutlineSmile } from 'react-icons/ai';
 
 const ProjectDetail = ({ data, heart, heartfilling, trickFullHeart, like, trickEmptyHeart, giveASupport, supTitle, supportCancel, myTitle, isMsgBoxOpen, msgBox }) => {
@@ -20,7 +20,7 @@ const ProjectDetail = ({ data, heart, heartfilling, trickFullHeart, like, trickE
             </div>
             <div className='projectDetailWrap'>
                 <div className='pDetailImg'>
-                    <img src={`${API_URL}/upload/${data.projectImg}`} alt='project' />
+                    <img src={`${IMG_URL}/${data.projectImg}`} alt='project' />
                 </div>
                 <div className='pDetailInfo'>
                     <ul>

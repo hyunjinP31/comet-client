@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import Login from '../detail/Login';
 import {getLogin, loggedIn, resetLoginInput, setLoginInput} from '../module/user'
@@ -10,6 +10,11 @@ const LoginContainer = () => {
     const loginUser = useSelector(state=> state.user.loginUser);
     const navigate = useNavigate();
 
+    useEffect(()=>{
+        return ()=>{
+            dispatch(resetLoginInput());
+        }
+    },[])
 
     const onChange = (e) => {
         dispatch(setLoginInput(e));
