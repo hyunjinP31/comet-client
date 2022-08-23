@@ -70,7 +70,7 @@ const ProjectTypeListContainer = () => {
             }else {
                 dispatch(emptyHeartTrickDelete(title));
                 dispatch(fullHeartTrick(title));
-                dispatch(giveHeart(data));
+                dispatch(giveHeart(data, userId));
                 dispatch(addHeart());
             }
         }

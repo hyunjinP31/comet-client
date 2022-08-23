@@ -19,7 +19,7 @@ const EMPTY_HEART_DATA = "heart/EMPTY_HEART_DATA";
 
 const initialState = {
     projectGivenHeart: {
-        userId: getCookie('userId'),
+        userId: "",
         sellerId: "",
         projectPrice: "",
         projectAchieve: "",
@@ -46,10 +46,12 @@ export const resetHeartData = () => {
     }
 }
 //좋아요 데이터 담기
-export const giveHeart = (data) => {
+export const giveHeart = (data, userId) => {
     const { projectTitle, projectImg, releaseDate, deadLine, projectPrice, projectAchieve, sellerId, id } = data;
+    console.log(data)
     return {
         type: GIVE_HEART,
+        userId,
         projectTitle,
         projectImg,
         releaseDate,
@@ -145,6 +147,7 @@ export default function heart(state = initialState, action) {
                 ...state,
                 projectGivenHeart: {
                     ...state.projectGivenHeart,
+                    userId: action.userId,
                     projectTitle: action.projectTitle,
                     projectImg: action.projectImg,
                     releaseDate: action.releaseDate,
@@ -159,7 +162,7 @@ export default function heart(state = initialState, action) {
             return {
                 ...state,
                 projectGivenHeart: {
-                    userId: getCookie('userId'),
+                    userId: "",
                     sellerId: "",
                     projectPrice: "",
                     projectAchieve: "",
