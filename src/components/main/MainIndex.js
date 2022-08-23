@@ -37,7 +37,6 @@ const MainIndex = () => {
         //eslint-disable-next-line
     },[userId])
     let like;
-    if(hData)console.log(hData)
     if(hData) like = hData.map(like => like.projectTitle);
     useEffect(()=>{
         if(like) {

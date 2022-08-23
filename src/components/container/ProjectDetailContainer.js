@@ -7,7 +7,7 @@ import HashLoader from 'react-spinners/HashLoader';
 import { addHeart, deleteHeart, emptyHeartTrick, emptyHeartTrickDelete, fullHeartTrick, fullHeartTrickDelete, getHeart, giveHeart } from '../module/heart';
 import { getCookie } from '../../util/cookie';
 import { cancelSupport, getMySupportData, getSupportCondition, giveSupport, setSupportUserId, setSupprot } from '../module/support';
-import { msgBoxAiming, msgBoxControl, resetMsgBoxAiming } from '../module/utility';
+import { addCheckMsgBoxOpenControl, msgBoxAiming, msgBoxControl, resetMsgBoxAiming } from '../module/utility';
 
 const override = {
     width: "100%",
@@ -112,7 +112,8 @@ const ProjectDetailContainer = () => {
             supportCancel={supportCancel}
             myTitle={myTitle}
             isMsgBoxOpen={isMsgBoxOpen}
-            msgBox={msgBox}/>
+            msgBox={msgBox}
+            />
         </>
     );
 };

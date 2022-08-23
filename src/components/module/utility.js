@@ -27,6 +27,11 @@ const initialState = {
         msgBoxId: 0,
         msgBoxTitle: "",
     },
+    addCheckMsgBoxOpen: {
+        isOpen: false,
+        msgBoxId: 0,
+        msgBoxTitle: "",
+    },
     paging: {
         currentPage: 1,
         itemVolume: 20,
@@ -111,6 +116,8 @@ export const resetMsgBoxAiming = () => {
         type: RESET_MSGBOX_AIMING,
     }
 }
+
+
 export const toggleFalse = () => {
     return {
         type: TOGGLE_FALSE,
