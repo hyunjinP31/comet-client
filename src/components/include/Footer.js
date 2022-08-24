@@ -80,7 +80,7 @@ const Footer = () => {
             </div>
             <div className='footerBottom'>
                 <div className='inner'>
-                    <p>Funding site 'TEMPUS' is imaginary site that I made. And every source writen at Notice. Please click the link 'notice' where in footer TEMPUS category if you want to know more. Please hire me.</p>
+                    <p>Funding site 'TEMPUS' is imaginary site that I made. TEMPUS means 'time' in Latin. The reason why I named it Time is the most valuable thing to me. And it was also the most necessary thing to do my project.</p>
                 </div>
             </div>
         </footer>
