@@ -6,7 +6,7 @@ import "swiper/css/pagination";
 
 const MainSlide = () => {
 
-    const backColors = ['images/mainSlide/main_slide3.png', 'images/mainSlide/main_slide3.png', 'images/mainSlide/main_slide3.png']
+    const backColors = ['images/mainSlide/slide_5.png', 'images/mainSlide/slide_18.jpg', 'images/mainSlide/slide_17.jpg']
 
     //슬라이드 앞/뒤 clone 배치
     const setSlides = () => {
