@@ -13,7 +13,7 @@ const ProjectEdit = forwardRef(({onChange, onSubmit,addProject,onImageChange,num
                             <div>
                                 <p>프로젝트 제목</p>
                                 <div>
-                                    <input ref={el => editInput.current[0] = el} type='text' name='projectTitle' onChange={onChange} value={addProject.projectTitle} />
+                                    <input className='projectEditInput' ref={el => editInput.current[0] = el} type='text' name='projectTitle' onChange={onChange} value={addProject.projectTitle} />
                                     <p className='projectTitleAlert formAlert'></p>
                                 </div>
                             </div>
@@ -35,7 +35,7 @@ const ProjectEdit = forwardRef(({onChange, onSubmit,addProject,onImageChange,num
                             <div>
                                 <p>프로젝트 가격</p>
                                 <div>
-                                    <input ref={el => editInput.current[1] = el} type='text' name='projectPrice' onChange={numberOnly} value={addProject.projectPrice} />
+                                    <input className='projectEditInput' ref={el => editInput.current[1] = el} type='text' name='projectPrice' onChange={numberOnly} value={addProject.projectPrice} />
                                     <p className='projectPriceAlert formAlert'></p>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@ const ProjectEdit = forwardRef(({onChange, onSubmit,addProject,onImageChange,num
                             <div>
                                 <p>프로젝트 목표금액</p>
                                 <div>
-                                    <input ref={el => editInput.current[2] = el} type='text' name='projectGoal' onChange={numberOnly} value={addProject.projectGoal} />
+                                    <input className='projectEditInput' ref={el => editInput.current[2] = el} type='text' name='projectGoal' onChange={numberOnly} value={addProject.projectGoal} />
                                     <p className='projectGoalAlert formAlert'></p>
                                 </div>
                             </div>
@@ -53,7 +53,7 @@ const ProjectEdit = forwardRef(({onChange, onSubmit,addProject,onImageChange,num
                             <div>
                                 <p>프로젝트 마감일</p>
                                 <div>
-                                    <input ref={el => editInput.current[3] = el} type='date' name='projectEndDate' onChange={onChange} value={addProject.projectEndDate} />
+                                    <input className='projectEditInput' ref={el => editInput.current[3] = el} type='date' name='projectEndDate' onChange={onChange} value={addProject.projectEndDate} />
                                     <p className='EndDateAlert formAlert'></p>
                                 </div>
                             </div>

@@ -1388,5 +1388,16 @@ footer{
             }
         }
     }
+    .createWrap {
+        li {
+            > div {
+                flex-direction: column;
+            }
+            .projectEditInput {
+                width: 300px;
+                font-size: 12px;
+            }
+        }
+    }
     
 }

@@ -28,7 +28,7 @@ const ProjectDetail = ({ data, heart, heartfilling, trickFullHeart, like, trickE
                             <p>{data.achieve}<span>% 달성</span></p>
                         </li>
                         <li className='pDetailDeadline'>
-                            <p>{data.deadLine}</p>
+                            <p><span>마감일: </span>{data.deadLine}</p>
                         </li>
                         <li className='projectPrice'>
                             <p>{data.price}<span>원</span></p>
@@ -40,9 +40,6 @@ const ProjectDetail = ({ data, heart, heartfilling, trickFullHeart, like, trickE
                         <li className='pDetaiKind pDetailflexLi'>
                             <div className='pDetailType'>
                                 <span>{data.projectType}</span>
-                            </div>
-                            <div className='pDetailTag'>
-                                <span>{data.projectKeyword}</span>
                             </div>
                         </li>
                         <li className='pDetailFunding'>
