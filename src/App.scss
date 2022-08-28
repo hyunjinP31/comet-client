@@ -479,11 +479,12 @@ body {
         }
         .headerMenuList {
             a{
-                @include flexlayout($just: center);
-            }
-            span {
-                padding: 0 10px;
-                font-size: 20px;
+                @include flexlayout($just: flex-start);
+                padding: 0 50px;
+                > span {
+                    padding: 0 10px;
+                    font-size: 20px;
+                }
             }
         }
     }
@@ -1119,8 +1120,10 @@ footer{
 
 //모바일 반응형
 @media screen and (max-width: 767px) {
+    .inner {
+        padding: 10px;
+    }
     .header {
-        padding: 0 10px;
         .headerBottom {
             .headerLeft {
                 ul {
@@ -1140,7 +1143,7 @@ footer{
     }
     .App {
         .toggleMenu{
-            height: 150px;
+            height: 160px;
             ul {
                 flex-wrap: wrap;
                 li {
