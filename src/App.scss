@@ -87,7 +87,20 @@ body {
 //mixin end
 
 //global style start
-
+.ifSearchReset {
+    text-align: center;
+    height: 200px;
+    > p {
+        margin: 50px 0;
+        font-size: 30px;
+        font-weight: bold;
+        color: $mainGray;
+    }
+}
+.searchNoResult {
+    margin: 50px 0;
+    font-size: 16px;
+}
 .inputComponentTitle{
     height: 60px;
     width: 100%;

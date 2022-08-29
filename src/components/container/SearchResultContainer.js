@@ -46,7 +46,7 @@ const SearchResultContainer = () => {
 
 
     if(loading) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
-    if(!data) return;
+    if(!data) return <div className='ifSearchReset inner'><p>:( NO RESULT</p><span>값이 초기화 되었습니다. 다시 검색해주세요.</span></div>;
     if(error) return console.log(error);
     if(userId) {
         if(hLoading) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;

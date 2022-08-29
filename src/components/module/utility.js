@@ -123,6 +123,7 @@ export const toggleFalse = () => {
         type: TOGGLE_FALSE,
     }
 }
+//서치 인풋 값 담기
 export const searchProject = (e) => {
     const { value } = e.target
     return {
@@ -130,6 +131,7 @@ export const searchProject = (e) => {
         word: value
     }
 }
+//서치하기
 export const sendSearchWord = () => async (dispatch, getState) => {
     dispatch({type: GET_SEARCHING_PROJECT});
     try {
@@ -142,6 +144,7 @@ export const sendSearchWord = () => async (dispatch, getState) => {
         dispatch({type: GET_SEARCHING_PROJECT_ERROR, error: e})
     }
 }
+//서치 인풋 값 초기화
 export const resetSearchInput = () => {
     return {
         type: RESET_SEARCH_PROJECT,

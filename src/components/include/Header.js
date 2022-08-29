@@ -3,7 +3,7 @@ import { FiSearch } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom';
 import { getCookie, removeCookie } from '../../util/cookie';
 import { useDispatch, useSelector } from 'react-redux';
-import { goToHome, headerMenuChange, onToggleClick, resetSearchInput, searchProject, sendSearchWord, toggleFalse } from '../module/utility';
+import { goToHome, headerMenuChange, onToggleClick, searchProject, sendSearchWord, toggleFalse } from '../module/utility';
 import {GrCoatCheck,GrGamepad} from 'react-icons/gr';
 import {BiDish} from 'react-icons/bi';
 import {RiBook2Line} from 'react-icons/ri';
@@ -100,7 +100,12 @@ const Header = () => {
     }
     const onSearchSend = () => {
         dispatch(sendSearchWord());
-        dispatch(resetSearchInput());
+    }
+    const EnterSearchSend = (e) => {
+        if(e.code === "Enter"){
+            dispatch(sendSearchWord());
+            navigate('/searchresult');
+        }
     }
     return (
         <>
@@ -163,7 +168,7 @@ const Header = () => {
                                 </li>
                             </ul>
                         </div>
-                        <div className='searchBox'>
+                        <div className='searchBox' onKeyDown={EnterSearchSend}>
                             <input type='text' name='search' value={search.searchWord} onChange={onSearchChange} />
                             <Link to='/searchresult' onClick={onSearchSend}><FiSearch className='searchBtn' /></Link>
                         </div>
