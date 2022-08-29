@@ -20,9 +20,9 @@ const NewProject = ({ newData, onClick, heartfilling, heart, trickFullHeart, lik
                 <div className='newProjectView contentView'>
                     <Swiper
                         className='topProjects contentSlide mySwiper'
-                        spaceBetween={30}
-                        slidesPerView={3}
-                        slidesPerGroup={3}
+                        spaceBetween={10}
+                        slidesPerView={2}
+                        slidesPerGroup={2}
                         navigation={true}
                         modules={[Navigation]}
                         centeredSlides={false}
@@ -31,6 +31,7 @@ const NewProject = ({ newData, onClick, heartfilling, heart, trickFullHeart, lik
                         }}
                         breakpoints={{
                             768: {
+                                spaceBetween: 30,
                                 slidesPerView: 5,
                                 slidesPerGroup: 5,
                             }

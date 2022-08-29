@@ -9,6 +9,7 @@ const SET_SUPPORT_USERID = "support/SET_SUPPORT_USERID";
 const GET_SUPPORT_DATA = "support/GET_SUPPORT_DATA";
 const GET_SUPPORT_DATA_SUCCESS = "support/GET_SUPPORT_DATA_SUCCESS";
 const GET_SUPPORT_DATA_ERROR = "support/GET_SUPPORT_DATA_ERROR";
+const IS_SUPPORT_CHANGE = "support/IS_SUPPORT_CHANGE";
 
 
 const initialState = {
@@ -28,6 +29,9 @@ const initialState = {
         loading: false,
         data: null,
         error: null,
+    },
+    supportChange: {
+        isSupportChange: false,
     }
 }
 
@@ -64,10 +68,33 @@ export const setSupportUserId = () => {
 export const giveSupport = () => async (dispatch, getState) => {
     try {
         const supported = getState().support.supported;
-        await axios.post(`${API_URL}/givesupport`, supported);
+        //eslint-disable-next-line
+        const res = await axios.post(`${API_URL}/givesupport`, supported);
         dispatch({ type: RESET_SUPPORTED });
+        dispatch({type: IS_SUPPORT_CHANGE});
     }
     catch (e) {
+        console.log(e);
+    }
+}
+//각 프로젝트의 후원현황 불러오기
+export const getSupportCondition = (title) => async () => {
+    try{
+        const response = await axios.get(`${API_URL}/supportachievement/${title}`);
+        await axios.put(`${API_URL}/updatesupportcondition/${title}`,response.data);
+    }
+    catch(e){
+        console.log(e);
+    }
+}
+//내 후원 취소하기
+export const cancelSupport = (title) => async (dispatch) => {
+    try {
+        //eslint-disable-next-line
+        const res = await axios.delete(`${API_URL}/supportcancel/${title}`);
+        dispatch({type: IS_SUPPORT_CHANGE});
+    }
+    catch(e){
         console.log(e);
     }
 }
@@ -81,25 +108,6 @@ export const getMySupportData = (userId) => async (dispatch) => {
     }
     catch (e) {
         dispatch({ type: GET_SUPPORT_DATA_ERROR, error: e });
-    }
-}
-//각 프로젝트의 후원현황 불러오기
-export const getSupportCondition = (title) => async () => {
-    try{
-        const response = await axios.get(`${API_URL}/supportachievement/${title}`);
-        await axios.put(`${API_URL}/updatesupportcondition/${title}`,response.data)
-    }
-    catch(e){
-        console.log(e);
-    }
-}
-//내 후원 취소하기
-export const cancelSupport = (title) => async (dispatch) => {
-    try {
-        await axios.delete(`${API_URL}/supportcancel/${title}`);
-    }
-    catch(e){
-        console.log(e);
     }
 }
 
@@ -170,6 +178,14 @@ export default function support(state = initialState, action) {
                     loading: false,
                     data: null,
                     error: null
+                }
+            }
+        case IS_SUPPORT_CHANGE:
+            return{
+                ...state,
+                supportChange: {
+                    ...state.supportChange,
+                    isSupportChange: !state.supportChange.isSupportChange,
                 }
             }
         default:

@@ -68,10 +68,10 @@ const SignUp = forwardRef(({
     
     return (
         <div className='signUp inner'>
-            <h1>꼬리별</h1>
             <div className='signUpWrap'>
                 <form onSubmit={onSubmit}>
                     <ul>
+                        <li><h1 className='inputComponentTitle'>회원가입</h1></li>
                         <li>
                             <p>아이디</p>
                             <input className='signTextInput' autoComplete='off' data-valid={isValid.idValid} ref={el => SignUpInputs.current[0] = el} type='text' name='userId' placeholder='아이디를 입력하세요' onChange={onIdChange} value={addUser.userId} onBlur={idCheck}/>

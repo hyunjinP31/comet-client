@@ -6,8 +6,8 @@ import { getMyProjectList, getProjectData } from '../module/project';
 import HashLoader from 'react-spinners/HashLoader';
 import { addHeart, deleteHeart, emptyHeartTrick, emptyHeartTrickDelete, fullHeartTrick, fullHeartTrickDelete, getHeart, giveHeart } from '../module/heart';
 import { getCookie } from '../../util/cookie';
-import { cancelSupport, getMySupportData, getSupportCondition, giveSupport, setSupportUserId, setSupprot } from '../module/support';
-import { addCheckMsgBoxOpenControl, msgBoxAiming, msgBoxControl, resetMsgBoxAiming } from '../module/utility';
+import { cancelSupport, getMySupportData, getSupportCondition, giveSupport, isSupportChange, setSupportUserId, setSupprot } from '../module/support';
+import { msgBoxAiming, msgBoxControl, resetMsgBoxAiming } from '../module/utility';
 
 const override = {
     width: "100%",
@@ -29,6 +29,7 @@ const ProjectDetailContainer = () => {
     const { loading: myLoading, data: myData, error: myError } = myProjectData;
     const { loading: supLoading, data: supData, error: supError } = mysupportData;
     const msgBox = useSelector(state=>state.utility.msgBoxOpen);
+    const isSupported = useSelector(state=>state.support.supportChange.isSupportChange)
 
 
     useEffect(()=>{
@@ -81,14 +82,16 @@ const ProjectDetailContainer = () => {
         dispatch(setSupprot(data));
         dispatch(giveSupport());
         dispatch(getSupportCondition(data.projectTitle));
-        dispatch(getMySupportData(userId));
     }
     const supportCancel = (title) => {
         dispatch(cancelSupport(title));
         dispatch(msgBoxControl());
         dispatch(resetMsgBoxAiming());
-        dispatch(getMySupportData(userId));
     }
+    useEffect(()=>{
+        dispatch(getMySupportData(userId));
+        //eslint-disable-next-line
+    },[isSupported])
     if( loading ) return <HashLoader cssOverride={override} color="#838dd2" size={55}/>;
     if(error) return console.log(error);
     if(!data) return;

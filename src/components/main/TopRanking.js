@@ -22,9 +22,9 @@ const TopRanking = ({ topData, onClick, heartfilling, heart, trickFullHeart, lik
                 <div className='topRankingWrap contentView'>
                     <Swiper
                         className='topProjects contentSlide mySwiper'
-                        spaceBetween={30}
-                        slidesPerView={3}
-                        slidesPerGroup={3}
+                        spaceBetween={10}
+                        slidesPerView={2}
+                        slidesPerGroup={2}
                         navigation={true}
                         modules={[Navigation]}
                         centeredSlides={false}
@@ -33,6 +33,7 @@ const TopRanking = ({ topData, onClick, heartfilling, heart, trickFullHeart, lik
                         }}
                         breakpoints={{
                             768: {
+                                spaceBetween: 30,
                                 slidesPerView: 4,
                                 slidesPerGroup: 4,
                             }

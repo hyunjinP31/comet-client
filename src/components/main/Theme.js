@@ -19,9 +19,9 @@ const Theme = ({ themeData, onClick, heartfilling, heart, trickFullHeart, like, 
                 <div className='themeProjectView contentView'>
                     <Swiper
                         className='themeSlide contentSlide mySwiper'
-                        spaceBetween={30}
-                        slidesPerView={3}
-                        slidesPerGroup={3}
+                        spaceBetween={10}
+                        slidesPerView={2}
+                        slidesPerGroup={2}
                         navigation={true}
                         modules={[Navigation]}
                         centeredSlides={false}
@@ -30,6 +30,7 @@ const Theme = ({ themeData, onClick, heartfilling, heart, trickFullHeart, like, 
                         }}
                         breakpoints={{
                             768: {
+                                spaceBetween: 30,
                                 slidesPerView: 5,
                                 slidesPerGroup: 5,
                             }

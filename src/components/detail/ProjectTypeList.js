@@ -8,7 +8,7 @@ const ProjectTypeList = ({ type, projects, viewRaiseClick, total, limit, page, s
     const totalPages = Math.ceil(total / limit);
     return (
         <div className='listWrap projectlistWrap inner'>
-            <h1>{type}</h1>
+            <h1 className='inputComponentTitle'>{type}</h1>
             <ul className='listBottom'>
                 {projects.slice(offset, offset + limit).map(data => (
                     <li className='listItem' key={data.id} onClick={() => viewRaiseClick(data.id)} >
