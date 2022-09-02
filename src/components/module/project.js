@@ -89,14 +89,6 @@ const initialState = {
 }
 
 //액션 생성 함수
-export const setProjectInput = (e) => {
-    const { name, value } = e.target;
-    return {
-        type: SET_PROJECT_INPUT,
-        name,
-        value
-    }
-}
 //이미지 url 값 넣어주기
 export const setImageUrl = (e, imgUrl) => {
     const { name } = e.target;
@@ -140,6 +132,15 @@ export const imageChange = (e) => async (dispatch) => {
     }
     catch (e) {
         console.log(e);
+    }
+}
+//프로젝트 인풋 세팅
+export const setProjectInput = (e) => {
+    const { name, value } = e.target;
+    return {
+        type: SET_PROJECT_INPUT,
+        name,
+        value
     }
 }
 //프로젝트 타이틀 중복 검사
